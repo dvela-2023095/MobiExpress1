@@ -40,3 +40,27 @@ create table CargoEmpleado(
     jornada varchar(10) not null,
     primary key PK_codigoCargoEmpleado (codigoCargoEmpleado)
 );
+
+create table CategoriaProducto(
+	codigoCategoriaProducto int not null auto_increment,
+    categoria varchar(45) not null,
+    tipoDeProducto varchar(45) not null,
+    color varchar(25) not null,
+    marca varchar(25) not null,
+    primary key PK_codigoCategoriaProducto (codigoCategoriaProducto)
+);
+
+create table Pedidos(
+	numeroPedido int not null auto_increment,
+    direccion varchar(150) not null,
+    montoTotal double(10,2) not null,
+	fechaDeEntrega date not null,
+    fechaDeRetorno date not null,
+    codigoCliente int not null,
+    codigoEmpleado int not null,
+    primary key PK_numeroPedido (numeroPedido),
+    constraint FK_Pedidos_Clientes foreign key (codigoCliente) 
+		references Clientes(codigoCliente),
+	constraint FK_Pedidos_Empleados foreign key (codigoEmpleado) 
+		references Empleados(codigoEmpleado)
+);
