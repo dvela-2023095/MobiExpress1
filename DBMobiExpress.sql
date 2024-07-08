@@ -31,3 +31,12 @@ create table Compras(
     estado varchar(20) not null,
     primary key PK_numeroCompra (numeroCompra)
 );
+
+create table CargoEmpleado(
+	codigoCargoEmpleado int not null auto_increment,
+    nombreCargo varchar(45) not null,
+    salario double(10,2) not null,
+    descripcionCargo varchar(45) not null,
+    jornada varchar(10) not null,
+    primary key PK_codigoCargoEmpleado (codigoCargoEmpleado)
+);
