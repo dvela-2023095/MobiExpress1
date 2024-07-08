@@ -22,3 +22,12 @@ create table Proveedores(
     paginaWeb varchar(50) not null,
     primary key PK_codigoProveedor (codigoProveedor)
 );
+
+create table Compras(
+	numeroCompra int not null auto_increment,
+    descripcion varchar(45) not null,
+    montoTotal double(10,2) not null,
+    fechaDeCompra date not null,
+    estado varchar(20) not null,
+    primary key PK_numeroCompra (numeroCompra)
+);
