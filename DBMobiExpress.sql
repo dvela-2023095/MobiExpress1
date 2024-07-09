@@ -96,6 +96,21 @@ create table Empleados(
 		references CargoEmpleado(codigoCargoEmpleado)
 );
 
+create table Pedidos(
+	numeroPedido int not null auto_increment,
+    direccion varchar(150) not null,
+    montoTotal double(10,2) not null,
+	fechaDeEntrega date not null,
+    fechaDeRetorno date not null,
+    codigoCliente int not null,
+    codigoEmpleado int not null,
+    primary key PK_numeroPedido (numeroPedido),
+    constraint FK_Pedidos_Clientes foreign key (codigoCliente) 
+		references Clientes(codigoCliente),
+	constraint FK_Pedidos_Empleados foreign key (codigoEmpleado) 
+		references Empleados(codigoEmpleado)
+);
+
 create table DetallePedido(
 	codigoDetallePedido int not null auto_increment,
     precioRenta double(10,2) not null,
