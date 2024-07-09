@@ -83,3 +83,30 @@ create table DetalleCompra(
 	constraint FK_DetalleCompra_Compras foreign key (numeroCompra) 
 		references Compras(numeroCompra)
 );
+
+create table Empleados(
+	codigoEmpleado int not null auto_increment,
+    NITEmpleado varchar(10) not null,
+    nombresEmpleado varchar(50) not null,
+    apellidosEmpleado varchar(50) not null,
+    telefonoEmpleado varchar(8) not null,
+    codigoCargoEmpleado int not null,
+    primary key PK_codigoEmpleado (codigoEmpleado),
+    constraint FK_Empleados_CargoEmpleado foreign key (codigoCargoEmpleado) 
+		references CargoEmpleado(codigoCargoEmpleado)
+);
+
+create table DetallePedido(
+	codigoDetallePedido int not null auto_increment,
+    precioRenta double(10,2) not null,
+    cantidad int not null,
+    subTotal double(10,2),
+    descuento varchar(10) not null,
+    codigoProducto int not null,
+    numeroPedido int not null,
+    primary key PK_codigoDetallePedido (codigoDetallePedido),
+	constraint FK_DetallePedido_Producto foreign key (codigoProducto) 
+		references Producto(codigoProducto),
+	constraint FK_DetallePedido_Pedidos foreign key (numeroPedido) 
+		references Pedidos(numeroPedido)
+);
