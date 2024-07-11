@@ -10,6 +10,8 @@ create table Clientes(
     apellidosCliente varchar(50) not null,
     direccionCliente varchar(150) not null,
     telefonoCliente varchar(8) not null,
+    usuario varchar(50) not null,
+    contrasena varchar(50) not null,
     primary key PK_codigoCliente (codigoCliente)
 );
 create table Proveedores(
@@ -90,6 +92,8 @@ create table Empleados(
     nombresEmpleado varchar(50) not null,
     apellidosEmpleado varchar(50) not null,
     telefonoEmpleado varchar(8) not null,
+	usuario varchar(50) not null,
+    contrasena varchar(50) not null,
     codigoCargoEmpleado int not null,
     primary key PK_codigoEmpleado (codigoEmpleado),
     constraint FK_Empleados_CargoEmpleado foreign key (codigoCargoEmpleado) 
