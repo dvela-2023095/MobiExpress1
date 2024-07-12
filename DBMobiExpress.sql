@@ -11,9 +11,10 @@ create table Clientes(
     direccionCliente varchar(150) not null,
     telefonoCliente varchar(8) not null,
     usuario varchar(50) not null,
-    contrasena varchar(50) not null,
+    passwor varchar(50) not null,
     primary key PK_codigoCliente (codigoCliente)
 );
+
 create table Proveedores(
 	codigoProveedor int not null auto_increment,
     NITProveedor varchar(10) not null,
@@ -52,21 +53,18 @@ create table CategoriaProducto(
     primary key PK_codigoCategoriaProducto (codigoCategoriaProducto)
 );
 
-create table Pedidos(
-	numeroPedido int not null auto_increment,
-    direccion varchar(150) not null,
-    montoTotal double(10,2) not null,
-	fechaDeEntrega date not null,
-    fechaDeRetorno date not null,
-    codigoCliente int not null,
-    codigoEmpleado int not null,
-    primary key PK_numeroPedido (numeroPedido),
-    constraint FK_Pedidos_Clientes foreign key (codigoCliente) 
-		references Clientes(codigoCliente),
-	constraint FK_Pedidos_Empleados foreign key (codigoEmpleado) 
-		references Empleados(codigoEmpleado)
+create table Producto(
+	codigoProducto int not null auto_increment,
+    producto varchar(45) not null,
+    descripcion varchar(45) not null,
+    costoRenta double(10,2) not null,
+    existencia int not null,
+    tamanio varchar(10) not null,
+    codigoCategoriaProducto int not null,
+    primary key PK_codigoProducto (codigoProducto),
+    constraint FK_Producto_CategoriaProducto foreign key (codigoCategoriaProducto) 
+		references CategoriaProducto(codigoCategoriaProducto)
 );
-
 create table DetalleCompra(
 	codigoDetalleCompra int not null auto_increment,
     cantidad int not null,
@@ -95,6 +93,8 @@ create table Empleados(
 	usuario varchar(50) not null,
     contrasena varchar(50) not null,
     codigoCargoEmpleado int not null,
+    usuario varchar(50) not null,
+    passwor varchar(50) not null,
     primary key PK_codigoEmpleado (codigoEmpleado),
     constraint FK_Empleados_CargoEmpleado foreign key (codigoCargoEmpleado) 
 		references CargoEmpleado(codigoCargoEmpleado)
@@ -129,3 +129,6 @@ create table DetallePedido(
 	constraint FK_DetallePedido_Pedidos foreign key (numeroPedido) 
 		references Pedidos(numeroPedido)
 );
+
+insert into Clientes(NITCliente,nombresCliente,apellidosCliente,direccionCliente,telefonoCliente,usuario,passwor)
+	values('1234567890','Denis Alfredo','Vela Velasquez','Guatemala, Guatemala','12345678','dvela2023095','admin');
