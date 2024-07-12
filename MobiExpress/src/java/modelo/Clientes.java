@@ -8,17 +8,21 @@ public class Clientes {
     private String apellidosCliente;
     private String direccionCliente;
     private String telefonoCliente;
+    private String usuario;
+    private String passwor;
 
     public Clientes() {
     }
 
-    public Clientes(int codigoCliente, String NITCliente, String nombresCliente, String apellidosCliente, String direccionCliente, String telefonoCliente) {
+    public Clientes(int codigoCliente, String NITCliente, String nombresCliente, String apellidosCliente, String direccionCliente, String telefonoCliente, String usuario, String passwor) {
         this.codigoCliente = codigoCliente;
         this.NITCliente = NITCliente;
         this.nombresCliente = nombresCliente;
         this.apellidosCliente = apellidosCliente;
         this.direccionCliente = direccionCliente;
         this.telefonoCliente = telefonoCliente;
+        this.usuario = usuario;
+        this.passwor = passwor;
     }
 
     public int getCodigoCliente() {
@@ -68,6 +72,23 @@ public class Clientes {
     public void setTelefonoCliente(String telefonoCliente) {
         this.telefonoCliente = telefonoCliente;
     }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getPasswor() {
+        return passwor;
+    }
+
+    public void setPasswor(String passwor) {
+        this.passwor = passwor;
+    }
+    
     
     
 }
