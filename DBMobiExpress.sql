@@ -132,3 +132,8 @@ create table DetallePedido(
 
 insert into Clientes(NITCliente,nombresCliente,apellidosCliente,direccionCliente,telefonoCliente,usuario,passwor)
 	values('1234567890','Denis Alfredo','Vela Velasquez','Guatemala, Guatemala','12345678','dvela2023095','admin');
+    
+insert into CargoEmpleado(nombreCargo, salario, descripcionCargo, jornada)
+	values('Jefe','10000','Manda a todos los de la empresa','indefinida');
+insert into Empleados(NITEmpleado, nombresEmpleado, apellidosEmpleado, telefonoEmpleado, codigoCargoEmpleado, usuario, passwor)
+	values('1234567890','Denis Alfredo','Vela Velasquez','12345678',1,'dvela2023095','admin');

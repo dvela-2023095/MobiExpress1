@@ -8,6 +8,7 @@ body {
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
+    
 }
 .pestaña{
     position: absolute;
@@ -65,12 +66,13 @@ form .Usuario{
     width: 100%;
     height: 2px;
     background: #F1C40F;
+    transition: 10s;
     
 }
 .Usuario input:focus~label,
 .Usuario input:focus~label{
     top: -5px;
-    color: F1C40F;
+    color: #F1C40F;
 }
 
 .Usuario input:focus ~span::before,
@@ -79,8 +81,8 @@ form .Usuario{
 }
 .Bienvenida{
     text-align: center;
-    margin: -5px 0 18px 5px;
-
+    margin: -2px 0 18px 5px;
+    
 }
 input[type="submit"]{
     width: 100%;
