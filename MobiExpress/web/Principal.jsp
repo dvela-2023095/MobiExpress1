@@ -152,7 +152,7 @@
     
     
             <div class="descrip-1">
-                <h2>Valore de <span>MobiExpress</span></h2>
+                <h2>Valores de <span>MobiExpress</span></h2>
     
                 <h3>
                     Compromiso con la Calidad
