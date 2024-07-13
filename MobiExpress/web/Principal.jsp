@@ -16,8 +16,8 @@
             <div class="menu conteiner">
     
                 <input type="checkbox" id="menu">
-                <a href="Principal/logoMobiExpress.jpg" class="logo" alt="logo">MobiExpress</a>
-                <label for="menu"><img src="menu.png" class="menu-icono" alt="123"></label>
+                <a href="img/logoMobiExpress.png" class="logo" alt="logo">MobiExpress</a>
+                <label for="menu"><img src="img/menu.png" class="menu-icono" alt="123"></label>
                 <nav class="navbar">
                     <ul>
                         <li><a href="#">Categorías</a></li>
@@ -27,7 +27,7 @@
                 </nav>
             </div>
             <div class="header-content conteiner">
-                <img src="logoMobiExpress.png" class="/img/logo-image" alt="logo">
+                <img src="img/logoMobiExpress.png" class="/img/logo-image" alt="logo">
                 <div class="header-txt">
                     <h1>MobiExpress <span>alquila lo mejor </span>vive lo mejor</h1>
     
@@ -60,7 +60,7 @@
             </div>
     
             <div class="imagen">
-                <img class="img-1" src="/img/img_1.jpg" alt="asdf">
+                <img class="img-1" src="img/img_1.jpg" alt="asdf">
     
             </div>
     
@@ -68,7 +68,7 @@
     
         <section class="descrip container">
             <div class="imagen">
-                <img class="img-1" src="/img/img_2.jpg" alt="asdf">
+                <img class="img-1" src="img/img_2.jpg" alt="asdf">
     
             </div>
     
@@ -115,7 +115,7 @@
                 </p>
             </div>
             <div class="imagen">
-                <img class="img-1" src="/img/img_3.jpg" alt="asdf">
+                <img class="img-1" src="img/img_3.jpg" alt="asdf">
     
             </div>
     
@@ -124,7 +124,7 @@
         <section class="descrip container">
     
             <div class="imagen">
-                <img class="img-1" src="/img/img_4.jpg" alt="asdf">
+                <img class="img-1" src="img/img_4.jpg" alt="asdf">
     
             </div>
     
@@ -185,7 +185,7 @@
     
             </div>
             <div class="imagen">
-                <img class="img-1" src="/img/img_5.jpg" alt="asdf">
+                <img class="img-1" src="img/img_5.jpg" alt="asdf">
     
             </div>
     
@@ -216,7 +216,7 @@
                 </p>
             </div>
             <div class="imagen">
-                <img class="img-1" src="/img/img_6.jpeg" alt="asdf">
+                <img class="img-1" src="img/img_6.jpeg" alt="asdf">
     
             </div>
     
@@ -227,7 +227,7 @@
     
             <div class="products-content">
                 <div class="product">
-                    <img src="/img/boda.jpg" alt="asdf">
+                    <img src="img/boda.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Bodas</h3>
                         <p>
@@ -242,7 +242,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/bautizo.jpg" alt="asdf">
+                    <img src="img/bautizo.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Bautizos</h3>
                         <p>
@@ -257,7 +257,7 @@
                 </div>
     
                 <div class="product">
-                    <img class="reunion.jpg" src="/img/reunion.jpg" alt="asdf">
+                    <img class="reunion.jpg" src="img/reunion.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Reuniones familiares
                             o con amigos
@@ -274,7 +274,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/cumple.jpg" alt="asdf">
+                    <img src="img/cumple.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Cumpleaños</h3>
                         <p>
@@ -289,7 +289,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/graduacion.jpg" alt="asdf">
+                    <img src="img/graduacion.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Graduaciones</h3>
                         <p>
@@ -304,7 +304,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/aniversario.jpg" alt="asdf">
+                    <img src="img/aniversario.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Aniversarios</h3>
                         <p>
@@ -319,7 +319,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/Comuniones.jpg" alt="asdf">
+                    <img src="img/Comuniones.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Comuniones</h3>
                         <p>
@@ -334,7 +334,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/img_6(14369403262).jpg" alt="asdf">
+                    <img src="img/img_6(14369403262).jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Quince años</h3>
                         <p>
@@ -349,7 +349,7 @@
                 </div>
     
                 <div class="product">
-                    <img src="/img/img_7.jpg" alt="asdf">
+                    <img src="img/img_7.jpg" alt="asdf">
                     <div class="product-txt">
                         <h3>Convivios</h3>
                         <p>
@@ -429,7 +429,7 @@
             }
     
             .header {
-                background-image: url(fondoHome.png);
+                background-image: url(img/fondoHome.png);
                 background-position: top center;
                 background-repeat: no-repeat;
                 background-size: cover;
