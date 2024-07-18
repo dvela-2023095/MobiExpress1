@@ -93,6 +93,7 @@ create table Empleados(
     codigoCargoEmpleado int not null,
     usuario varchar(50) not null,
     passwor varchar(50) not null,
+    imgUsuario blob not null,
     primary key PK_codigoEmpleado (codigoEmpleado),
     constraint FK_Empleados_CargoEmpleado foreign key (codigoCargoEmpleado) 
 		references CargoEmpleado(codigoCargoEmpleado)
