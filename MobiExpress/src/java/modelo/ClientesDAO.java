@@ -5,8 +5,11 @@ import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
+=======
+>>>>>>> rmartin-2023205
 
 
 public class ClientesDAO {
@@ -14,7 +17,10 @@ public class ClientesDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+<<<<<<< HEAD
     int resp;
+=======
+>>>>>>> rmartin-2023205
     
     public Clientes validar (String usuario, String passwor){
         Clientes cliente = new Clientes();
@@ -36,6 +42,7 @@ public class ClientesDAO {
         }
         return cliente;
     }
+<<<<<<< HEAD
     
     public List lista(){
         String sql = "select * from Clientes";
@@ -134,4 +141,6 @@ public class ClientesDAO {
             e.printStackTrace();
         }
     }
+=======
+>>>>>>> rmartin-2023205
 }

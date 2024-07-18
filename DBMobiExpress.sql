@@ -67,7 +67,11 @@ create table Producto(
 );
 create table DetalleCompra(
 	codigoDetalleCompra int not null auto_increment,
+<<<<<<< HEAD
     canticodigoProductodad int not null,
+=======
+    cantidad int not null,
+>>>>>>> rmartin-2023205
     costo double(10,2) not null,
     direccion varchar(150) not null,
     observaciones varchar(100) not null,
@@ -93,7 +97,11 @@ create table Empleados(
 	usuario varchar(50) not null,
     contrasena varchar(50) not null,
     codigoCargoEmpleado int not null,
+<<<<<<< HEAD
     
+=======
+    usuario varchar(50) not null,
+>>>>>>> rmartin-2023205
     passwor varchar(50) not null,
     primary key PK_codigoEmpleado (codigoEmpleado),
     constraint FK_Empleados_CargoEmpleado foreign key (codigoCargoEmpleado) 
@@ -136,5 +144,9 @@ insert into Clientes(NITCliente,nombresCliente,apellidosCliente,direccionCliente
 insert into CargoEmpleado(nombreCargo, salario, descripcionCargo, jornada)
 	values('Jefe','10000','Manda a todos los de la empresa','indefinida');
 insert into Empleados(NITEmpleado, nombresEmpleado, apellidosEmpleado, telefonoEmpleado, codigoCargoEmpleado, usuario, passwor)
+<<<<<<< HEAD
 	values('1234567890','Denis Alfredo','Vela Velasquez','12345678',1,'dvela2023095','admin');
     
+=======
+	values('1234567890','Denis Alfredo','Vela Velasquez','12345678',1,'dvela2023095','admin');
+>>>>>>> rmartin-2023205

@@ -5,8 +5,11 @@ import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
+=======
+>>>>>>> rmartin-2023205
 
 
 public class EmpleadoDAO {
@@ -14,7 +17,11 @@ public class EmpleadoDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+<<<<<<< HEAD
     int resp;
+=======
+    
+>>>>>>> rmartin-2023205
     public Empleado validar (String usuario, String passwor){
         Empleado empleado = new Empleado();
         String sql = "select * from Empleados where usuario = ? and passwor = ?";
@@ -35,6 +42,7 @@ public class EmpleadoDAO {
         }
         return empleado;
     }
+<<<<<<< HEAD
     
     public List listar(){
         String sql = "select * from Empleados";
@@ -135,4 +143,6 @@ public class EmpleadoDAO {
             e.printStackTrace();
         }
     }
+=======
+>>>>>>> rmartin-2023205
 }
