@@ -1,3 +1,7 @@
+/*
+Fecha de Creación:
+    18/07/2024
+*/
 package modelo;
 
 import config.Conexion;
