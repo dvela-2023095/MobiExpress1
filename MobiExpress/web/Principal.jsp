@@ -45,7 +45,7 @@
                 <h2>Descripción de <span>MobiExpress</span></h2>
                 <p>
                     MobiExpress es una aplicación innovadora diseñada para facilitar el alquiler de muebles y accesorios
-                    para fiestas, dirigida tanto a empresas como a emprendedores. Ofrecemos una extensa selección de
+                    para fiestas. Ofrecemos una extensa selección de
                     productos, incluyendo sillas, tableros, manteles, centros de mesa, y decoraciones, para satisfacer las
                     necesidades de cualquier evento. Nuestra plataforma intuitiva permite a los usuarios seleccionar,
                     reservar y gestionar sus alquileres de manera eficiente y sin complicaciones, asegurando así que cada
@@ -152,7 +152,11 @@
     
     
             <div class="descrip-1">
+<<<<<<< HEAD
                 <h2>Valore de <span>MobiExpress</span></h2>
+=======
+                <h2>Valores de <span>MobiExpress</span></h2>
+>>>>>>> rmartin-2023205
     
                 <h3>
                     Compromiso con la Calidad
@@ -231,10 +235,7 @@
                     <div class="product-txt">
                         <h3>Bodas</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -246,10 +247,7 @@
                     <div class="product-txt">
                         <h3>Bautizos</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -263,10 +261,7 @@
                             o con amigos
                         </h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -278,10 +273,7 @@
                     <div class="product-txt">
                         <h3>Cumpleaños</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -293,10 +285,7 @@
                     <div class="product-txt">
                         <h3>Graduaciones</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -308,10 +297,7 @@
                     <div class="product-txt">
                         <h3>Aniversarios</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -323,10 +309,7 @@
                     <div class="product-txt">
                         <h3>Comuniones</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -338,10 +321,7 @@
                     <div class="product-txt">
                         <h3>Quince años</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>
@@ -353,10 +333,7 @@
                     <div class="product-txt">
                         <h3>Convivios</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ipsa porro tempora aperiam
-                            quaerat
-                            illum eos quibusdam. A omnis perferendis accusamus, amet tempore quibusdam culpa placeat
-                            repudiandae ex quis et.
+                            
                         </p>
                         <a href="#" class="btn-1">informacion</a>
                     </div>

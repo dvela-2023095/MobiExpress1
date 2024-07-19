@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controlador;
 
 import java.io.IOException;
@@ -11,17 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Clientes;
-import modelo.ClientesDAO;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
 
-/**
- *
- * @author DELL
- */
-public class Validar extends HttpServlet {
-    Clientes cliente = new Clientes();
-    ClientesDAO clienteDao = new ClientesDAO();
-    
+
+public class ValidarEmpleado extends HttpServlet {
+    Empleado empleado = new Empleado();
+    EmpleadoDAO empleadoDao = new EmpleadoDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,10 +31,10 @@ public class Validar extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Validar</title>");            
+            out.println("<title>Servlet ValidarEmpleado</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Validar at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ValidarEmpleado at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,15 +70,15 @@ public class Validar extends HttpServlet {
         if(accion.equalsIgnoreCase("Ingresar")){
             String user = request.getParameter("txtUser");
             String pass = request.getParameter("txtPass");
-            cliente = clienteDao.validar(user, pass);
-            if(cliente.getUsuario() != null){
-                request.setAttribute("usuario", cliente);
+            empleado = empleadoDao.validar(user, pass);
+            if(empleado.getUsuario() != null){
+                request.setAttribute("usuario", empleado);
                 request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
             }else{
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("index-empleados.jsp").forward(request, response);
             }
         }else
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("index-empleados.jsp").forward(request, response);
     }
 
     /**
