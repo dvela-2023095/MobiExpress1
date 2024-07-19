@@ -4,7 +4,7 @@ package modelo;
 
 
 import java.util.Date;
->>>>>>> rmartin-2023205
+
 
 public class DetalleCompra {
     private int codigoDetalleCompra;
