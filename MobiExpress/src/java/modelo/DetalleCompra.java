@@ -1,8 +1,8 @@
 package modelo;
 
-<<<<<<< HEAD
-import java.sql.Date;
-=======
+
+
+
 import java.util.Date;
 >>>>>>> rmartin-2023205
 
