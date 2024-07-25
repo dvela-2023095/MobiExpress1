@@ -56,7 +56,7 @@ public class DetalleCompraDAO {
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3, deCom.getDireccion());
             ps.setString(4, deCom.getObservaciones());
-            ps.setDate(5, deCom.getFechaReception());
+            ps.setDate(5, new java.sql.Date(deCom.getFechaReception().getTime()));
             ps.setInt(6, deCom.getCodigoProveedor());
             ps.setInt(7, deCom.getCodigoProducto());
             ps.setInt(8, deCom.getNumeroCompra());
@@ -102,7 +102,7 @@ public class DetalleCompraDAO {
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3,deCom.getDireccion());
             ps.setString(4, deCom.getObservaciones());
-            ps.setDate(6, deCom.getFechaReception());
+            ps.setDate(6, new java.sql.Date(deCom.getFechaReception().getTime()));
             ps.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
