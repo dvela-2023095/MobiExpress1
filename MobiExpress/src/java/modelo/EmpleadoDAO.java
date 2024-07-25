@@ -9,12 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class EmpleadoDAO {
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+
     int resp;
+
+    
+
     public Empleado validar (String usuario, String passwor){
         Empleado empleado = new Empleado();
         String sql = "select * from Empleados where usuario = ? and passwor = ?";
@@ -35,6 +40,7 @@ public class EmpleadoDAO {
         }
         return empleado;
     }
+
     
     public List listar(){
         String sql = "select * from Empleados";
@@ -135,4 +141,5 @@ public class EmpleadoDAO {
             e.printStackTrace();
         }
     }
+
 }

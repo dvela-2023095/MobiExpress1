@@ -152,7 +152,11 @@
     
     
             <div class="descrip-1">
+<<<<<<< HEAD
                 <h2>Valore de <span>MobiExpress</span></h2>
+=======
+                <h2>Valores de <span>MobiExpress</span></h2>
+>>>>>>> rmartin-2023205
     
                 <h3>
                     Compromiso con la Calidad

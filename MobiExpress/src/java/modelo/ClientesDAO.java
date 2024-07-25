@@ -7,15 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class ClientesDAO {
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
-    
+ 
     public Clientes validar (String usuario, String passwor){
         Clientes cliente = new Clientes();
         String sql = "select * from Clientes where usuario = ? and passwor = ?";
@@ -134,4 +132,5 @@ public class ClientesDAO {
             e.printStackTrace();
         }
     }
+
 }
