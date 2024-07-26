@@ -75,10 +75,10 @@ public class ValidarEmpleado extends HttpServlet {
                 request.setAttribute("usuario", empleado);
                 request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
             }else{
-                request.getRequestDispatcher("index-empleados.jsp").forward(request, response);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         }else
-            request.getRequestDispatcher("index-empleados.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     /**
