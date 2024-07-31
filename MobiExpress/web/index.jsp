@@ -25,7 +25,12 @@
                 <input name="txtPass" type="password" required>
                 <label>Contraseña</label>
             </div>
-            <div class="Bienvenida">Bienvenido a MobiExpress</div>
+            <div >
+                <label class="Bienvenida">Bienvenido a MobiExpress</label>
+            </div>
+            <div>
+                <label class="alerta" style="color:red;">${alerta}</label>
+            </div>
             <input type="submit" name="accion" value="Ingresar"></input>
         </form>
         
