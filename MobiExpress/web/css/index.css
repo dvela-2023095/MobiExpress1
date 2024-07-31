@@ -82,7 +82,14 @@ form .Usuario{
 .Bienvenida{
     text-align: center;
     margin: -2px 0 18px 5px;
-    
+    width: 100%;
+    padding-left: 80px
+}
+.alerta{
+    text-align: center;
+    margin: -2px 0 18px 5px;
+    width: 100%;
+    padding-left: 60px
 }
 input[type="submit"]{
     width: 100%;

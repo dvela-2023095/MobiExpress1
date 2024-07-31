@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import modelo.Clientes;
+import modelo.ClientesDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 
@@ -29,6 +31,12 @@ import modelo.EmpleadoDAO;
 public class Controlador extends HttpServlet {
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDao = new EmpleadoDAO();
+    Clientes cliente = new Clientes();
+    ClientesDAO clienteDao = new ClientesDAO();
+    int codCliente;
+    int codEmpleado;
+    String Imagen;
+    String respuesta = "Holaa";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -47,28 +55,120 @@ public class Controlador extends HttpServlet {
         }else if(menu.equals("Home")){
             request.getRequestDispatcher("Home.jsp").forward(request, response);
         }else if(menu.equals("Empleados")){
-            if(accion.equals("Listar")){
+            switch(accion){
+            case "Listar":
                     List listaEmpleados = empleadoDao.listar();
                     request.setAttribute("listaEmpleados", listaEmpleados);
-            }else if (accion.equals("Agregar")){
-                    empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
-                    empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
-                    empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
-                    empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
+                    break;
+            case "Agregar":
+                empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
+                empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
+                empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
+                empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
+                if(request.getParameter("txtCodCargoEmpleado").isEmpty())
+                    empleado.setCodigoCargoEmpleado(0);
+                else
                     empleado.setCodigoCargoEmpleado(Integer.parseInt(request.getParameter("txtCodCargoEmpleado")));
-                    empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
-                    empleado.setPasswor(request.getParameter("txtContraEmpleado"));
-                    Part archivoImagen = request.getPart("flImagen");
-                    if(archivoImagen != null){
-                        InputStream contenidoArchivo = archivoImagen.getInputStream();
-                        byte[] imagenEnBytes = leerBytes(contenidoArchivo);
-                        String imagenBase64 = Base64.getEncoder().encodeToString(imagenEnBytes);
-                        empleado.setImagen(imagenBase64);
-                    }else
-                        System.out.println("Imagen nula");
+                empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
+                empleado.setPasswor(request.getParameter("txtContraEmpleado"));
+                Part archivoImagen = request.getPart("flImagen");
+                if(archivoImagen != null){
+                    InputStream contenidoArchivo = archivoImagen.getInputStream();
+                    byte[] imagenEnBytes = leerBytes(contenidoArchivo);
+                    String imagenBase64 = Base64.getEncoder().encodeToString(imagenEnBytes);
+                    empleado.setImagen(imagenBase64);
+                }else
+                    System.out.println("Imagen nula");
+                if(empleado.getDPIEmpleado().isEmpty()||empleado.getNombresEmpleado().isEmpty()||empleado.getApellidosEmpleado().isEmpty()||empleado.getTelefonoEmpleado().isEmpty()||empleado.getCodigoCargoEmpleado()==0||empleado.getUsuario().isEmpty()||empleado.getPasswor().isEmpty()||empleado.getImagen().isEmpty()){
+                    respuesta = "No puede dejar espacios vacíos";
+                    request.setAttribute("respuesta",respuesta);
+                    request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                }else
                     empleadoDao.agregar(empleado);
+                request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                break;
+            case "Editar":
+                codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                Empleado emp = empleadoDao.buscarcodigoEmpleado(codEmpleado);
+                Imagen = emp.getImagen();
+                request.setAttribute("empleado", emp);
+                request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                break; 
+            case "Actualizar":
+                empleado.setCodigoEmpleado(codEmpleado);
+                empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
+                empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
+                empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
+                empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
+                empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
+                empleado.setPasswor(request.getParameter("txtContraEmpleado"));
+                archivoImagen = request.getPart("flImagen");
+                if(archivoImagen.getSize() != 0){
+                    InputStream contenidoArchivo = archivoImagen.getInputStream();
+                    byte[] imagenEnBytes = leerBytes(contenidoArchivo);
+                    String imagenBase64 = Base64.getEncoder().encodeToString(imagenEnBytes);
+                    empleado.setImagen(imagenBase64);
+                }else{
+                    empleado.setImagen(Imagen);
+                }
+                empleadoDao.actualizarEmpleado(empleado);
+                request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                break;
+            case "Eliminar":
+                codEmpleado = Integer.parseInt(request.getParameter("codigoEmpleado"));
+                empleadoDao.eliminarEmpleado(codEmpleado);
+                request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                break;
             }
             request.getRequestDispatcher("Empleados.jsp").forward(request, response);
+        }else if (menu.equals("Clientes")){
+            switch(accion){
+                case "Listar":
+                    List listaCliente = clienteDao.listar();
+                    request.setAttribute("clientes", listaCliente);
+                break;
+                case "Agregar":
+                    String NIT = request.getParameter("txtNITCliente");
+                    String nombres = request.getParameter("txtNombresCliente");
+                    String apellidos = request.getParameter("txtApellidosCliente");
+                    String direccion = request.getParameter("txtDireccionCliente");
+                    String telefono = request.getParameter("txtTelefonoEmpleado");
+                    cliente.setNITCliente(NIT);
+                    cliente.setNombresCliente(nombres);
+                    cliente.setApellidosCliente(apellidos);
+                    cliente.setDireccionCliente(direccion);
+                    cliente.setTelefonoCliente(telefono);
+                    clienteDao.agregar(cliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    
+                break;
+                case "Editar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    Clientes c = clienteDao.listarCodigoCliente(codCliente);
+                    request.setAttribute("cliente", c);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                break;
+                case "Actualizar":
+                    String NITCli = request.getParameter("txtNITCliente");
+                    String nombresCli = request.getParameter("txtNombresCliente");
+                    String apellidosCli = request.getParameter("txtApellidosCliente");
+                    String direccionCli = request.getParameter("txtDireccionCliente");
+                    String telefonoCli = request.getParameter("txtTelefonoCliente");
+                    cliente.setNITCliente(NITCli);
+                    cliente.setNombresCliente(nombresCli);
+                    cliente.setApellidosCliente(apellidosCli);
+                    cliente.setDireccionCliente(direccionCli);
+                    cliente.setTelefonoCliente(telefonoCli);
+                    cliente.setCodigoCliente(codCliente);
+                    clienteDao.actualizarCliente(cliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                break;
+                case "Eliminar":
+                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                    clienteDao.eliminarCliente(codCliente);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                break;
+            }
         }
     }
     

@@ -75,6 +75,7 @@ public class ValidarEmpleado extends HttpServlet {
                 request.setAttribute("usuario", empleado);
                 request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
             }else{
+                request.setAttribute("alerta", "Usuario o contraseña Incorrecto");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         }else
