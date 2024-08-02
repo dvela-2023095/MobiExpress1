@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import modelo.CargoEmpleado;
+import modelo.CargoEmpleadoDAO;
 import modelo.Clientes;
 import modelo.ClientesDAO;
 import modelo.Empleado;
@@ -33,8 +35,11 @@ public class Controlador extends HttpServlet {
     EmpleadoDAO empleadoDao = new EmpleadoDAO();
     Clientes cliente = new Clientes();
     ClientesDAO clienteDao = new ClientesDAO();
+    CargoEmpleado cargoEmpleado = new CargoEmpleado();
+    CargoEmpleadoDAO cargoEmpDao = new CargoEmpleadoDAO();
     int codCliente;
     int codEmpleado;
+    int codCargoEmpleado;
     String Imagen;
     String respuesta = "Holaa";
     /**
@@ -52,6 +57,8 @@ public class Controlador extends HttpServlet {
         String accion = request.getParameter("accion");
         if(menu.equals("Principal")){
             request.getRequestDispatcher("Principal.jsp").forward(request, response);
+        }else if(menu.equals("PrincipalEmp")){
+            request.getRequestDispatcher("PrincipalEmp.jsp").forward(request, response);
         }else if(menu.equals("Home")){
             request.getRequestDispatcher("Home.jsp").forward(request, response);
         }else if(menu.equals("Empleados")){
@@ -65,10 +72,10 @@ public class Controlador extends HttpServlet {
                 empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
                 empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
                 empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
-                if(request.getParameter("txtCodCargoEmpleado").isEmpty())
+                if(request.getParameter("txtCodigoCargo").isEmpty())
                     empleado.setCodigoCargoEmpleado(0);
                 else
-                    empleado.setCodigoCargoEmpleado(Integer.parseInt(request.getParameter("txtCodCargoEmpleado")));
+                    empleado.setCodigoCargoEmpleado(Integer.parseInt(request.getParameter("txtCodigoCargo")));
                 empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
                 empleado.setPasswor(request.getParameter("txtContraEmpleado"));
                 Part archivoImagen = request.getPart("flImagen");
@@ -119,6 +126,21 @@ public class Controlador extends HttpServlet {
                 empleadoDao.eliminarEmpleado(codEmpleado);
                 request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
                 break;
+            case "BuscarCargo":
+                    empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
+                    empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
+                    empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
+                    empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
+                    empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
+                    empleado.setPasswor(request.getParameter("txtContraEmpleado"));
+                    codCargoEmpleado = Integer.parseInt(request.getParameter("txtCodigoCargo"));
+                    cargoEmpleado = cargoEmpDao.buscarCodigoCargoEmpleado(codCargoEmpleado);
+                    empleado.setCodigoCargoEmpleado(cargoEmpleado.getCodigoCargoEmpleado());
+                    request.setAttribute("empleado", empleado);
+                    request.setAttribute("cargoEmpleado", cargoEmpleado);
+                    request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                    break;
+                
             }
             request.getRequestDispatcher("Empleados.jsp").forward(request, response);
         }else if (menu.equals("Clientes")){
