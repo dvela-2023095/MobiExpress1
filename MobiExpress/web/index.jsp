@@ -18,12 +18,10 @@
         <img src="img/imagen-logo.png" height="300px" width="300px">
         <form action="ValidarEmpleado" method="POST">
             <div class="Usuario">
-                <input name="txtUser" type="text" required>
-                <label>Usuario</label>
+                <input name="txtUser" type="text" placeholder="Usuario" required>
             </div>
             <div class="Usuario">
-                <input name="txtPass" type="password" required>
-                <label>Contraseña</label>
+                <input name="txtPass" type="password" placeholder="Contraseña" required>
             </div>
             <div >
                 <label class="Bienvenida">Bienvenido a MobiExpress</label>

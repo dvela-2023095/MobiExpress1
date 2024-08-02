@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.CargoEmpleado;
+import modelo.CargoEmpleadoDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 
@@ -14,6 +16,8 @@ import modelo.EmpleadoDAO;
 public class ValidarEmpleado extends HttpServlet {
     Empleado empleado = new Empleado();
     EmpleadoDAO empleadoDao = new EmpleadoDAO();
+    CargoEmpleado cargoEmpleado = new CargoEmpleado();
+    CargoEmpleadoDAO cargoEmpDao = new CargoEmpleadoDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,8 +76,15 @@ public class ValidarEmpleado extends HttpServlet {
             String pass = request.getParameter("txtPass");
             empleado = empleadoDao.validar(user, pass);
             if(empleado.getUsuario() != null){
-                request.setAttribute("usuario", empleado);
-                request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
+                cargoEmpleado = cargoEmpDao.buscarCodigoCargoEmpleado(empleado.getCodigoCargoEmpleado());
+                if(cargoEmpleado.getNombreCargo().equals("Jefe")){
+                    request.setAttribute("usuario", empleado);
+                    request.getRequestDispatcher("Controlador?menu=Principal").forward(request, response);
+                }else{
+                    request.setAttribute("usuario", empleado);
+                    request.getRequestDispatcher("Controlador?menu=PrincipalEmp").forward(request, response);
+                }
+                
             }else{
                 request.setAttribute("alerta", "Usuario o contraseña Incorrecto");
                 request.getRequestDispatcher("index.jsp").forward(request, response);

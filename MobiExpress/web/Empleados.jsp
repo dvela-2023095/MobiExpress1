@@ -20,35 +20,41 @@
                     <form action="Controlador?menu=Empleados" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label><strong>DPI:</strong></label>
-                            <input type="text" value="${empleado.getDPIEmpleado()}" name="txtDPIEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getDPIEmpleado()}" name="txtDPIEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Nombres:</strong></label>
-                            <input type="text" value="${empleado.getNombresEmpleado()}" name="txtNombresEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getNombresEmpleado()}" name="txtNombresEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Apellidos:</strong></label>
-                            <input type="text" value="${empleado.getApellidosEmpleado()}" name="txtApellidosEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getApellidosEmpleado()}" name="txtApellidosEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Telefono:</strong></label>
-                            <input type="text" value="${empleado.getTelefonoEmpleado()}" name="txtTelefonoEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getTelefonoEmpleado()}" name="txtTelefonoEmpleado" class="form-control" >
                         </div>
-                        <div class="form-group">
-                            <label><strong>Cod. Cargo:</strong></label>
-                            <input type="text" value="${empleado.getCodigoCargoEmpleado()}" name="txtCodCargoEmpleado" class="form-control">
+                        <label><strong>Cod. Cargo Empleado:</strong></label>
+                        <div class="form-group d-flex">
+                            <div class="d-flex">
+                                <input type="text" name="txtCodigoCargo" value="${empleado.getCodigoCargoEmpleado()}" class="form-control" placeholder="Codigo" >
+                                <button type="submit" name="accion" value="BuscarCargo" class="btn-outline-info">Buscar</button>
+                            </div>
+                            <div>
+                                <input type="text" name="txtNombreCargo" value="${cargoEmpleado.getNombreCargo()}" class="form-control" placeholder="Cargo">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label><strong>Usuario:</strong></label>
-                            <input type="text" value="${empleado.getUsuario()}" name="txtUsuarioEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getUsuario()}" name="txtUsuarioEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Contraseña:</strong></label>
-                            <input type="text" value="${empleado.getPasswor()}" name="txtContraEmpleado" class="form-control">
+                            <input type="text" value="${empleado.getPasswor()}" name="txtContraEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Foto de usuario:</strong></label>
-                            <input type="file" id="imagen" accept="image/png,image/jpg" value="" name="flImagen" class="form-control">
+                            <input type="file" id="imagen" accept="image/png,image/jpg" value="" name="flImagen" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label name="respuesta" class="text-danger">${respuesta}</label>
@@ -59,7 +65,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 <table class="table table-hover">
                     <thead>
                         <tr>
