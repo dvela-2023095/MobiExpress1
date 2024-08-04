@@ -23,6 +23,8 @@ import modelo.Clientes;
 import modelo.ClientesDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Proveedores;
+import modelo.ProveedoresDAO;
 
 
 /**
@@ -37,6 +39,8 @@ public class Controlador extends HttpServlet {
     ClientesDAO clienteDao = new ClientesDAO();
     CargoEmpleado cargoEmpleado = new CargoEmpleado();
     CargoEmpleadoDAO cargoEmpDao = new CargoEmpleadoDAO();
+    ProveedoresDAO ProveedoresDAO = new ProveedoresDAO();
+    Proveedores Proveedores = new Proveedores();
     int codCliente;
     int codEmpleado;
     int codCargoEmpleado;
@@ -191,6 +195,66 @@ public class Controlador extends HttpServlet {
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
                 break;
             }
+        }else if (menu.equals("Proveedores")) {
+    switch (accion) {
+        case "Listar":
+             List listaProveedores = ProveedoresDAO.listar();
+            request.setAttribute("Proveedores", listaProveedores);
+    
+            break;
+        case "Agregar":
+            String nitProveedor = request.getParameter("txtNITProveedor");
+            String nombreProveedor = request.getParameter("txtNombreProveedor");
+            String apellidoProveedor = request.getParameter("txtApellidoProveedor");
+            String razonSocial = request.getParameter("txtRazonSocial");
+            String contactoPrincipal = request.getParameter("txtContactoPrincipal");
+            String paginaWeb = request.getParameter("txtPaginaWeb");
+
+            Proveedores proveedor = new Proveedores();
+            proveedor.setNITProveedor(nitProveedor);
+            proveedor.setNombreProveedor(nombreProveedor);
+            proveedor.setApellidoProveedor(apellidoProveedor);
+            proveedor.setRazonSocial(razonSocial);
+            proveedor.setContactoPrincipal(contactoPrincipal);
+            proveedor.setPaginaWeb(paginaWeb);
+
+            new ProveedoresDAO().agregar(proveedor);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+        case "Editar":
+            int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+            Proveedores p = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
+            request.setAttribute("proveedor", p);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+        case "Actualizar":
+            int codigoProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+            String nitProv = request.getParameter("txtNITProveedor");
+            String nombreProv = request.getParameter("txtNombreProveedor");
+            String apellidoProv = request.getParameter("txtApellidoProveedor");
+            String razonSocialProv = request.getParameter("txtRazonSocial");
+            String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
+            String paginaWebProv = request.getParameter("txtPaginaWeb");
+
+            Proveedores proveedorAct = new Proveedores();
+            proveedorAct.setCodigoProveedor(codigoProveedor);
+            proveedorAct.setNITProveedor(nitProv);
+            proveedorAct.setNombreProveedor(nombreProv);
+            proveedorAct.setApellidoProveedor(apellidoProv);
+            proveedorAct.setRazonSocial(razonSocialProv);
+            proveedorAct.setContactoPrincipal(contactoPrincipalProv);
+            proveedorAct.setPaginaWeb(paginaWebProv);
+
+            new ProveedoresDAO().actualizar(proveedorAct);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+        case "Eliminar":
+            codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+            new ProveedoresDAO().eliminar(codProveedor);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+    }
+    request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
         }
     }
     
