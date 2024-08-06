@@ -11,8 +11,9 @@ public class Conexion {
     public Connection Conexion(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMobiExpress?useSSL=false", "Denis", "denis42");
-            
+            //conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMobiExpress?useSSL=false", "IN5AV", "admin");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMobiExpress?useSSL=false", "root", "cesar2023223");
+           
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -7,15 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class ClientesDAO {
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
     int resp;
-    
+ 
     public Clientes validar (String usuario, String passwor){
         Clientes cliente = new Clientes();
         String sql = "select * from Clientes where usuario = ? and passwor = ?";
@@ -27,9 +25,11 @@ public class ClientesDAO {
             rs=ps.executeQuery();
             while (rs.next()){
                 cliente.setCodigoCliente(rs.getInt("codigoCliente"));
+                cliente.setNITCliente(rs.getString("NITCliente"));
                 cliente.setNombresCliente(rs.getString("nombresCliente"));
-                cliente.setUsuario(rs.getString("usuario"));
-                cliente.setPasswor(rs.getString("passwor"));
+                cliente.setApellidosCliente(rs.getString("apellidosCliente"));
+                cliente.setDireccionCliente(rs.getString("direccionClinte"));
+                cliente.setTelefonoCliente(rs.getString("telefonoCliente"));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class ClientesDAO {
         return cliente;
     }
     
-    public List lista(){
+    public List listar(){
         String sql = "select * from Clientes";
         Clientes cliente = new Clientes();
         List<Clientes> listaCliente = new ArrayList<>();
@@ -52,8 +52,6 @@ public class ClientesDAO {
              cliente.setApellidosCliente(rs.getString(4));
              cliente.setDireccionCliente(rs.getString(5));
              cliente.setTelefonoCliente(rs.getString(6));
-             cliente.setUsuario(rs.getString(7));
-             cliente.setPasswor(rs.getString(8));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -62,8 +60,7 @@ public class ClientesDAO {
     }
     
     public int agregar(Clientes cliente){
-        String sql = "Insert into Clientes(NITCliente, nombresCliente, apellidosCliente, direccionCliente, telefonoCliente, "
-                + "usuario, passwor) values (?,?,?,?,?,?,?)";
+        String sql = "Insert into Clientes(NITCliente, nombresCliente, apellidosCliente, direccionCliente, telefonoCliente) values (?,?,?,?,?,?,?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -72,15 +69,13 @@ public class ClientesDAO {
             ps.setString(3, cliente.getApellidosCliente());
             ps.setString(4, cliente.getDireccionCliente());
             ps.setString(5, cliente.getTelefonoCliente());
-            ps.setString(6, cliente.getUsuario());
-            ps.setString(7, cliente.getPasswor());
         }catch(Exception e){
             e.printStackTrace();
         }
         return resp;
     }
     
-    public Clientes buscarcodigoCliente(int id){
+    public Clientes listarCodigoCliente(int id){
         String sql = "select * from Clientes where codigoCliente = ?";
         Clientes cliente = new Clientes();
         try{
@@ -95,8 +90,6 @@ public class ClientesDAO {
                 cliente.setApellidosCliente(rs.getString(4));
                 cliente.setDireccionCliente(rs.getString(5));
                 cliente.setTelefonoCliente(rs.getString(6));
-                cliente.setUsuario(rs.getString(7));
-                cliente.setPasswor(rs.getString(8));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -106,7 +99,7 @@ public class ClientesDAO {
     
     public int actualizarCliente(Clientes cliente){
         String sql = "Update Cliente set NITCliente = ?, nombresCliente = ?, apellidosCliente = ?, direccionCliente = ?"
-                + "  telefonoCliente = ?, usuario = ?, passwor = ?";
+                + "  telefonoCliente = ?";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
@@ -115,8 +108,6 @@ public class ClientesDAO {
             ps.setString(3, cliente.getApellidosCliente());
             ps.setString(4, cliente.getDireccionCliente());
             ps.setString(5, cliente.getTelefonoCliente());
-            ps.setString(6, cliente.getUsuario());
-            ps.setString(7, cliente.getPasswor());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -134,4 +125,5 @@ public class ClientesDAO {
             e.printStackTrace();
         }
     }
+
 }

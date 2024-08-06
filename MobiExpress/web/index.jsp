@@ -16,16 +16,19 @@
     <div class="pestaña">
         <h1>Inicia Sesión</h1>
         <img src="img/imagen-logo.png" height="300px" width="300px">
-        <form action="Validar" method="POST">
+        <form action="ValidarEmpleado" method="POST">
             <div class="Usuario">
-                <input name="txtUser" type="text" required>
-                <label>Usuario</label>
+                <input name="txtUser" type="text" placeholder="Usuario" required>
             </div>
             <div class="Usuario">
-                <input name="txtPass" type="password" required>
-                <label>Contraseña</label>
+                <input name="txtPass" type="password" placeholder="Contraseña" required>
             </div>
-            <div class="Bienvenida"><a href="index-empleados.jsp">Ingresar como Empleado</a></div>
+            <div >
+                <label class="Bienvenida">Bienvenido a MobiExpress</label>
+            </div>
+            <div>
+                <label class="alerta" style="color:red;">${alerta}</label>
+            </div>
             <input type="submit" name="accion" value="Ingresar"></input>
         </form>
         

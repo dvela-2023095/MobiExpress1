@@ -1,31 +1,34 @@
 package modelo;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 public class DetalleCompra {
     private int codigoDetalleCompra;
     private int cantidad;
     private double costo;
     private String direccion;
-    private String observaciones;
-    private Date fechaReception;
+    private double subTotal;
+    private String fechaRecepcion;
     private int codigoProveedor;
     private int codigoProducto;
     private int numeroCompra;
+    private int item;
 
     public DetalleCompra() {
     }
 
-    public DetalleCompra(int codigoDetalleCompra, int cantidad, double costo, String direccion, String observaciones, Date fechaReception, int codigoProveedor, int codigoProducto, int numeroCompra) {
+    public DetalleCompra(int codigoDetalleCompra, int cantidad, double costo, String direccion, double subTotal, String fechaRecepcion, int codigoProveedor, int codigoProducto, int numeroCompra, int item) {
         this.codigoDetalleCompra = codigoDetalleCompra;
         this.cantidad = cantidad;
         this.costo = costo;
         this.direccion = direccion;
-        this.observaciones = observaciones;
-        this.fechaReception = fechaReception;
+        this.subTotal = subTotal;
+        this.fechaRecepcion = fechaRecepcion;
         this.codigoProveedor = codigoProveedor;
         this.codigoProducto = codigoProducto;
         this.numeroCompra = numeroCompra;
+        this.item = item;
     }
 
     public int getCodigoDetalleCompra() {
@@ -60,20 +63,20 @@ public class DetalleCompra {
         this.direccion = direccion;
     }
 
-    public String getObservaciones() {
-        return observaciones;
+    public double getSubTotal() {
+        return subTotal;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
-    public Date getFechaReception() {
-        return fechaReception;
+    public String getFechaRecepcion() {
+        return fechaRecepcion;
     }
 
-    public void setFechaReception(Date fechaReception) {
-        this.fechaReception = fechaReception;
+    public void setFechaRecepcion(String fechaRecepcion) {
+        this.fechaRecepcion = fechaRecepcion;
     }
 
     public int getCodigoProveedor() {
@@ -99,4 +102,14 @@ public class DetalleCompra {
     public void setNumeroCompra(int numeroCompra) {
         this.numeroCompra = numeroCompra;
     }
+
+    public int getItem() {
+        return item;
+    }
+
+    public void setItem(int item) {
+        this.item = item;
+    }
+
+    
 }

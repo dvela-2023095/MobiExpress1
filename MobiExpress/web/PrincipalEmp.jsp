@@ -21,16 +21,22 @@
                   <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" href="Controlador?menu=Home" target="myFrame">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Empleados&accion=Listar" target="myFrame">Empleados</a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Agregar Predidos</a>
                 </li>
                 <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Proveedores&accion=Listar"  target="myFrame">Proveedores</a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Pedidos</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Entidad</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarCompra&accion=default" target="myFrame">Agregar Compra</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Entidad</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Compras</a>
+                </li>
+                <li class="nav-item">
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Categoría de Productos</a>
                 </li>
                 
               </ul>
@@ -60,3 +66,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </body>
 </html>
+

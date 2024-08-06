@@ -17,27 +17,31 @@ create table Empleados(
 */
 public class Empleado {
     private int codigoEmpleado;
-    private String NITEmpleado;
+    private String DPIEmpleado;
     private String nombresEmpleado;
     private String apellidosEmpleado;
     private String telefonoEmpleado;
     private int codigoCargoEmpleado;
     private String usuario;
     private String passwor;
+    private String imagen;
 
     public Empleado() {
     }
 
-    public Empleado(int codigoEmpleado, String NITEmpleado, String nombresEmpleado, String apellidosEmpleado, String telefonoEmpleado, int codigoCargoEmpleado, String usuario, String passwor) {
+    public Empleado(int codigoEmpleado, String DPIEmpleado, String nombresEmpleado, String apellidosEmpleado, String telefonoEmpleado, int codigoCargoEmpleado, String usuario, String passwor, String imagen) {
         this.codigoEmpleado = codigoEmpleado;
-        this.NITEmpleado = NITEmpleado;
+        this.DPIEmpleado = DPIEmpleado;
         this.nombresEmpleado = nombresEmpleado;
         this.apellidosEmpleado = apellidosEmpleado;
         this.telefonoEmpleado = telefonoEmpleado;
         this.codigoCargoEmpleado = codigoCargoEmpleado;
         this.usuario = usuario;
         this.passwor = passwor;
+        this.imagen = imagen;
     }
+
+    
 
     public int getCodigoEmpleado() {
         return codigoEmpleado;
@@ -47,12 +51,12 @@ public class Empleado {
         this.codigoEmpleado = codigoEmpleado;
     }
 
-    public String getNITEmpleado() {
-        return NITEmpleado;
+    public String getDPIEmpleado() {
+        return DPIEmpleado;
     }
 
-    public void setNITEmpleado(String NITEmpleado) {
-        this.NITEmpleado = NITEmpleado;
+    public void setDPIEmpleado(String DPIEmpleado) {
+        this.DPIEmpleado = DPIEmpleado;
     }
 
     public String getNombresEmpleado() {
@@ -102,6 +106,13 @@ public class Empleado {
     public void setPasswor(String passwor) {
         this.passwor = passwor;
     }
-    
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
     
 }

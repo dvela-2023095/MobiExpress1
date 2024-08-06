@@ -21,7 +21,7 @@ public class DetalleCompraDAO {
     int resp;
     
     public List listar(){
-        String sql = "Select * from DetalleCompra";
+        String sql = "Select codigoDetalleCompra,codigoProveedor, codigoProducto, numeroCompra,costo,cantidad,subTotal,direccion,fechaRecepcion from DetalleCompra;";
         List<DetalleCompra> listaDetalleCompra = new ArrayList<>();
         try{
             con = cn.Conexion();
@@ -30,14 +30,14 @@ public class DetalleCompraDAO {
             while(rs.next()){
                 DetalleCompra em = new DetalleCompra();
                 em.setCodigoDetalleCompra(rs.getInt(1));
-                em.setCantidad(rs.getInt(2));
-                em.setCosto(rs.getDouble(3));
-                em.setDireccion(rs.getString(4));
-                em.setObservaciones(rs.getString(5));
-                em.setFechaReception(rs.getDate(6));
-                em.setCodigoProducto(rs.getInt(7));
-                em.setCodigoProveedor(rs.getInt(8));
-                em.setNumeroCompra(rs.getInt(9));
+                em.setCodigoProducto(rs.getInt(2));
+                em.setCodigoProveedor(rs.getInt(3));
+                em.setNumeroCompra(rs.getInt(4));
+                em.setCosto(rs.getDouble(5));
+                em.setCantidad(rs.getInt(6));
+                em.setSubTotal(rs.getDouble(7));
+                em.setDireccion(rs.getString(8));
+                em.setFechaRecepcion(rs.getString(9));
                 listaDetalleCompra.add(em);
             }
         }catch(Exception e){
@@ -48,18 +48,19 @@ public class DetalleCompraDAO {
     }
     
     public int agregar(DetalleCompra deCom){
-        String sql = "insert into DetalleCompra (cantidad, costo, direccion, observaciones, fechaReception, codigoProveedor, codigoProducto, numeroCompra) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into DetalleCompra (cantidad, costo, direccion, subTotal, fechaRecepcion, codigoProveedor, codigoProducto, numeroCompra) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
             ps.setInt(1, deCom.getCantidad());
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3, deCom.getDireccion());
-            ps.setString(4, deCom.getObservaciones());
-            ps.setDate(5, deCom.getFechaReception());
+            ps.setDouble(4, deCom.getSubTotal());
+            ps.setString(5, deCom.getFechaRecepcion());
             ps.setInt(6, deCom.getCodigoProveedor());
             ps.setInt(7, deCom.getCodigoProducto());
             ps.setInt(8, deCom.getNumeroCompra());
+            ps.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -74,14 +75,14 @@ public class DetalleCompraDAO {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                deCom.setCantidad(rs.getInt(2));
-                deCom.setCosto(rs.getDouble(3));
-                deCom.setDireccion(rs.getString(4));
-                deCom.setObservaciones(rs.getString(5));
-                deCom.setFechaReception(rs.getDate(6));
-                deCom.setCodigoProveedor(rs.getInt(7));
-                deCom.setCodigoProducto(rs.getInt(8));
-                deCom.setNumeroCompra(rs.getInt(9));
+                deCom.setCodigoProveedor(rs.getInt(2));
+                deCom.setCodigoProducto(rs.getInt(3));
+                deCom.setNumeroCompra(rs.getInt(4));
+                deCom.setCosto(rs.getDouble(5));
+                deCom.setCantidad(rs.getInt(6));
+                deCom.setSubTotal(rs.getDouble(7));
+                deCom.setDireccion(rs.getString(8));
+                deCom.setFechaRecepcion(rs.getString(9));
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -92,8 +93,8 @@ public class DetalleCompraDAO {
     public int actualizarDetalleCompra(DetalleCompra deCom){
         String sql = "Update DetalleCompra set cantidad = ?, "
                 + "costo = ?, direccion = ?, "
-                + "observaciones = ?, "
-                + "fechaReception = ? "
+                + "subTotal = ?, "
+                + "fechaRecepcion = ? "
                 + "where codigoEmpleado = ?";
         try{
             con = cn.Conexion();
@@ -101,8 +102,8 @@ public class DetalleCompraDAO {
             ps.setInt(1, deCom.getCantidad());
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3,deCom.getDireccion());
-            ps.setString(4, deCom.getObservaciones());
-            ps.setDate(6, deCom.getFechaReception());
+            ps.setDouble(4, deCom.getSubTotal());
+            ps.setString(5, deCom.getFechaRecepcion());
             ps.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
