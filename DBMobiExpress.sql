@@ -100,8 +100,7 @@ create table DetalleCompra(
 insert into DetalleCompra(cantidad, costo, direccion, subTotal, fechaRecepcion, codigoProveedor, codigoProducto, numeroCompra)
 values(10, 150.00, 'Guatemala, Guatemala', 1500.00, '2024-06-01', 1, 1, 1);
 
-select * from Detall
-eCompra;
+select * from DetalleCompra;
 
 create table Empleados(
 	codigoEmpleado int not null auto_increment,
