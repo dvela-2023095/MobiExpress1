@@ -19,10 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import modelo.CargoEmpleado;
 import modelo.CargoEmpleadoDAO;
+import modelo.CategoriaProducto;
+import modelo.CategoriaProductoDAO;
 import modelo.Clientes;
 import modelo.ClientesDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Producto;
+import modelo.ProductoDAO;
 import modelo.Proveedores;
 import modelo.ProveedoresDAO;
 
@@ -39,8 +43,14 @@ public class Controlador extends HttpServlet {
     ClientesDAO clienteDao = new ClientesDAO();
     CargoEmpleado cargoEmpleado = new CargoEmpleado();
     CargoEmpleadoDAO cargoEmpDao = new CargoEmpleadoDAO();
+    Producto producto = new Producto();
+    ProductoDAO productoDao = new ProductoDAO();
     ProveedoresDAO ProveedoresDAO = new ProveedoresDAO();
     Proveedores Proveedores = new Proveedores();
+    CategoriaProducto categoriaProducto = new CategoriaProducto();
+    CategoriaProductoDAO categoriaProductoDao = new CategoriaProductoDAO();
+    int codCategoriaProducto;
+    int codProducto;
     int codCliente;
     int codEmpleado;
     int codCargoEmpleado;
@@ -196,65 +206,151 @@ public class Controlador extends HttpServlet {
                 break;
             }
         }else if (menu.equals("Proveedores")) {
-    switch (accion) {
-        case "Listar":
-             List listaProveedores = ProveedoresDAO.listar();
-            request.setAttribute("Proveedores", listaProveedores);
-    
-            break;
-        case "Agregar":
-            String nitProveedor = request.getParameter("txtNITProveedor");
-            String nombreProveedor = request.getParameter("txtNombreProveedor");
-            String apellidoProveedor = request.getParameter("txtApellidoProveedor");
-            String razonSocial = request.getParameter("txtRazonSocial");
-            String contactoPrincipal = request.getParameter("txtContactoPrincipal");
-            String paginaWeb = request.getParameter("txtPaginaWeb");
+            switch (accion) {
+                case "Listar":
+                     List listaProveedores = ProveedoresDAO.listar();
+                    request.setAttribute("Proveedores", listaProveedores);
 
-            Proveedores proveedor = new Proveedores();
-            proveedor.setNITProveedor(nitProveedor);
-            proveedor.setNombreProveedor(nombreProveedor);
-            proveedor.setApellidoProveedor(apellidoProveedor);
-            proveedor.setRazonSocial(razonSocial);
-            proveedor.setContactoPrincipal(contactoPrincipal);
-            proveedor.setPaginaWeb(paginaWeb);
+                    break;
+                case "Agregar":
+                    String nitProveedor = request.getParameter("txtNITProveedor");
+                    String nombreProveedor = request.getParameter("txtNombreProveedor");
+                    String apellidoProveedor = request.getParameter("txtApellidoProveedor");
+                    String razonSocial = request.getParameter("txtRazonSocial");
+                    String contactoPrincipal = request.getParameter("txtContactoPrincipal");
+                    String paginaWeb = request.getParameter("txtPaginaWeb");
 
-            new ProveedoresDAO().agregar(proveedor);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-            break;
-        case "Editar":
-            int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-            Proveedores p = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
-            request.setAttribute("proveedor", p);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-            break;
-        case "Actualizar":
-            int codigoProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-            String nitProv = request.getParameter("txtNITProveedor");
-            String nombreProv = request.getParameter("txtNombreProveedor");
-            String apellidoProv = request.getParameter("txtApellidoProveedor");
-            String razonSocialProv = request.getParameter("txtRazonSocial");
-            String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
-            String paginaWebProv = request.getParameter("txtPaginaWeb");
+                    Proveedores proveedor = new Proveedores();
+                    proveedor.setNITProveedor(nitProveedor);
+                    proveedor.setNombreProveedor(nombreProveedor);
+                    proveedor.setApellidoProveedor(apellidoProveedor);
+                    proveedor.setRazonSocial(razonSocial);
+                    proveedor.setContactoPrincipal(contactoPrincipal);
+                    proveedor.setPaginaWeb(paginaWeb);
 
-            Proveedores proveedorAct = new Proveedores();
-            proveedorAct.setCodigoProveedor(codigoProveedor);
-            proveedorAct.setNITProveedor(nitProv);
-            proveedorAct.setNombreProveedor(nombreProv);
-            proveedorAct.setApellidoProveedor(apellidoProv);
-            proveedorAct.setRazonSocial(razonSocialProv);
-            proveedorAct.setContactoPrincipal(contactoPrincipalProv);
-            proveedorAct.setPaginaWeb(paginaWebProv);
+                    new ProveedoresDAO().agregar(proveedor);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+                    Proveedores p = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
+                    request.setAttribute("proveedor", p);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    int codigoProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+                    String nitProv = request.getParameter("txtNITProveedor");
+                    String nombreProv = request.getParameter("txtNombreProveedor");
+                    String apellidoProv = request.getParameter("txtApellidoProveedor");
+                    String razonSocialProv = request.getParameter("txtRazonSocial");
+                    String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
+                    String paginaWebProv = request.getParameter("txtPaginaWeb");
 
-            new ProveedoresDAO().actualizar(proveedorAct);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-            break;
-        case "Eliminar":
-            codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-            new ProveedoresDAO().eliminar(codProveedor);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-            break;
-    }
-    request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
+                    Proveedores proveedorAct = new Proveedores();
+                    proveedorAct.setCodigoProveedor(codigoProveedor);
+                    proveedorAct.setNITProveedor(nitProv);
+                    proveedorAct.setNombreProveedor(nombreProv);
+                    proveedorAct.setApellidoProveedor(apellidoProv);
+                    proveedorAct.setRazonSocial(razonSocialProv);
+                    proveedorAct.setContactoPrincipal(contactoPrincipalProv);
+                    proveedorAct.setPaginaWeb(paginaWebProv);
+
+                    new ProveedoresDAO().actualizar(proveedorAct);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+                    new ProveedoresDAO().eliminar(codProveedor);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+            }
+            request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
+        }else if (menu.equals("Producto")){
+            switch(accion){
+                case "Listar":
+                    List listaProducto = productoDao.listar();
+                    request.setAttribute("listaProducto", listaProducto);
+                break;
+                case "Agregar":
+                    producto.setProducto(request.getParameter("txtProducto"));
+                    producto.setDescripcion(request.getParameter("txtDescripcion"));
+                    if(request.getParameter("txtExistencia").isEmpty())
+                        producto.setExistencia(0);
+                    else
+                        producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
+                    producto.setTamanio(request.getParameter("txtTamanio"));
+                    if(request.getParameter("txtCostoRenta").isEmpty())
+                        producto.setCostoRenta(0);
+                    else 
+                        producto.setCostoRenta(Double.parseDouble(request.getParameter("txtCostoRenta")));
+                    if(request.getParameter("txtCodigoCategoria").isEmpty())
+                        producto.setCodigoCategoriaProducto(0);
+                    else 
+                        producto.setCodigoCategoriaProducto(Integer.parseInt((request.getParameter("txtCodigoCategoria"))));
+                    if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty() || producto.getCodigoCategoriaProducto() == 0){
+                        respuesta = "No se puede dejar espacios vacíos";
+                        request.setAttribute("respuesta", respuesta);
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    }else{
+                        productoDao.agregar(producto);
+                    }
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                break;
+                case "Editar":
+                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                    Producto p = productoDao.buscarCodigoProducto(codProducto);
+                    request.setAttribute("producto", p);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                break;
+                case "Actualizar":
+                    String Producto = request.getParameter("txtProducto");
+                    String descripcion = request.getParameter("txtDescripcion");
+                    String tamanio = request.getParameter("txtTamanio");
+                    int existencia =0;
+                    double costoRenta = 0;
+                    if(request.getParameter("txtExistencia").length()!= 0)          
+                        existencia=Integer.parseInt(request.getParameter("txtExistencia"));
+                    if(request.getParameter("txtCostoRenta").length()!= 0)
+                        costoRenta=Double.parseDouble(request.getParameter("txtCostoRenta"));
+                    
+                    producto.setCodigoProducto(codProducto);
+                    producto.setProducto(Producto);
+                    producto.setDescripcion(descripcion);
+                    producto.setCostoRenta(costoRenta);
+                    producto.setExistencia(existencia);
+                    producto.setTamanio(tamanio);
+                    if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty() || producto.getCodigoCategoriaProducto() == 0){
+                        respuesta = "No se puede dejar espacios vacíos";
+                        request.setAttribute("respuesta", respuesta);
+                    }else 
+                        productoDao.actualizarProducto(producto);                   
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                break;
+                case "Eliminar":
+                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                    productoDao.eliminarProducto(codProducto);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                break;
+                case "BuscarCategoria":
+                producto.setProducto(request.getParameter("txtProducto"));
+                producto.setDescripcion(request.getParameter("txtDescripcion"));
+                if(request.getParameter("txtCostoRenta").isEmpty())
+                        producto.setCostoRenta(0);
+                    else 
+                        producto.setCostoRenta(Double.parseDouble(request.getParameter("txtCostoRenta")));
+                    if(request.getParameter("txtCodigoCategoria").isEmpty())
+                        producto.setCodigoCategoriaProducto(0);
+                    else
+                producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
+                producto.setTamanio(request.getParameter("txtTamanio"));
+                categoriaProducto = categoriaProductoDao.buscarCategoriaProducto(codCategoriaProducto);
+                producto.setCodigoCategoriaProducto(categoriaProducto.getCodigoCategoriaProducto());
+                request.setAttribute("producto", producto);
+                request.setAttribute("categoriaProducto", categoriaProducto);
+                request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                break;
+            }
+            request.getRequestDispatcher("Producto.jsp").forward(request, response);
         }
     }
     
