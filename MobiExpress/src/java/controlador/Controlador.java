@@ -198,36 +198,31 @@ public class Controlador extends HttpServlet {
         }else if (menu.equals("Proveedores")) {
     switch (accion) {
         case "Listar":
-             List listaProveedores = ProveedoresDAO.listar();
+            List listaProveedores = ProveedoresDAO.listar();
             request.setAttribute("Proveedores", listaProveedores);
-    
             break;
-     case "Agregar":
-    String nitProveedor = request.getParameter("txtNITProveedor");
-    String nombreProveedor = request.getParameter("txtNombreProveedor");
-    String apellidoProveedor = request.getParameter("txtApellidoProveedor");
-    String razonSocial = request.getParameter("txtRazonSocial");
-    String contactoPrincipal = request.getParameter("txtContactoPrincipal");
-    String paginaWeb = request.getParameter("txtPaginaWeb");
-
-    Proveedores.setNITProveedor(nitProveedor);
-    Proveedores.setNombreProveedor(nombreProveedor);
-    Proveedores.setApellidoProveedor(apellidoProveedor);
-    Proveedores.setRazonSocial(razonSocial);
-    Proveedores.setContactoPrincipal(contactoPrincipal);
-    Proveedores.setPaginaWeb(paginaWeb);
-
-        // Verificación de campos vacíos
-        if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
-            respuesta = "No puede dejar espacios vacíos";
-            request.setAttribute("respuesta", respuesta);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-        } else {
-            new ProveedoresDAO().agregar(Proveedores);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-        }
-        break;
-
+        case "Agregar":
+            String nitProveedor = request.getParameter("txtNITProveedor");
+            String nombreProveedor = request.getParameter("txtNombreProveedor");
+            String apellidoProveedor = request.getParameter("txtApellidoProveedor");
+            String razonSocial = request.getParameter("txtRazonSocial");
+            String contactoPrincipal = request.getParameter("txtContactoPrincipal");
+            String paginaWeb = request.getParameter("txtPaginaWeb");
+            Proveedores.setNITProveedor(nitProveedor);
+            Proveedores.setNombreProveedor(nombreProveedor);
+            Proveedores.setApellidoProveedor(apellidoProveedor);
+            Proveedores.setRazonSocial(razonSocial);
+            Proveedores.setContactoPrincipal(contactoPrincipal);
+            Proveedores.setPaginaWeb(paginaWeb);
+            if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                respuesta = "No puede dejar espacios vacíos";
+                request.setAttribute("respuesta", respuesta);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }else{
+                new ProveedoresDAO().agregar(Proveedores);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }
+            break;
         case "Editar":
             int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
             Proveedores  = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
@@ -247,8 +242,14 @@ public class Controlador extends HttpServlet {
             Proveedores.setRazonSocial(razonSocialProv);
             Proveedores.setContactoPrincipal(contactoPrincipalProv);
             Proveedores.setPaginaWeb(paginaWebProv);
-            new ProveedoresDAO().actualizar(Proveedores);
-            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                respuesta = "No puede dejar espacios vacíos";
+                request.setAttribute("respuesta", respuesta);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }else{
+                new ProveedoresDAO().actualizar(Proveedores);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }
             break;
         case "Eliminar":
             codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
@@ -256,7 +257,7 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
             break;
     }
-    request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
+        request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
         }
     }
     

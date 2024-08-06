@@ -9,8 +9,8 @@
         <style>
         .error-message {
             color: red;
-            font-size: 24px; /* Tamaño grande de la letra */
-            font-weight: bold; /* Opcional: para hacer el texto más visible */
+            font-size: 24px;
+            font-weight: bold; 
         }
     </style>
     </head>
