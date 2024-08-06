@@ -206,65 +206,69 @@ public class Controlador extends HttpServlet {
                 break;
             }
         }else if (menu.equals("Proveedores")) {
-            switch (accion) {
-                case "Listar":
-                     List listaProveedores = ProveedoresDAO.listar();
-                    request.setAttribute("Proveedores", listaProveedores);
-
-                    break;
-                case "Agregar":
-                    String nitProveedor = request.getParameter("txtNITProveedor");
-                    String nombreProveedor = request.getParameter("txtNombreProveedor");
-                    String apellidoProveedor = request.getParameter("txtApellidoProveedor");
-                    String razonSocial = request.getParameter("txtRazonSocial");
-                    String contactoPrincipal = request.getParameter("txtContactoPrincipal");
-                    String paginaWeb = request.getParameter("txtPaginaWeb");
-
-                    Proveedores proveedor = new Proveedores();
-                    proveedor.setNITProveedor(nitProveedor);
-                    proveedor.setNombreProveedor(nombreProveedor);
-                    proveedor.setApellidoProveedor(apellidoProveedor);
-                    proveedor.setRazonSocial(razonSocial);
-                    proveedor.setContactoPrincipal(contactoPrincipal);
-                    proveedor.setPaginaWeb(paginaWeb);
-
-                    new ProveedoresDAO().agregar(proveedor);
-                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-                    break;
-                case "Editar":
-                    int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-                    Proveedores p = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
-                    request.setAttribute("proveedor", p);
-                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-                    break;
-                case "Actualizar":
-                    int codigoProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-                    String nitProv = request.getParameter("txtNITProveedor");
-                    String nombreProv = request.getParameter("txtNombreProveedor");
-                    String apellidoProv = request.getParameter("txtApellidoProveedor");
-                    String razonSocialProv = request.getParameter("txtRazonSocial");
-                    String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
-                    String paginaWebProv = request.getParameter("txtPaginaWeb");
-
-                    Proveedores proveedorAct = new Proveedores();
-                    proveedorAct.setCodigoProveedor(codigoProveedor);
-                    proveedorAct.setNITProveedor(nitProv);
-                    proveedorAct.setNombreProveedor(nombreProv);
-                    proveedorAct.setApellidoProveedor(apellidoProv);
-                    proveedorAct.setRazonSocial(razonSocialProv);
-                    proveedorAct.setContactoPrincipal(contactoPrincipalProv);
-                    proveedorAct.setPaginaWeb(paginaWebProv);
-
-                    new ProveedoresDAO().actualizar(proveedorAct);
-                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-                    break;
-                case "Eliminar":
-                    codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
-                    new ProveedoresDAO().eliminar(codProveedor);
-                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
-                    break;
+    switch (accion) {
+        case "Listar":
+            List listaProveedores = ProveedoresDAO.listar();
+            request.setAttribute("Proveedores", listaProveedores);
+            break;
+        case "Agregar":
+            String nitProveedor = request.getParameter("txtNITProveedor");
+            String nombreProveedor = request.getParameter("txtNombreProveedor");
+            String apellidoProveedor = request.getParameter("txtApellidoProveedor");
+            String razonSocial = request.getParameter("txtRazonSocial");
+            String contactoPrincipal = request.getParameter("txtContactoPrincipal");
+            String paginaWeb = request.getParameter("txtPaginaWeb");
+            Proveedores.setNITProveedor(nitProveedor);
+            Proveedores.setNombreProveedor(nombreProveedor);
+            Proveedores.setApellidoProveedor(apellidoProveedor);
+            Proveedores.setRazonSocial(razonSocial);
+            Proveedores.setContactoPrincipal(contactoPrincipal);
+            Proveedores.setPaginaWeb(paginaWeb);
+            if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                respuesta = "No puede dejar espacios vacíos";
+                request.setAttribute("respuesta", respuesta);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }else{
+                new ProveedoresDAO().agregar(Proveedores);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
             }
+            break;
+        case "Editar":
+            int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+            Proveedores  = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
+            request.setAttribute("proveedor", Proveedores);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+        case "Actualizar":
+            String nitProv = request.getParameter("txtNITProveedor");
+            String nombreProv = request.getParameter("txtNombreProveedor");
+            String apellidoProv = request.getParameter("txtApellidoProveedor");
+            String razonSocialProv = request.getParameter("txtRazonSocial");
+            String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
+            String paginaWebProv = request.getParameter("txtPaginaWeb");            
+            Proveedores.setNITProveedor(nitProv);
+            Proveedores.setNombreProveedor(nombreProv);
+            Proveedores.setApellidoProveedor(apellidoProv);
+            Proveedores.setRazonSocial(razonSocialProv);
+            Proveedores.setContactoPrincipal(contactoPrincipalProv);
+            Proveedores.setPaginaWeb(paginaWebProv);
+            if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                respuesta = "No puede dejar espacios vacíos";
+                request.setAttribute("respuesta", respuesta);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }else{
+                new ProveedoresDAO().actualizar(Proveedores);
+                request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            }
+            break;
+        case "Eliminar":
+            codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+            new ProveedoresDAO().eliminar(codProveedor);
+            request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+            break;
+        }
             request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
+        
         }else if (menu.equals("Producto")){
             switch(accion){
                 case "Listar":

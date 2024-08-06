@@ -6,11 +6,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Proveedores</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <style>
+        .error-message {
+            color: red;
+            font-size: 24px;
+            font-weight: bold; 
+        }
+    </style>
     </head>
     <body>
         <div class="d-flex">
             <div class="card col-sm-4">
                 <div class="card-body">
+                  
+
                     <form action="Controlador?menu=Proveedores" method="POST">
                         <div class="form-group">
                             <label><strong>NIT:</strong></label>
@@ -38,6 +47,11 @@
                         </div>
                         <input type="submit" name="accion" value="Agregar" class="btn btn-info">
                         <input type="submit" name="accion" value="Actualizar" class="btn btn-success">
+                      <% String respuesta = (String) request.getAttribute("respuesta"); %>
+                            <% if (respuesta != null) { %>
+                                <p class="error-message"><%= respuesta %></p>
+                            <% } %>
+
                     </form>
                 </div> <!-- card-body -->
             </div><!-- card -->
@@ -69,6 +83,7 @@
                                 <td>
                                     <a class="btn btn-warning" href="Controlador?menu=Proveedores&accion=Editar&codigoProveedor=${proveedor.getCodigoProveedor()}">Editar</a>
                                     <a class="btn btn-danger" href="Controlador?menu=Proveedores&accion=Eliminar&codigoProveedor=${proveedor.getCodigoProveedor()}">Eliminar</a>
+                                     
                                 </td>        
                             </tr>
                         </c:forEach>
