@@ -107,6 +107,7 @@ public class EmpleadoDAO {
                 emp.setCodigoCargoEmpleado(rs.getInt(6));
                 emp.setUsuario(rs.getString(7));
                 emp.setPasswor(rs.getString(8));
+                emp.setImagen(rs.getString(9));
             }
         }catch(Exception e){
             e.printStackTrace();

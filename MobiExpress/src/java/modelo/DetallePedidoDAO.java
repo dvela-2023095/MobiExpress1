@@ -165,6 +165,41 @@ public class DetallePedidoDAO {
         }
        return listaDeDetalles;
     }
+    public List buscarDetalles(int id){
+        String sql = "select DP.*,P.producto from DetallePedido DP,Producto P where numeroPedido="+id;
+        List<DetallePedido> listaDetalles = new ArrayList<>();
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                DetallePedido dp = new DetallePedido();
+                dp.setCodigoDetallePedido(rs.getInt(1));
+                dp.setPrecioRenta(rs.getDouble(2));
+                dp.setCantidad(rs.getInt(3));
+                dp.setSubTotal(rs.getDouble(4));
+                dp.setDescuento(rs.getInt(5));
+                dp.setCodigoProducto(rs.getInt(6));
+                dp.setNumeroPedido(rs.getInt(7));
+                dp.setNombreProducto(rs.getString(8));
+                listaDetalles.add(dp);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listaDetalles;
+    }
+    
+    public void eliminar(int id){
+        String sql = "delete from DetallePedido where codigoDetallePedido="+id;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
 }
 

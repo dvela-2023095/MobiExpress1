@@ -10,8 +10,8 @@
     </style>
     </head>
     <body>
-        <div class="d-flex">
-            <div class="card col-sm-4">
+        <div class="d-flex bg-secondary">
+            <div class="card col-sm-4 bg-primary">
                 <div class="card-body">
                     <form action="Controlador?menu=Proveedores" method="POST">
                         <div class="form-group">
@@ -45,7 +45,7 @@
                     </form>
                 </div> <!-- card-body -->
             </div><!-- card -->
-            <div class="col-sm-8">
+            <div class="col-sm-8 ">
                 <table class="table table-hover">
                     <thead>
                         <tr>

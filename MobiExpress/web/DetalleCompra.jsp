@@ -11,13 +11,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <div class="d-flex col-sm-12">
             <div class="col-sm-5">
                 <form action="Controlador?menu=AgregarCompra" method="post">
-                    <div class="card ">
+                    <div class="card bg-primary">
                         <div class="form-group">
                         <label><strong>Detalles de la Compra</strong></label>
                         </div>
@@ -73,7 +73,7 @@
                     </div>
                 </form>
                 <form action="Controlador?menu=AgregarCompra" method="POST">
-                    <div class="">
+                    <div class="bg-primary">
                         <div class="form-group">
                             <label><strong>Compra:</strong></label>
                             <input type="text" value="" name="txtDescripcionCompra" class="form-control" placeholder="Descripcion de la Compra" >
@@ -90,7 +90,7 @@
                         </div> 
                         <div class="form-group d-flex">
                             <div class="col-sm-5">
-                                <input type="submit" value="Agregar Compra" name="accion" class="btn btn-info">
+                                <input type="submit" value="AgregarCompra" name="accion" class="btn btn-info">
                             </div>
                             <div class="col-sm-5">
                                 <input type="submit" value="Actualizar Compra" name="accion" class="btn btn-success">

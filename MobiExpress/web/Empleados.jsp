@@ -15,7 +15,7 @@
     </head>
     <body class="bg-light">
         <div class="d-flex">
-            <div class="card col-sm-4">
+            <div class="card col-sm-4 bg-primary">
                 <div class="card-body">
                     <form action="Controlador?menu=Empleados" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group">
                             <label><strong>Contraseña:</strong></label>
-                            <input type="text" value="${empleado.getPasswor()}" name="txtContraEmpleado" class="form-control" >
+                            <input type="password" value="${empleado.getPasswor()}" name="txtContraEmpleado" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label><strong>Foto de usuario:</strong></label>

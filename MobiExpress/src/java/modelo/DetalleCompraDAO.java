@@ -48,7 +48,7 @@ public class DetalleCompraDAO {
     }
     
     public int agregar(DetalleCompra deCom){
-        String sql = "insert into DetalleCompra (cantidad, costo, direccion, subTotal, fechaRecepcion, codigoProveedor, codigoProducto, numeroCompra) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into DetalleCompra (cantidad, costo, direccion, subTotal, fechaReception, codigoProveedor, codigoProducto, numeroCompra) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);

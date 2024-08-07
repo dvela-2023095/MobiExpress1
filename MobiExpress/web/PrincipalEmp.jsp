@@ -20,28 +20,45 @@
                 <li class="nav-item active">
                   <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" href="Controlador?menu=Home" target="myFrame">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarPedido&accion=default" target="myFrame">Agregar Predidos</a>
-                </li>
-                <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarCompra&accion=default" target="myFrame">Agregar Compra</a>
-                </li>
-                <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Compras&accion=Listar&accion2=default" target="myFrame">Compras</a>
-                </li>
-                <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Categoría de Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=CargoEmpleado&accion=Listar" target="myFrame">Cargo Empleado</a>
-                </li>
-                
+                <div class="nav-item dropdown">
+                    <button style="border: none;" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Carrito
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownButton">
+                        <a class="dropdown-item" href="Controlador?menu=AgregarPedido&accion=Listar" target="myFrame" >
+                            Agregar un Pedido
+                        </a>
+                        <a class="dropdown-item" href="Controlador?menu=Pedidos&accion=Listar&accion2=default" target="myFrame" >
+                            Ver Pedidos
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <button style="border: none;" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Compras
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownButton">
+                        <a class="dropdown-item" href="Controlador?menu=AgregarCompra&accion=Listar&accion2=default" target="myFrame" >
+                            AgregarCompra
+                        </a>
+                        <a class="dropdown-item" href="Controlador?menu=Compras&accion=Listar&accion2=default" target="myFrame" >
+                            Compras
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <button style="border: none;" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Productos
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownButton">
+                        <a class="dropdown-item" href="Controlador?menu=CategoriaProducto&accion=Listar" target="myFrame" >
+                            Categorías Productos
+                        </a>
+                        <a class="dropdown-item" href="Controlador?menu=Producto&accion=Listar" target="myFrame" >
+                            Productos
+                        </a>
+                    </div>
+                </div>
               </ul>
             </div>
             <div class="dropdown" style="padding-right: 20px; float: left;">

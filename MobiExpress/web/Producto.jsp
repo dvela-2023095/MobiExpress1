@@ -15,7 +15,7 @@
     </head>
     <body class="bg-light">
         <div class="d-flex">
-            <div class="card col-sm-4">
+            <div class="card col-sm-4 bg-primary">
                 <div class="card-body">
                     <form action="Controlador?menu=Producto" method="POST" enctype="multipart/form-data">
                         <div class="form-group">

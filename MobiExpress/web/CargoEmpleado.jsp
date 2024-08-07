@@ -11,28 +11,28 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cargo Empleado</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <div class="d-flex">
-            <div class="card col-sm-4">
-                <div class="card-body">
+            <div class="card col-sm-4 ">
+                <div class="card-body bg-primary">
                     <form action="Controlador?menu=CargoEmpleado" method="POST">
                         <div class="form-group">
                             <label><strong>Nombre:</strong></label>
-                            <input type="text" value="${cargoEmpleado.getNombreCargo()}" name="txtNombreCargo" class="form-control">
+                            <input type="text" value="${cargoEmpleado.getNombreCargo()}" name="txtNombreCargo" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label><strong>Salario:</strong></label>
-                            <input type="text" value="${cargoEmpleado.getSalario()}" name="txtSalario" class="form-control">
+                            <input type="text" value="${cargoEmpleado.getSalario()}" name="txtSalario" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label><strong>Descripción:</strong></label>
-                            <input type="text" value="${cargoEmpleado.getDescripcionCargo()}" name="txtDescripcionCargo" class="form-control">
+                            <input type="text" value="${cargoEmpleado.getDescripcionCargo()}" name="txtDescripcionCargo" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label><strong>Jornada:</strong></label>
-                            <input type="text" value="${cargoEmpleado.getJornada()}" name="txtJornada" class="form-control">
+                            <input type="text" value="${cargoEmpleado.getJornada()}" name="txtJornada" class="form-control" required>
                         </div>
                         <input type="submit" name="accion" value="Agregar" class="btn btn-info">
                         <input type="submit" name="accion" value="Actualizar" class="btn btn-success">                  

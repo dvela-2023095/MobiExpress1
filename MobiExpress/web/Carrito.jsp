@@ -10,21 +10,21 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
-        <div class="d-flex col-sm-12">
-            <div class="col-sm-5">
+        <div class="d-flex col-sm-12 ">
+            <div class="col-sm-5 ">
                 <form action="Controlador?menu=AgregarPedido" method="post">
-                    <div class="card ">
+                    <div class="card bg-primary ">
                         <div class="form-group">
                         <label><strong>Datos del Pedido</strong></label>
                         </div>
                         <div class="form-group">
-                            <label>Fecha de Entrega:</label>
+                            <label><strong>Fecha de Entrega:</strong></label>
                             <div class="col-sm-6 d-flex">
                                 <input type="date" name="txtFechaEntrega" value="${fechae}" class="form-control" >
                                 <button type="submit" name="accion" value="VerInventario" class="btn-outline-info col-sm-8">Ver Inventario</button>
                             </div>
                         </div>
-                        <label>Establecer Cantidad y Descuento:</label>
+                        <label><strong>Establecer Cantidad y Descuento:</strong></label>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
                                 <input type="text" name="txtCodProducto" value="" class="form-control" placeholder="Cod. Producto">
@@ -38,7 +38,7 @@
                                 <input type="text" name="txtDescuento" value="" class="form-control" placeholder="Descuento">
                         </div>
                         <div class="form-group">
-                            <label>Fecha de Retorno:</label>
+                            <label><strong>Fecha de Retorno:</strong></label>
                             <div class="col-sm-6">
                                 <input type="date" name="txtFechaRetorno" value="${fechar}" class="form-control" placeholder="">
                             </div>

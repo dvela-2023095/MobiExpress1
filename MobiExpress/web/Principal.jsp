@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" href="Controlador?menu=Home" target="myFrame">Home <span class="sr-only">(current)</span></a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-light" href="Controlador?menu=Home" target="myFrame">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <div class="nav-item dropdown">
                 <button style="border: none;" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,17 +34,17 @@
                 </div>
                 </div>
                 <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Proveedores&accion=Listar"  target="myFrame">Proveedores</a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-light" class="nav-link" href="Controlador?menu=Proveedores&accion=Listar"  target="myFrame">Proveedores</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Clientes&accion=Listar" target="myFrame">Clientes</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-light" class="nav-link" href="Controlador?menu=Clientes&accion=Listar" target="myFrame">Clientes</a>
                 </li>
                 <div class="nav-item dropdown">
                     <button style="border: none;" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Productos
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownButton">
-                        <a class="dropdown-item" href="" target="myFrame" >
+                        <a class="dropdown-item" href="Controlador?menu=CategoriaProducto&accion=Listar" target="myFrame" >
                             Categorías Productos
                         </a>
                         <a class="dropdown-item" href="Controlador?menu=Producto&accion=Listar" target="myFrame" >
@@ -70,7 +70,7 @@
                         Carrito
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownButton">
-                        <a class="dropdown-item" href="Controlador?menu=AgregarPedido&accion=Listar" target="myFrame" >
+                        <a class="dropdown-item btn btn-outline-dark" href="Controlador?menu=AgregarPedido&accion=Listar" target="myFrame" >
                             Agregar un Pedido
                         </a>
                         <a class="dropdown-item" href="" target="myFrame" >

@@ -71,7 +71,7 @@ public class Controlador extends HttpServlet {
     Proveedores Proveedores = new Proveedores();
     List<DetallePedido> listaCarrito = new ArrayList<>();
     double precio,subTotal, montoTotal = 0.00;
-    int codCategoriaProducto;
+    int codCategoriaProducto, codPedido;
     int codProducto;
     int cantidad;
     int codCompra;
@@ -164,7 +164,7 @@ public class Controlador extends HttpServlet {
                 empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
                 empleado.setPasswor(request.getParameter("txtContraEmpleado"));
                 archivoImagen = request.getPart("flImagen");
-                if(archivoImagen.getSize() != 0){
+                if (archivoImagen != null && archivoImagen.getSize() > 0){
                     InputStream contenidoArchivo = archivoImagen.getInputStream();
                     byte[] imagenEnBytes = leerBytes(contenidoArchivo);
                     String imagenBase64 = Base64.getEncoder().encodeToString(imagenEnBytes);
@@ -172,7 +172,13 @@ public class Controlador extends HttpServlet {
                 }else{
                     empleado.setImagen(Imagen);
                 }
-                empleadoDao.actualizarEmpleado(empleado);
+                if(empleado.getDPIEmpleado().isEmpty()||empleado.getNombresEmpleado().isEmpty()||empleado.getApellidosEmpleado().isEmpty()||empleado.getTelefonoEmpleado().isEmpty()||empleado.getUsuario().isEmpty()||empleado.getPasswor().isEmpty()){
+                    respuesta = "No puede dejar espacios vacíos";
+                    request.setAttribute("respuesta",respuesta);
+                    request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                }else
+                   empleadoDao.actualizarEmpleado(empleado);
+                
                 request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
                 break;
             case "Eliminar":
@@ -431,6 +437,10 @@ public class Controlador extends HttpServlet {
                 case "Guardar Datos":
                     for (DetalleCompra dc : listaDeComp) {
                         detalleCompraDao.agregar(dc);
+                        Producto prod = productoDao.buscarCodigoProducto(dc.getCodigoProducto());
+                        int stock = prod.getExistencia();
+                        prod.setExistencia(stock+dc.getCantidad());
+                        productoDao.actualizarProducto(producto);
                     }
                     listaDeComp.clear();
                     totalDetalle = 0.0;
@@ -438,6 +448,15 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("totalDetalle", totalDetalle);
                     request.setAttribute("listaDeComp", listaDeComp);
                     request.setAttribute("mensaje", "Datos guardados exitosamente.");
+                    break;
+                case"AgregarCompra":
+                    String descripcion = request.getParameter("txtDescripcionCompra");
+                    String estado = request.getParameter("txtEstado");
+                    compras.setDescripcion(descripcion);
+                    compras.setFechaDeCompra(convertirFecha(request.getParameter("txtFechaCompra")));
+                    compras.setEstado(estado);
+                    compras.setMontoTotal(0.00);
+                    comprasDao.agregar(compras);
                     break;
             }
             request.getRequestDispatcher("DetalleCompra.jsp").forward(request, response);
@@ -468,7 +487,7 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("fechae", fechaentrega);
                     request.setAttribute("fechar", fecharetorno);
                     request.setAttribute("pedido", pedido);
-                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=default").forward(request, response);
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
                     break;
                 case"Listar":
                     request.setAttribute("listaDeDetalles", listaCarrito);
@@ -482,9 +501,9 @@ public class Controlador extends HttpServlet {
                 case"Establecer":
                      fechaentrega = request.getParameter("txtFechaEntrega");
                      fecharetorno = request.getParameter("txtFechaRetorno");
-                    pedido.setFechaDeEntrega(convertirFecha(fechaentrega));
-                    pedido.setFechaDeRetorno(convertirFecha(fecharetorno));
                     if(request.getParameter("txtCodigoEmpleado").isEmpty()||request.getParameter("txtCodigoCliente").isEmpty()){
+                        pedido.setCodigoCliente(0);
+                        pedido.setCodigoCliente(0);
                     }else{
                         pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
                         pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
@@ -512,24 +531,24 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("total", montoTotal);
                     request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
                     break;
-                case"Confirmar Pedido":
-                    fechaentrega = request.getParameter("txtFechaEntrega");
-                    fecharetorno = request.getParameter("txtFechaRetorno");
-                    pedido.setFechaDeEntrega(convertirFecha(fechaentrega));
-                    pedido.setFechaDeRetorno(convertirFecha(fecharetorno));
-                    pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
-                    pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
-                    pedido.setDireccion(request.getParameter("txtDireccion"));
-                    pedido.setMontoTotal(montoTotal);
-                    pedidoDao.agregar(pedido);
-                    /*int codigoPedido = pedidoDao.encontrarPedidoRecienAgregado(pedido);
+                case"ConfirmarPedido":
+                    Pedido ped = new Pedido();
+                    ped.setFechaDeEntrega(convertirFecha(request.getParameter("txtFechaEntrega")));
+                    ped.setFechaDeRetorno(convertirFecha(request.getParameter("txtFechaRetorno")));
+                    ped.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                    ped.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    ped.setDireccion(request.getParameter("txtDireccion"));
+                    ped.setMontoTotal(montoTotal);
+                    pedidoDao.agregar(ped);
+                    int codigoPedido = pedidoDao.encontrarPedidoRecienAgregado(ped);
                     for(int i=0;i<listaCarrito.size();i++){
                         det = listaCarrito.get(i);
                         det.setNumeroPedido(codigoPedido);
                         detallePedidoDao.agregar(det);
                     }
+                    request.setAttribute("cod", codigoPedido);
                     listaCarrito.clear();
-                    montoTotal=0;*/
+                    montoTotal=0;
                     request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
                     break;
                 case"BuscarCliente":
@@ -640,129 +659,129 @@ public class Controlador extends HttpServlet {
                 }
                     request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
             }else if (menu.equals("Producto")){
-            switch(accion){
-                case "Listar":
-                    List listaProducto = productoDao.listar();
-                    request.setAttribute("listaProducto", listaProducto);
-                    break;
-                case "Agregar":
-                    producto.setProducto(request.getParameter("txtProducto"));
-                    producto.setDescripcion(request.getParameter("txtDescripcion"));
-                    if(request.getParameter("txtExistencia").isEmpty())
-                        producto.setExistencia(0);
-                    else
-                        producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
-                    producto.setTamanio(request.getParameter("txtTamanio"));
-                    Part archivoImagenProducto = request.getPart("flImagenProductos");
-                    if(archivoImagenProducto != null){
-                        InputStream contenidoArchivoPD = archivoImagenProducto.getInputStream();
-                        byte[] imagenEnBytesPD = leerBytes(contenidoArchivoPD);
-                        String imagenEnBytes64PD = Base64.getEncoder().encodeToString(imagenEnBytesPD);
-                        producto.setImgProducto(imagenEnBytes64PD);
-                    }else{
-                        System.out.println("Imagen Nula");
-                    }
-                    if(request.getParameter("txtCostoRenta").isEmpty())
-                        producto.setCostoRenta(0);
-                    else 
-                        producto.setCostoRenta(Double.parseDouble(request.getParameter("txtCostoRenta")));
-                    if(request.getParameter("txtCodigoCategoria").isEmpty())
-                        producto.setCodigoCategoriaProducto(0);
-                    else 
-                        producto.setCodigoCategoriaProducto(Integer.parseInt((request.getParameter("txtCodigoCategoria"))));
-                    if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty() || producto.getCodigoCategoriaProducto() == 0 || producto.getImgProducto().isEmpty()){
-                        respuesta = "No se puede dejar espacios vacíos";
-                        request.setAttribute("respuesta", respuesta);
-                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    }else{
-                        productoDao.agregar(producto);
-                    }
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-                case "Editar":
-                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
-                    Producto p = productoDao.buscarCodigoProducto(codProducto);
-                    Imagen = p.getImgProducto();
-                    request.setAttribute("producto", p);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-                case "Actualizar":
-                    String Producto = request.getParameter("txtProducto");
-                    String descripcion = request.getParameter("txtDescripcion");
-                    String tamanio = request.getParameter("txtTamanio");
-                    int existencia = 0;
-                    double costoRenta = 0;
-                    if(request.getParameter("txtExistencia").length()!= 0)          
-                        existencia=Integer.parseInt(request.getParameter("txtExistencia"));
-                    if(request.getParameter("txtCostoRenta").length()!= 0)
-                        costoRenta=Double.parseDouble(request.getParameter("txtCostoRenta"));
-
-                    producto.setCodigoProducto(codProducto);
-                    producto.setProducto(Producto);
-                    producto.setDescripcion(descripcion);
-                    producto.setCostoRenta(costoRenta);
-                    producto.setExistencia(existencia);
-                    producto.setTamanio(tamanio);
-                    archivoImagenProducto = request.getPart("flImagenProductos");
-                    if(archivoImagenProducto.getSize() !=0){
-                        try (InputStream contenidoArchivoPD = archivoImagenProducto.getInputStream()) {
+                switch(accion){
+                    case "Listar":
+                        List listaProducto = productoDao.listar();
+                        request.setAttribute("listaProducto", listaProducto);
+                        break;
+                    case "Agregar":
+                        producto.setProducto(request.getParameter("txtProducto"));
+                        producto.setDescripcion(request.getParameter("txtDescripcion"));
+                        if(request.getParameter("txtExistencia").isEmpty())
+                            producto.setExistencia(0);
+                        else
+                            producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
+                        producto.setTamanio(request.getParameter("txtTamanio"));
+                        Part archivoImagenProducto = request.getPart("flImagenProductos");
+                        if(archivoImagenProducto != null){
+                            InputStream contenidoArchivoPD = archivoImagenProducto.getInputStream();
                             byte[] imagenEnBytesPD = leerBytes(contenidoArchivoPD);
                             String imagenEnBytes64PD = Base64.getEncoder().encodeToString(imagenEnBytesPD);
                             producto.setImgProducto(imagenEnBytes64PD);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            respuesta = "Error al procesar la imagen";
-                            request.setAttribute("respuesta", respuesta);
-                            request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                            break;
+                        }else{
+                            System.out.println("Imagen Nula");
                         }
-                    } else {
-                        producto.setImgProducto(Imagen);
-                    }
-                    if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty()){
-                        respuesta = "No se puede dejar espacios vacíos";
-                        request.setAttribute("respuesta", respuesta);
-                    } else {
-                        productoDao.actualizarProducto(producto);
-                    }
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-
-                case "Eliminar":
-                    codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
-                    productoDao.eliminarProducto(codProducto);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-                case "BuscarCategoria":
-                    producto.setProducto(request.getParameter("txtProducto"));
-                    producto.setDescripcion(request.getParameter("txtDescripcion"));
-                    if(request.getParameter("txtCostoRenta").isEmpty())
+                        if(request.getParameter("txtCostoRenta").isEmpty())
                             producto.setCostoRenta(0);
                         else 
                             producto.setCostoRenta(Double.parseDouble(request.getParameter("txtCostoRenta")));
                         if(request.getParameter("txtCodigoCategoria").isEmpty())
                             producto.setCodigoCategoriaProducto(0);
-                        else
-                    producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
-                    producto.setTamanio(request.getParameter("txtTamanio"));
-                    codCategoriaProducto = Integer.parseInt(request.getParameter("txtCodigoCategoria"));
-                    categoriaProducto = categoriaProductoDao.buscarCategoriaProducto(codCategoriaProducto);
-                    producto.setCodigoCategoriaProducto(categoriaProducto.getCodigoCategoriaProducto());
-                    request.setAttribute("producto", producto);
-                    request.setAttribute("categoriaProducto", categoriaProducto);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-                case "AgregarACarrito":
-                    DetallePedido det = new DetallePedido();
-                    det.setPrecioRenta(Double.parseDouble(request.getParameter("costoRenta")));
-                    det.setNombreProducto(request.getParameter("nombreProducto"));
-                    det.setCodigoProducto(Integer.parseInt(request.getParameter("codigoProducto")));
-                    det.setDescuento(0);
-                    listaCarrito.add(det);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    break;
-            }
-            request.getRequestDispatcher("Producto.jsp").forward(request, response);
+                        else 
+                            producto.setCodigoCategoriaProducto(Integer.parseInt((request.getParameter("txtCodigoCategoria"))));
+                        if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty() || producto.getCodigoCategoriaProducto() == 0 || producto.getImgProducto().isEmpty()){
+                            respuesta = "No se puede dejar espacios vacíos";
+                            request.setAttribute("respuesta", respuesta);
+                            request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        }else{
+                            productoDao.agregar(producto);
+                        }
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+                    case "Editar":
+                        codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                        Producto p = productoDao.buscarCodigoProducto(codProducto);
+                        Imagen = p.getImgProducto();
+                        request.setAttribute("producto", p);
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+                    case "Actualizar":
+                        String Producto = request.getParameter("txtProducto");
+                        String descripcion = request.getParameter("txtDescripcion");
+                        String tamanio = request.getParameter("txtTamanio");
+                        int existencia = 0;
+                        double costoRenta = 0;
+                        if(request.getParameter("txtExistencia").length()!= 0)          
+                            existencia=Integer.parseInt(request.getParameter("txtExistencia"));
+                        if(request.getParameter("txtCostoRenta").length()!= 0)
+                            costoRenta=Double.parseDouble(request.getParameter("txtCostoRenta"));
+
+                        producto.setCodigoProducto(codProducto);
+                        producto.setProducto(Producto);
+                        producto.setDescripcion(descripcion);
+                        producto.setCostoRenta(costoRenta);
+                        producto.setExistencia(existencia);
+                        producto.setTamanio(tamanio);
+                        archivoImagenProducto = request.getPart("flImagenProductos");
+                        if(archivoImagenProducto.getSize() !=0){
+                            try (InputStream contenidoArchivoPD = archivoImagenProducto.getInputStream()) {
+                                byte[] imagenEnBytesPD = leerBytes(contenidoArchivoPD);
+                                String imagenEnBytes64PD = Base64.getEncoder().encodeToString(imagenEnBytesPD);
+                                producto.setImgProducto(imagenEnBytes64PD);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                respuesta = "Error al procesar la imagen";
+                                request.setAttribute("respuesta", respuesta);
+                                request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                                break;
+                            }
+                        } else {
+                            producto.setImgProducto(Imagen);
+                        }
+                        if (producto.getProducto().isEmpty() || producto.getDescripcion().isEmpty() || producto.getCostoRenta() == 0 || producto.getTamanio().isEmpty()){
+                            respuesta = "No se puede dejar espacios vacíos";
+                            request.setAttribute("respuesta", respuesta);
+                        } else {
+                            productoDao.actualizarProducto(producto);
+                        }
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+
+                    case "Eliminar":
+                        codProducto = Integer.parseInt(request.getParameter("codigoProducto"));
+                        productoDao.eliminarProducto(codProducto);
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+                    case "BuscarCategoria":
+                        producto.setProducto(request.getParameter("txtProducto"));
+                        producto.setDescripcion(request.getParameter("txtDescripcion"));
+                        if(request.getParameter("txtCostoRenta").isEmpty())
+                                producto.setCostoRenta(0);
+                            else 
+                                producto.setCostoRenta(Double.parseDouble(request.getParameter("txtCostoRenta")));
+                            if(request.getParameter("txtCodigoCategoria").isEmpty())
+                                producto.setCodigoCategoriaProducto(0);
+                            else
+                        producto.setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
+                        producto.setTamanio(request.getParameter("txtTamanio"));
+                        codCategoriaProducto = Integer.parseInt(request.getParameter("txtCodigoCategoria"));
+                        categoriaProducto = categoriaProductoDao.buscarCategoriaProducto(codCategoriaProducto);
+                        producto.setCodigoCategoriaProducto(categoriaProducto.getCodigoCategoriaProducto());
+                        request.setAttribute("producto", producto);
+                        request.setAttribute("categoriaProducto", categoriaProducto);
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+                    case "AgregarACarrito":
+                        DetallePedido det = new DetallePedido();
+                        det.setPrecioRenta(Double.parseDouble(request.getParameter("costoRenta")));
+                        det.setNombreProducto(request.getParameter("nombreProducto"));
+                        det.setCodigoProducto(Integer.parseInt(request.getParameter("codigoProducto")));
+                        det.setDescuento(0);
+                        listaCarrito.add(det);
+                        request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                        break;
+                }
+                request.getRequestDispatcher("Producto.jsp").forward(request, response);
         }else if (menu.equals("CargoEmpleado")){
             switch(accion){
                 case "Listar":
@@ -810,8 +829,158 @@ public class Controlador extends HttpServlet {
                 break;
             }
             request.getRequestDispatcher("CargoEmpleado.jsp").forward(request, response);
+        }else if (menu.equals("CategoriaProducto")) {
+
+            switch (accion) {
+
+                case "Listar":
+
+                    List<CategoriaProducto> listaCategoriaProducto = categoriaProductoDao.listar();
+
+                    request.setAttribute("listCategoriaProducto", listaCategoriaProducto);
+
+                    break;
+
+                case "Agregar":
+
+                    String categoria = request.getParameter("txtCategoria");
+
+                    String tipoProducto = request.getParameter("txtTipoDeProducto");
+
+                    String color = request.getParameter("txtColor");
+
+                    String marca = request.getParameter("txtMarca");
+
+                    categoriaProducto.setCategoria(categoria);
+
+                    categoriaProducto.setTipoDeProducto(tipoProducto);
+
+                    categoriaProducto.setColor(color);
+
+                    categoriaProducto.setMarca(marca);
+
+                    if (categoriaProducto.getCategoria().isEmpty() || categoriaProducto.getTipoDeProducto().isEmpty() || categoriaProducto.getColor().isEmpty()) {
+
+                        respuesta = "No puede dejar espacios vacíos";
+
+                        request.setAttribute("respuesta", respuesta);
+
+                        request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    }else{
+
+                        categoriaProductoDao.agregar(categoriaProducto);
+
+                    }
+
+                    request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    break;
+
+                case "Editar":
+
+                    int codCategoriaProducto = Integer.parseInt(request.getParameter("codigoCategoriaProducto"));
+
+                    CategoriaProducto cp = categoriaProductoDao.buscarCategoriaProducto(codCategoriaProducto);
+
+                    request.setAttribute("categoriaproducto", cp);
+
+                    request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    return;
+
+                case "Actualizar":
+
+                    String strCodigoCategoriaProducto = request.getParameter("codigoCategoriaProducto");
+
+                    if (strCodigoCategoriaProducto == null || strCodigoCategoriaProducto.isEmpty()) {
+
+                        request.setAttribute("respuesta", "No se proporcionó el código de la categoría.");
+
+                        request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    }
+
+                    int codigoCategoriaProducto = Integer.parseInt(strCodigoCategoriaProducto);
+
+                    String categoriaA = request.getParameter("txtCategoria");
+
+                    String tipoProductoA = request.getParameter("txtTipoDeProducto");
+
+                    String colorA = request.getParameter("txtColor");
+
+                    String marcaA = request.getParameter("txtMarca");
+
+                    CategoriaProducto categoriaProductoActualizada = new CategoriaProducto();
+
+                    categoriaProductoActualizada.setCodigoCategoriaProducto(codigoCategoriaProducto);
+
+                    categoriaProductoActualizada.setCategoria(categoriaA);
+
+                    categoriaProductoActualizada.setTipoDeProducto(tipoProductoA);
+
+                    categoriaProductoActualizada.setColor(colorA);
+
+                    categoriaProductoActualizada.setMarca(marcaA);
+
+                    if (categoriaA.isEmpty() || tipoProductoA.isEmpty() || colorA.isEmpty() || marcaA.isEmpty()) {
+
+                        respuesta = "No se puede dejar espacios vacíos";
+
+                        request.setAttribute("respuesta", respuesta);
+
+                    } else {
+
+                        categoriaProductoDao.actualizarCategoriaProducto(categoriaProductoActualizada);
+
+                    }
+
+                    request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    break;
+
+                case "Eliminar":
+
+                    int codCategoriaProductoEliminar = Integer.parseInt(request.getParameter("codigoCategoriaProducto"));
+
+                    categoriaProductoDao.eliminarCategoriaProducto(codCategoriaProductoEliminar);
+
+                    request.getRequestDispatcher("Controlador?menu=CategoriaProducto&accion=Listar").forward(request, response);
+
+                    break;
+
+            }
+
+            request.getRequestDispatcher("CategoriaProducto.jsp").forward(request, response);
+
+        }else if (menu.equals("Pedidos")){
+            switch(accion){
+                case "Listar":
+                    List <Pedido> listaDePedidos = pedidoDao.listarParaPedidos();
+                    request.setAttribute("listaDePedidos", listaDePedidos);
+                    break;
+                 case "EliminarPedido":
+                    codPedido = Integer.parseInt(request.getParameter("numeroPedido"));
+                    pedidoDao.eliminarPedido(codPedido);
+                    request.getRequestDispatcher("Controlador?menu=Compras&accion=Listar&accion2=default").forward(request, response);
+                break;
+            }
+            switch(accion2){
+                case "Detalle":
+                    codPedido = Integer.parseInt(request.getParameter("numeroPedido"));
+                    List<DetallePedido> listaDetalles = detallePedidoDao.buscarDetalles(codPedido);
+                    request.setAttribute("listaDeDetalles", listaDetalles);
+                    break;
+                case "Eliminar":
+                    codDetalle = Integer.parseInt(request.getParameter("numeroDetalle"));
+                    detallePedidoDao.eliminar(codDetalle);
+                    request.getRequestDispatcher("Controlador?menu=Pedidos&accion=Listar&accion2=default").forward(request, response);
+                    break;
+            }
+            
+            request.getRequestDispatcher("Pedido.jsp").forward(request, response);
         }
-        }
+    }
     private java.sql.Date convertirFecha(String fechaString){
         java.sql.Date fecha = null;
         try {

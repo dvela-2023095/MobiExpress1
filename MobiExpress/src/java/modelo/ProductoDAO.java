@@ -75,7 +75,8 @@ public class ProductoDAO {
                 prod.setCostoRenta(rs.getDouble(4));
                 prod.setExistencia(rs.getInt(5));
                 prod.setTamanio(rs.getString(6));
-                prod.setCodigoCategoriaProducto(rs.getInt(7));
+                prod.setImgProducto(rs.getString(7));
+                prod.setCodigoCategoriaProducto(rs.getInt(8));
             }
         }catch(Exception e) {
             e.printStackTrace();
