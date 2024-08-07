@@ -83,6 +83,17 @@ public class Controlador extends HttpServlet {
     List<DetalleCompra> listaDeDetalles = new ArrayList<>();
     List<Producto> listaDeProductos = new ArrayList<>();
     List<DetallePedido> listaDetallePedido = new ArrayList<>();
+    ProveedoresDAO ProveedoresDAO = new ProveedoresDAO();
+    DetalleCompra detalleCompra = new DetalleCompra();
+    DetalleCompraDAO detalleCompraDao = new DetalleCompraDAO();
+    Proveedores proveedores = new Proveedores();
+    List<DetalleCompra> listaDeComp = new ArrayList<>();
+    int codProveedor;
+    int codDetalle;
+    int cantid, item;
+    String direccion;
+    String fecha;
+    double totalDetalle,costo;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -254,62 +265,179 @@ public class Controlador extends HttpServlet {
                     List <Compras> listaDeCompras = comprasDao.listar();
                     request.setAttribute("listaDeCompras", listaDeCompras);
                     break;
-                
+                 case "EliminarDetalle":
+                    codCompra = Integer.parseInt(request.getParameter("numeroCompra"));
+                    comprasDao.eliminar(codCompra);
+                    request.getRequestDispatcher("Controlador?menu=Compras&accion=Listar").forward(request, response);
+                break;
             }
             switch(accion2){
                 case "Detalle":
                     codCompra = Integer.parseInt(request.getParameter("codCompra"));
-                    List<DetalleCompra> listaDeDetalles = detalleCompDao.detalleDeCompra(codCompra);
-                    request.setAttribute("listaDeDetalles", listaDeDetalles);
+                    List<DetalleCompra> listaDetalleCompra = detalleCompraDao.detalleDeCompra(codCompra);
+                    request.setAttribute("listaDeDetalles", listaDetalleCompra);
+                    break;
+                case "Eliminar":
+                    codDetalle = Integer.parseInt(request.getParameter("codigoDetalleCompra"));
+                    comprasDao.eliminar(codCompra);
+                    request.getRequestDispatcher("Controlador?menu=Compras&accion=Listar").forward(request, response);
                     break;
             }
+            
             request.getRequestDispatcher("Compras.jsp").forward(request, response);
         }else if(menu.equals("AgregarCompra")){
             switch(accion){
-                case"Agregar":
-                    String descripcion = request.getParameter("txtDescripcionCompra");
-                    String estado = request.getParameter("txtEstado");
-                    compras.setDescripcion(descripcion);
-                    compras.setFechaDeCompra(convertirFecha(request.getParameter("txtFechaCompra")));
-                    compras.setEstado(estado);
-                    compras.setMontoTotal(0.00);
-                    comprasDao.agregar(compras);
+                case "ListarDe":
+                        List listaDetalleCompra = detalleCompraDao.listar();
+                        request.setAttribute("listaDetalleCompra", listaDetalleCompra);
                     break;
                 case "BuscarProveedor":
-                    proveedor=proveedoresDao.listarCodigoProveedor(Integer.parseInt(request.getParameter("txtCodigoProveedor")));
-                    request.setAttribute("proveedor", proveedor);
-                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
+                    String codProveerS = request.getParameter("txtCodigoProveedor");
+                    if(codProveerS==null || codProveerS.trim().isEmpty()){
+                        request.setAttribute("proveedores", proveedores);
+                    request.setAttribute("detalleCompra", detalleCompra);
+                    request.setAttribute("compras", compras);
+                    request.setAttribute("producto", producto);
+                    request.setAttribute("totalDetalle", totalDetalle);
+                    request.setAttribute("listaDeComp", listaDeComp);
+                    }else{
+                    codProveedor = Integer.parseInt(request.getParameter("txtCodigoProveedor"));
+                    proveedores.setCodigoProveedor(codProveedor);
+                    proveedores = proveedoresDao.listarCodigoProveedor(codProveedor);
+                    request.setAttribute("proveedores", proveedores);
+                    request.setAttribute("detalleCompra", detalleCompra);
+                    request.setAttribute("compras", compras);
+                    request.setAttribute("producto", producto);
+                    request.setAttribute("totalDetalle", totalDetalle);
+                    request.setAttribute("listaDeComp", listaDeComp);
+                    
+                    }
                     break;
                 case "BuscarProducto":
-                    producto=productoDao.buscarCodigoProducto(Integer.parseInt(request.getParameter("txtCodigoProducto")));
-                    request.setAttribute("producto", producto);
-                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
+                    String codProductoS = request.getParameter("txtCodigoProducto");
+                        if(codProductoS==null|| codProductoS.trim().isEmpty()){
+                            request.setAttribute("compras", compras);
+                            request.setAttribute("detalleCompra", detalleCompra);
+                            request.setAttribute("proveedores", proveedores);
+                        }else{
+                        codProducto = Integer.parseInt(request.getParameter("txtCodigoProducto"));
+                        producto.setCodigoProducto(codProducto);
+                        producto = productoDao.buscarCodigoProducto(codProducto);
+                        request.setAttribute("detalleCompra", detalleCompra);
+                        request.setAttribute("producto", producto);
+                        request.setAttribute("compras", compras);
+                        request.setAttribute("proveedores", proveedores);
+                        request.setAttribute("totalDetalle", totalDetalle);
+                        request.setAttribute("listaDeComp", listaDeComp);}
+                    
                     break;
                 case "BuscarCompra":
-                    compras=comprasDao.listarNumeroCompra(Integer.parseInt(request.getParameter("txtCodigoCompra")));
-                    request.setAttribute("compras", compras);
-                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
-                    break;
-                case "Agregar Detalle":
-                    /*precio=Double.parseDouble(request.getParameter("txtPrecio");
-                    cantidad=Integer.parseInt(request.getParameter("txtCantidad");
-                    subTotal= precio*cantidad;*/
-                    montoTotal=0.0;
-                    DetalleCompra detalle = new DetalleCompra();
-                    detalle.setCodigoProveedor(Integer.parseInt(request.getParameter("txtCodigoProveedor")));
-                    detalle.setCodigoProducto(Integer.parseInt(request.getParameter("txtCodigoProducto")));
-                    detalle.setNumeroCompra(Integer.parseInt(request.getParameter("txtCodigoCompra")));
-                    detalle.setCosto(Double.parseDouble(request.getParameter("txtPrecio")));
-                    detalle.setCantidad(Integer.parseInt(request.getParameter("txtCantidad")));
-                    detalle.setDireccion((request.getParameter("txtDireccion")));
-                    detalle.setFechaReception(convertirFecha(request.getParameter("txtFechaRecepcion")));
-                    detalle.setSubTotal(detalle.getCantidad()*detalle.getCosto());
-                    listaDeDetalles.add(detalle);
-                    for(int i=0; i<listaDeDetalles.size();i++){
-                        montoTotal = montoTotal + listaDeDetalles.get(i).getSubTotal();
+                    String comprasS = request.getParameter("txtCodigoCompra");
+                    if(comprasS==null||comprasS.trim().isEmpty()){
+                        request.setAttribute("compras", compras);
+                        request.setAttribute("detalleCompra", detalleCompra);
+                        request.setAttribute("proveedores", proveedores);
+                    }else{
+                        codCompra = Integer.parseInt(request.getParameter("txtCodigoCompra"));
+                        compras.setNumeroCompra(codCompra);
+                        compras = comprasDao.listarNumeroCompra(codCompra);
+                        request.setAttribute("compras", compras);
+                        request.setAttribute("detalleCompra", detalleCompra);
+                        request.setAttribute("proveedores", proveedores);
+                        request.setAttribute("producto", producto);
+                        request.setAttribute("totalDetalle", totalDetalle);
+                        request.setAttribute("listaDeComp", listaDeComp);
                     }
-                    request.setAttribute("listaDeDetalles", listaDeDetalles);
-                    request.setAttribute("montoTotal", montoTotal);
+                    break;
+                case "AgregarDetalles":
+                    String codProveedorS = request.getParameter("txtCodigoCompra");
+                    String costoS = request.getParameter("txtPrecio");
+                    String direccionS = request.getParameter("txtDireccion");
+                    String cantidaS = request.getParameter("txtCantidad");
+                    String fecha = request.getParameter("txtFechaRecepcion");
+                    request.setAttribute("compras", compras);
+                    request.setAttribute("detalleCompra", detalleCompra);
+                    request.setAttribute("proveedores", proveedores);
+                    request.setAttribute("producto", producto);
+                    if(codProveedorS == null || codProveedorS.trim().isEmpty()||costoS==null||costoS.trim().isEmpty()||direccionS==null||direccionS.trim().isEmpty()|| cantidaS==null || cantidaS.trim().isEmpty()){
+                        request.setAttribute("totalDetalle", totalDetalle);
+                        request.setAttribute("listaDeComp", listaDeComp);
+                    }else{
+                        totalDetalle = 0.0;
+                        codProveedor = Integer.parseInt(request.getParameter("txtCodigoCompra"));
+                        codProducto = producto.getCodigoProducto();
+                        codCompra = compras.getNumeroCompra();
+                        costo = Double.parseDouble(request.getParameter("txtPrecio"));
+                        cantid = Integer.parseInt(request.getParameter("txtCantidad"));
+                        subTotal = costo*cantid;
+                        direccion = request.getParameter("txtDireccion");
+                        fecha = request.getParameter("txtFechaRecepcion");
+                        item = item +1;
+                        DetalleCompra detalleCompras = new DetalleCompra();
+                        detalleCompras.setItem(item);
+                        detalleCompras.setCodigoProveedor(codProveedor);
+                        detalleCompras.setCodigoProducto(codProducto);
+                        detalleCompras.setNumeroCompra(codCompra);
+                        detalleCompras.setCosto(costo);
+                        detalleCompras.setCantidad(cantid);
+                        detalleCompras.setSubTotal(subTotal);
+                        detalleCompras.setDireccion(direccion);
+                        detalleCompras.setFechaRecepcion(fecha);
+                        listaDeComp.add(detalleCompras);
+                        for(int i=0; i<listaDeComp.size(); i++){
+                            totalDetalle = totalDetalle + listaDeComp.get(i).getSubTotal();
+                        }
+                        request.setAttribute("totalDetalle", totalDetalle);
+                        request.setAttribute("listaDeComp", listaDeComp);
+                    }
+                    break;
+                case "Eliminar":
+                    int item = Integer.parseInt(request.getParameter("item"));
+                    for (int i = 0; i < listaDeComp.size(); i++) {
+                        DetalleCompra dc = listaDeComp.get(i);
+                        if (dc.getItem()== item) {
+                            listaDeComp.remove(i);
+                        }
+                    }
+                    totalDetalle = 0.0;
+                    for (DetalleCompra dc : listaDeComp) {
+                        totalDetalle += dc.getSubTotal();
+                    }
+                    request.setAttribute("totalDetalle", totalDetalle);
+                    request.setAttribute("listaDeComp", listaDeComp);
+                    break;
+                case "Cancelar":
+                    listaDeComp.clear();
+                    totalDetalle = 0.0;
+                    codProveedor = 0;
+                    codProducto = 0;
+                    codCompra =0;
+                    
+                    proveedores.setCodigoProveedor(codProveedor);
+                    proveedores = proveedoresDao.listarCodigoProveedor(codProveedor);
+                    request.setAttribute("proveedores", proveedores);
+                    
+                    producto.setCodigoProducto(codProducto);
+                    producto = productoDao.buscarCodigoProducto(codProducto);
+                    request.setAttribute("producto", producto);
+                    
+                    compras.setNumeroCompra(codCompra);
+                    compras = comprasDao.listarNumeroCompra(codCompra);
+                    request.setAttribute("compras", compras);
+                    
+                    request.setAttribute("totalDetalle", totalDetalle);
+                    request.setAttribute("listaDeComp", listaDeComp);
+                    break;
+                case "Guardar Datos":
+                    for (DetalleCompra dc : listaDeComp) {
+                        detalleCompraDao.agregar(dc);
+                    }
+                    listaDeComp.clear();
+                    totalDetalle = 0.0;
+
+                    request.setAttribute("totalDetalle", totalDetalle);
+                    request.setAttribute("listaDeComp", listaDeComp);
+                    request.setAttribute("mensaje", "Datos guardados exitosamente.");
                     break;
             }
             request.getRequestDispatcher("DetalleCompra.jsp").forward(request, response);
