@@ -117,6 +117,32 @@ public class PedidoDAO {
          e.printStackTrace();
         }
     }
+    
+    public List buscarPedidos(Date fechaEntrega){
+        List<Pedido> listaDePedidos = new ArrayList<>();
+        String sql = "select*from Pedidos where fechaDeRetorno >= ? and fechaDeEntrega <= ?";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setDate(1, new java.sql.Date(fechaEntrega.getTime()));
+            ps.setDate(2, new java.sql.Date(fechaEntrega.getTime()));
+            rs = ps.executeQuery();
+            while(rs.next()){
+               Pedido ped = new Pedido();
+               ped.setNumeroPedido(rs.getInt(1));
+               ped.setDireccion(rs.getString(2));
+               ped.setMontoTotal(rs.getDouble(3));
+               ped.setFechaDeEntrega(rs.getDate(4));
+               ped.setFechaDeRetorno(rs.getDate(5));
+               ped.setCodigoCliente(rs.getInt(6));
+               ped.setCodigoEmpleado(rs.getInt(7));
+               listaDePedidos.add(ped);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listaDePedidos;
+    }
 }
 
    

@@ -21,7 +21,7 @@ public class DetalleCompraDAO {
     int resp;
     
     public List listar(){
-        String sql = "Select * from DetalleCompra";
+        String sql = "select*from DetalleCompra";
         List<DetalleCompra> listaDetalleCompra = new ArrayList<>();
         try{
             con = cn.Conexion();
@@ -33,11 +33,38 @@ public class DetalleCompraDAO {
                 em.setCantidad(rs.getInt(2));
                 em.setCosto(rs.getDouble(3));
                 em.setDireccion(rs.getString(4));
-                em.setObservaciones(rs.getString(5));
+                em.setSubTotal(rs.getDouble(5));
                 em.setFechaReception(rs.getDate(6));
                 em.setCodigoProducto(rs.getInt(7));
                 em.setCodigoProveedor(rs.getInt(8));
                 em.setNumeroCompra(rs.getInt(9));
+                listaDetalleCompra.add(em);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listaDetalleCompra;
+    }
+    public List detalleDeCompra( int codCompra){
+        String sql = "Select DC.*, P.producto from DetalleCompra DC, Producto P where DC.codigoProducto=P.codigoProducto and DC.numeroCompra ="+ codCompra;
+        List<DetalleCompra> listaDetalleCompra = new ArrayList<>();
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                DetalleCompra em = new DetalleCompra();
+                em.setCodigoDetalleCompra(rs.getInt(1));
+                em.setCantidad(rs.getInt(2));
+                em.setCosto(rs.getDouble(3));
+                em.setDireccion(rs.getString(4));
+                em.setSubTotal(rs.getDouble(5));
+                em.setFechaReception(rs.getDate(6));
+                em.setCodigoProducto(rs.getInt(7));
+                em.setCodigoProveedor(rs.getInt(8));
+                em.setNumeroCompra(rs.getInt(9));
+                em.setNombreProducto(rs.getString(10));
                 listaDetalleCompra.add(em);
             }
         }catch(Exception e){
@@ -55,7 +82,7 @@ public class DetalleCompraDAO {
             ps.setInt(1, deCom.getCantidad());
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3, deCom.getDireccion());
-            ps.setString(4, deCom.getObservaciones());
+            ps.setDouble(4, deCom.getSubTotal());
             ps.setDate(5, new java.sql.Date(deCom.getFechaReception().getTime()));
             ps.setInt(6, deCom.getCodigoProveedor());
             ps.setInt(7, deCom.getCodigoProducto());
@@ -77,7 +104,7 @@ public class DetalleCompraDAO {
                 deCom.setCantidad(rs.getInt(2));
                 deCom.setCosto(rs.getDouble(3));
                 deCom.setDireccion(rs.getString(4));
-                deCom.setObservaciones(rs.getString(5));
+                deCom.setSubTotal(rs.getDouble(5));
                 deCom.setFechaReception(rs.getDate(6));
                 deCom.setCodigoProveedor(rs.getInt(7));
                 deCom.setCodigoProducto(rs.getInt(8));
@@ -101,7 +128,7 @@ public class DetalleCompraDAO {
             ps.setInt(1, deCom.getCantidad());
             ps.setDouble(2, deCom.getCosto());
             ps.setString(3,deCom.getDireccion());
-            ps.setString(4, deCom.getObservaciones());
+            ps.setDouble(4, deCom.getSubTotal());
             //ps.setDate(6, deCom.getFechaReception());
             ps.setDate(6, new java.sql.Date(deCom.getFechaReception().getTime()));
             ps.executeUpdate();

@@ -8,11 +8,13 @@ public class DetallePedido {
     private String descuento;
     private int codigoProducto;
     private int numeroPedido;
+    private String nombreProducto;
+    
 
     public DetallePedido() {
     }
 
-    public DetallePedido(int codigoDetallePedido, double precioRenta, int cantidad, double subTotal, String descuento, int codigoProducto, int numeroPedido) {
+    public DetallePedido(int codigoDetallePedido, double precioRenta, int cantidad, double subTotal, String descuento, int codigoProducto, int numeroPedido, String nombreProducto) {
         this.codigoDetallePedido = codigoDetallePedido;
         this.precioRenta = precioRenta;
         this.cantidad = cantidad;
@@ -20,7 +22,10 @@ public class DetallePedido {
         this.descuento = descuento;
         this.codigoProducto = codigoProducto;
         this.numeroPedido = numeroPedido;
+        this.nombreProducto = nombreProducto;
     }
+
+    
 
     public int getCodigoDetallePedido() {
         return codigoDetallePedido;
@@ -76,6 +81,14 @@ public class DetallePedido {
 
     public void setNumeroPedido(int numeroPedido) {
         this.numeroPedido = numeroPedido;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
     
 }

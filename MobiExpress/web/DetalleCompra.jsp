@@ -4,6 +4,7 @@
     Author     : Hp
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,8 +14,138 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <div class="d-flex col-sm-12">
+            <div class="col-sm-5">
+                <form action="Controlador?menu=AgregarCompra" method="post">
+                    <div class="card ">
+                        <div class="form-group">
+                        <label><strong>Detalles de la Compra</strong></label>
+                        </div>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtCodigoProveedor" value="${proveedor.getCodigoProveedor()}" class="form-control" placeholder="Cod. Proveedor">
+                                <button type="submit" name="accion" value="BuscarProveedor" class="btn-outline-info">Buscar</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="txtNombreProveedor" value="${proveedor.getNombreProveedor()}" class="form-control" placeholder="Proveedor">
+                            </div>
+                        </div>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtCodigoProducto" value="${producto.getCodigoProducto()}" class="form-control" placeholder="Cod..Producto">
+                                <button type="submit" name="accion" value="BuscarProducto" class="btn-outline-info">Buscar</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="txtNombreProducto" value="${producto.getProducto()}" class="form-control" placeholder="Producto">
+                            </div>
+                        </div>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtCodigoCompra" value="${compras.getNumeroCompra()}" class="form-control" placeholder="No. Compra">
+                                <button type="submit" name="accion" value="BuscarCompra" class="btn-outline-info">Buscar</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="txtDescripcionCompra" value="${compras.getDescripcion()}" class="form-control" placeholder="Compra">
+                            </div>
+                        </div>
+        
+        
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtPrecio" value="" class="form-control" placeholder="Precio Unitario">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" name="txtCantidad" placeholder="Cantidad" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtDireccion" value="" class="form-control" placeholder="Direccion de compra">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="date" name="txtFechaRecepcion" value="" class="form-control" placeholder="Fecha de Recepción">
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <input type="submit" value="Agregar Detalle" name="accion" class="btn btn-success">
+                        </div>
+                    </div>
+                </form>
+                <form action="Controlador?menu=AgregarCompra" method="POST">
+                    <div class="">
+                        <div class="form-group">
+                            <label><strong>Compra:</strong></label>
+                            <input type="text" value="" name="txtDescripcionCompra" class="form-control" placeholder="Descripcion de la Compra" >
+                            
+                        </div>
+                        <label ><strong>Fecha de Compra:</strong></label>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6">
+                                <input type="date" name="txtFechaCompra" value="" class="form-control">
+                            </div>
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtEstado" value="" class="form-control" placeholder="Estado de Compra">
+                            </div>
+                        </div> 
+                        <div class="form-group d-flex">
+                            <div class="col-sm-5">
+                                <input type="submit" value="Agregar" name="accion" class="btn btn-info">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="submit" value="Actualizar Compra" name="accion" class="btn btn-success">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6">
+                <div class="">
+                    <div class="">
+                        
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <td><Strong>PROVEEDOR</Strong></td>
+                                    <td><Strong>PRODUCTO</Strong></td>
+                                    <td><Strong>COMPRA</Strong></td>
+                                    <td><Strong>PRECIO</Strong></td>
+                                    <td><Strong>CANTIDAD</Strong></td>
+                                    <td><Strong>SUB-TOTAL</Strong></td>
+                                    <td><Strong>DIRECCION DE COMPRA</Strong></td>
+                                    <td><Strong>FECHA DE RECEPCIÓN</Strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="list" items="${listaDeDetalles}">
+                                <tr>
+                                    <td>${list.getCodigoProveedor()}</td>
+                                    <td>${list.getCodigoProducto()}</td>
+                                    <td>${list.getNumeroCompra()}</td>
+                                    <td>${list.getCosto()}</td>
+                                    <td>${list.getCantidad()}</td>
+                                    <td>${list.getSubTotal()}</td>
+                                    <td>${list.getDireccion()}</td>
+                                    <td>${list.getFechaReception()}</td>
+                                    <td class="d-flex">
+                                        <a href="" class="btn btn-danger" style="margin-left: 10px;">Eliminar</a>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class=" d-flex ">
+                        <div class="col-sm-6">
+                            <input type="submit" name="accion" value="Agregar Detalles" class="btn btn-success">
+                            <input type="submit" name="accion" value="Cancelar" class="btn btn-danger">
+                        </div>
+                        <div class="col-sm-4 ml-auto">
+                            <input type="text" name="txtTotal" value="Q.${montoTotal}" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
     </body>
 </html>
