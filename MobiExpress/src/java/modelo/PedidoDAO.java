@@ -46,7 +46,7 @@ public class PedidoDAO {
    }
    //AGREGAR
     public int agregar(Pedido ped){
-            String sql = "insert into Pedidos(numeroPedido,direccion,montoTotal,fechaDeEntrega,fechaDeRetorno,codigoCliente,codigoEmpleado values(?,?,?,?,?,?,?))";
+            String sql = "insert into Pedidos(direccion,montoTotal,fechaDeEntrega,fechaDeRetorno,codigoCliente,codigoEmpleado) values(?,?,?,?,?,?)";
             try{
                 con = cn.Conexion();
                 ps = con.prepareStatement(sql);
@@ -142,6 +142,27 @@ public class PedidoDAO {
             e.printStackTrace();
         }
         return listaDePedidos;
+    }
+    public int encontrarPedidoRecienAgregado(Pedido pedido){
+        int codigo = 0;
+        String sql = "select numeroPedido from Pedidos where direccion=? and montoTotal=? and fechaDeEntrega=? and fechaDeRetorno=? and codigoCliente=? and codigoEmpleado=?;";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, pedido.getDireccion());
+            ps.setDouble(2, pedido.getMontoTotal());
+            ps.setDate(3, new java.sql.Date(pedido.getFechaDeEntrega().getTime()));
+            ps.setDate(4, new java.sql.Date(pedido.getFechaDeRetorno().getTime()));
+            ps.setInt(5, pedido.getCodigoCliente());
+            ps.setInt(6, pedido.getCodigoEmpleado());
+            rs = ps.executeQuery();
+            while(rs.next()){
+                codigo = rs.getInt(1);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return codigo;
     }
 }
 

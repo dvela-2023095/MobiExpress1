@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DELL/OneDrive/Documentos/NetBeansProjects/MobiExpress/src/java/controlador/Controlador.java</file>
-            <file>file:/C:/Users/DELL/OneDrive/Documentos/NetBeansProjects/MobiExpress/web/Principal.jsp</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/modelo/EmpleadoDAO.java</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/web/Carrito.jsp</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/modelo/PedidoDAO.java</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/controlador/Controlador.java</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/modelo/Compras.java</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/modelo/DetallePedidoDAO.java</file>
+            <file>file:/C:/GitIN5AV2024/MobiExpress/MobiExpress/src/java/config/Conexion.java</file>
         </group>
     </open-files>
 </project-private>

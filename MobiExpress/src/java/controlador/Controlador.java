@@ -444,7 +444,15 @@ public class Controlador extends HttpServlet {
         }else if(menu.equals("AgregarPedido")){
             switch(accion){
                 case"VerInventario":
-                    Date fechaEntrega = convertirFecha(request.getParameter("dtFecha Entrega"));
+                    String fechaentrega = request.getParameter("txtFechaEntrega");
+                    String fecharetorno = request.getParameter("txtFechaRetorno");
+                    if(request.getParameter("txtCodigoEmpleado").isEmpty()||request.getParameter("txtCodigoCliente").isEmpty()){
+                    }else{
+                        pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                        pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    }
+                    pedido.setDireccion(request.getParameter("txtDireccion"));
+                    Date fechaEntrega = convertirFecha(request.getParameter("txtFechaEntrega"));
                     List<Pedido> listaDePedidos = new ArrayList<>();
                     //consigue los pedidos en un rango de dias
                     listaDePedidos = pedidoDao.buscarPedidos(fechaEntrega);
@@ -453,20 +461,118 @@ public class Controlador extends HttpServlet {
                     listaDetalles= detallePedidoDao.buscarDetalles(listaDePedidos);
                     List<Producto> listaProductos = new ArrayList<>();
                     //cantidad de stock de productos
-                    //listaProductos = productoDao.productosDeDetalle(listaDetalles);
                     listaProductos = productoDao.listar();
                     listaProductos = productoDao.calcularStockDisponible(listaProductos, listaDetalles);
                     listaCarrito = detallePedidoDao.asignarStock(listaProductos, listaCarrito);
                     request.setAttribute("listaDeDetalles", listaCarrito);
+                    request.setAttribute("fechae", fechaentrega);
+                    request.setAttribute("fechar", fecharetorno);
+                    request.setAttribute("pedido", pedido);
                     request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=default").forward(request, response);
                     break;
                 case"Listar":
                     request.setAttribute("listaDeDetalles", listaCarrito);
+                    request.setAttribute("total", montoTotal);
                     break;
                 case"Eliminar":
                     DetallePedido det = (DetallePedido)request.getAttribute("detalleAEliminar");
                     listaCarrito.remove(det);
-                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar");
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
+                    break;
+                case"Establecer":
+                     fechaentrega = request.getParameter("txtFechaEntrega");
+                     fecharetorno = request.getParameter("txtFechaRetorno");
+                    pedido.setFechaDeEntrega(convertirFecha(fechaentrega));
+                    pedido.setFechaDeRetorno(convertirFecha(fecharetorno));
+                    if(request.getParameter("txtCodigoEmpleado").isEmpty()||request.getParameter("txtCodigoCliente").isEmpty()){
+                    }else{
+                        pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                        pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    }
+                    pedido.setDireccion(request.getParameter("txtDireccion"));
+                    montoTotal = 0.0;
+                    codProducto = Integer.parseInt(request.getParameter("txtCodProducto"));
+                    for(int i=0;i<listaCarrito.size();i++){
+                        if(codProducto ==listaCarrito.get(i).getCodigoProducto()){
+                            subTotal=0;
+                            det = listaCarrito.get(i);
+                            det.setCantidad(Integer.parseInt(request.getParameter("txtCantidad")));
+                            det.setDescuento(Integer.parseInt(request.getParameter("txtDescuento")));
+                            subTotal=det.getCantidad()*det.getPrecioRenta();
+                            double descuento = det.getDescuento() / 100.0;
+                            double totalConDescuento = subTotal - (subTotal * descuento);
+                            det.setSubTotal(totalConDescuento);
+                            listaCarrito.set(i, det);
+                        }
+                        montoTotal = montoTotal+listaCarrito.get(i).getSubTotal();
+                    }
+                    request.setAttribute("fechae", fechaentrega);
+                    request.setAttribute("fechar", fecharetorno);
+                    request.setAttribute("pedido", pedido);
+                    request.setAttribute("total", montoTotal);
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
+                    break;
+                case"Confirmar Pedido":
+                    fechaentrega = request.getParameter("txtFechaEntrega");
+                    fecharetorno = request.getParameter("txtFechaRetorno");
+                    pedido.setFechaDeEntrega(convertirFecha(fechaentrega));
+                    pedido.setFechaDeRetorno(convertirFecha(fecharetorno));
+                    pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                    pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    pedido.setDireccion(request.getParameter("txtDireccion"));
+                    pedido.setMontoTotal(montoTotal);
+                    pedidoDao.agregar(pedido);
+                    /*int codigoPedido = pedidoDao.encontrarPedidoRecienAgregado(pedido);
+                    for(int i=0;i<listaCarrito.size();i++){
+                        det = listaCarrito.get(i);
+                        det.setNumeroPedido(codigoPedido);
+                        detallePedidoDao.agregar(det);
+                    }
+                    listaCarrito.clear();
+                    montoTotal=0;*/
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
+                    break;
+                case"BuscarCliente":
+                    fechaentrega = request.getParameter("txtFechaEntrega");
+                     fecharetorno = request.getParameter("txtFechaRetorno");
+                    pedido.setFechaDeEntrega(convertirFecha(request.getParameter("txtFechaEntrega")));
+                    pedido.setFechaDeRetorno(convertirFecha(request.getParameter("txtFechaRetorno")));
+                    if(request.getParameter("txtCodigoEmpleado").isEmpty()||request.getParameter("txtCodigoCliente").isEmpty()){
+                    }else{
+                        pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                        pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    }
+                    pedido.setDireccion(request.getParameter("txtDireccion"));
+                    request.setAttribute("fechae", fechaentrega);
+                    request.setAttribute("fechar", fecharetorno);
+                    request.setAttribute("pedido", pedido);
+                    codCliente=Integer.parseInt(request.getParameter("txtCodigoCliente"));
+                    pedido.setCodigoCliente(codCliente);
+                    cliente = clienteDao.listarCodigoCliente(codCliente);
+                    request.setAttribute("cliente", cliente.getNombresCliente()+" "+cliente.getApellidosCliente());
+                    request.setAttribute("pedido", pedido);
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
+                    break;
+                case"BuscarEmpleado":
+                    fechaentrega = request.getParameter("txtFechaEntrega");
+                     fecharetorno = request.getParameter("txtFechaRetorno");
+                    pedido.setFechaDeEntrega(convertirFecha(request.getParameter("txtFechaEntrega")));
+                    pedido.setFechaDeRetorno(convertirFecha(request.getParameter("txtFechaRetorno")));
+                    if(request.getParameter("txtCodigoEmpleado").isEmpty()||request.getParameter("txtCodigoCliente").isEmpty()){
+                    }else{
+                        pedido.setCodigoCliente(Integer.parseInt(request.getParameter("txtCodigoCliente")));
+                        pedido.setCodigoEmpleado(Integer.parseInt(request.getParameter("txtCodigoEmpleado")));
+                    }
+                    pedido.setDireccion(request.getParameter("txtDireccion"));
+                    request.setAttribute("fechae", fechaentrega);
+                    request.setAttribute("fechar", fecharetorno);
+                    request.setAttribute("pedido", pedido);
+                    codEmpleado=Integer.parseInt(request.getParameter("txtCodigoEmpleado"));
+                    pedido.setCodigoEmpleado(codEmpleado);
+                    empleado = empleadoDao.buscarcodigoEmpleado(codEmpleado);
+                    request.setAttribute("empleado", empleado.getNombresEmpleado());
+                    request.setAttribute("pedido", pedido);
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("Carrito.jsp").forward(request, response);
@@ -651,11 +757,59 @@ public class Controlador extends HttpServlet {
                     det.setPrecioRenta(Double.parseDouble(request.getParameter("costoRenta")));
                     det.setNombreProducto(request.getParameter("nombreProducto"));
                     det.setCodigoProducto(Integer.parseInt(request.getParameter("codigoProducto")));
+                    det.setDescuento(0);
                     listaCarrito.add(det);
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
                     break;
             }
             request.getRequestDispatcher("Producto.jsp").forward(request, response);
+        }else if (menu.equals("CargoEmpleado")){
+            switch(accion){
+                case "Listar":
+                    List listaCargos = cargoEmpDao.listar();
+                    request.setAttribute("cargo", listaCargos);
+                break;
+                case "Agregar":
+                    String nombreCargo = request.getParameter("txtNombreCargo");
+                    double salario = Double.parseDouble(request.getParameter("txtSalario"));
+                    String descripcion = request.getParameter("txtDescripcionCargo");
+                    String jornada = request.getParameter("txtJornada");
+
+                    CargoEmpleado cargo = new CargoEmpleado();
+                    cargo.setNombreCargo(nombreCargo);
+                    cargo.setSalario(salario);
+                    cargo.setDescripcionCargo(descripcion);
+                    cargo.setJornada(jornada);
+
+                    cargoEmpDao.agregar(cargo);
+                    request.getRequestDispatcher("Controlador?menu=CargoEmpleado&accion=Listar").forward(request, response);
+                break;
+                case "Editar":
+                    codCargoEmpleado = Integer.parseInt(request.getParameter("codigoCargoEmpleado"));
+                    CargoEmpleado car = cargoEmpDao.buscarCodigoCargoEmpleado(codCargoEmpleado);
+                    request.setAttribute("cargoEmpleado", car);
+                    request.getRequestDispatcher("Controlador?menu=CargoEmpleado&accion=Listar").forward(request, response);
+                break;
+                case "Actualizar":
+                    String nombreCar = request.getParameter("txtNombreCargo");
+                    double salarioCar = Double.parseDouble(request.getParameter("txtSalario"));
+                    String descripcionCar = request.getParameter("txtDescripcionCargo");
+                    String jornadaCar = request.getParameter("txtJornada");
+                    cargoEmpleado.setNombreCargo(nombreCar);
+                    cargoEmpleado.setSalario(salarioCar);
+                    cargoEmpleado.setDescripcionCargo(descripcionCar);
+                    cargoEmpleado.setJornada(jornadaCar);
+                    cargoEmpleado.setCodigoCargoEmpleado(codCargoEmpleado);
+                    cargoEmpDao.actualizarCargo(cargoEmpleado);
+                    request.getRequestDispatcher("Controlador?menu=CargoEmpleado&accion=Listar").forward(request, response);
+                break;
+                case "Eliminar":
+                    codCargoEmpleado = Integer.parseInt(request.getParameter("codigoCargoEmpleado"));
+                    cargoEmpDao.eliminarCargo(codCargoEmpleado);
+                    request.getRequestDispatcher("Controlador?menu=CargoEmpleado&accion=Listar").forward(request, response);
+                break;
+            }
+            request.getRequestDispatcher("CargoEmpleado.jsp").forward(request, response);
         }
         }
     private java.sql.Date convertirFecha(String fechaString){

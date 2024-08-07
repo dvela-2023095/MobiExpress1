@@ -29,7 +29,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
             }
@@ -53,7 +53,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
                 listaDetallePedidos.add(dp);
@@ -66,17 +66,17 @@ public class DetallePedidoDAO {
     
     //Método Agregar
     public int agregar(DetallePedido dp){
-        String sql = " insert into DetallePedido(precioRenta, cantidad, subTotal, descuento, codigoProducto, numeroPedido) values (?,?,?,?.?,?)";
+        String sql = " insert into DetallePedido(precioRenta, cantidad, subTotal, descuento, codigoProducto, numeroPedido) values (?,?,?,?,?,?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
             ps.setDouble(1, dp.getPrecioRenta());
             ps.setInt(2, dp.getCantidad());
             ps.setDouble(3, dp.getSubTotal());
-            ps.setString(4, dp.getDescuento());
+            ps.setInt(4, dp.getDescuento());
             ps.setInt(5, dp.getCodigoProducto());
             ps.setInt(6, dp.getNumeroPedido());
-            resp = ps.executeUpdate();
+            ps.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
             }       
@@ -116,7 +116,7 @@ public class DetallePedidoDAO {
             ps.setDouble(1, dp.getPrecioRenta());
             ps.setInt(2, dp.getCantidad());
             ps.setDouble(3, dp.getSubTotal());
-            ps.setString(4, dp.getDescuento());
+            ps.setInt(4, dp.getDescuento());
             ps.setInt(5, dp.getCodigoProducto());
             ps.setInt(6, dp.getNumeroPedido());
             ps.setInt(7, dp.getCodigoDetallePedido());

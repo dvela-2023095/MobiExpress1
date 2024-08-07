@@ -38,6 +38,9 @@
                 <li class="nav-item">
                     <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Categoría de Productos</a>
                 </li>
+                <li class="nav-item">
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=CargoEmpleado&accion=Listar" target="myFrame">Cargo Empleado</a>
+                </li>
                 
               </ul>
             </div>

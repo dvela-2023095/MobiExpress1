@@ -20,42 +20,55 @@
                         <div class="form-group">
                             <label>Fecha de Entrega:</label>
                             <div class="col-sm-6 d-flex">
-                                <input type="date" name="dtFecha Entrega" value="" class="form-control" placeholder="">
+                                <input type="date" name="txtFechaEntrega" value="${fechae}" class="form-control" >
                                 <button type="submit" name="accion" value="VerInventario" class="btn-outline-info col-sm-8">Ver Inventario</button>
                             </div>
+                        </div>
+                        <label>Establecer Cantidad y Descuento:</label>
+                        <div class="form-group d-flex">
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtCodProducto" value="" class="form-control" placeholder="Cod. Producto">
+                            </div>
+                            <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtCantidad" value="" class="form-control" placeholder="Cantidad">
+                                <button type="submit" name="accion" value="Establecer" class="btn-outline-info">Establecer</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 d-flex">
+                                <input type="text" name="txtDescuento" value="" class="form-control" placeholder="Descuento">
                         </div>
                         <div class="form-group">
                             <label>Fecha de Retorno:</label>
                             <div class="col-sm-6">
-                                <input type="date" name="dtFecha Retorno" value="" class="form-control" placeholder="">
+                                <input type="date" name="txtFechaRetorno" value="${fechar}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtCodigoCliente" value="" class="form-control" placeholder="Cod. Cliente">
+                                <input type="text" name="txtCodigoCliente" value="${pedido.getCodigoCliente()}" class="form-control" placeholder="Cod. Cliente">
                                 <button type="submit" name="accion" value="BuscarCliente" class="btn-outline-info">Buscar</button>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" name="txtNombreCliente" value="" class="form-control" placeholder="Cliente">
+                                <input type="text" name="txtNombreCliente" value="${cliente}" class="form-control" placeholder="Cliente">
                             </div>
                         </div>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtCodigoEmpleado" value="" class="form-control" placeholder="Cod. Empleado">
+                                <input type="text" name="txtCodigoEmpleado" value="${pedido.getCodigoEmpleado()}" class="form-control" placeholder="Cod. Empleado">
                                 <button type="submit" name="accion" value="BuscarEmpleado" class="btn-outline-info">Buscar</button>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" name="txtNombreEmpleado" value="" class="form-control" placeholder="Empleado">
+                                <input type="text" name="txtNombreEmpleado" value="${empleado}" class="form-control" placeholder="Empleado">
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtDirección" value="${cantidad}" class="form-control" placeholder="Direccion de entrega">
+                                <input type="text" name="txtDireccion" value="${pedido.getDireccion()}" class="form-control" placeholder="Direccion de entrega">
                             </div>
                         </div>
                         <div class="d-flex">
                             <div class="form-group col-sm-5">
-                            <input type="submit" value="Confirmar Pedido" name="accion" class="btn btn-success">
+                            <input type="submit" value="ConfirmarPedido" name="accion" class="btn btn-success">
                             </div>
                             <div class="form-group col-sm-3 ">
                                 <input type="submit" value="Cancelar Pedido" name="accion" class="btn btn-warning">
@@ -72,6 +85,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <td><Strong>COD.PRODUCTO</Strong></td>
                                     <td><Strong>PRODUCTO</Strong></td>
                                     <td><Strong>PRECIO RENTA</Strong></td>
                                     <td><Strong>CANTIDAD</Strong></td>
@@ -83,13 +97,15 @@
                             <tbody>
                             <c:forEach var="list" items="${listaDeDetalles}">
                                 <tr>
+                                    <td>${list.getCodigoProducto()}</td>
                                     <td>${list.getNombreProducto()}</td>
                                     <td>${list.getPrecioRenta()}</td>
-                                    <td><input type="text" name="txtCantidad" placeholder="Disponible :${list.getCantidad()}"></td>
+                                    <td>${list.getCantidad()}</td>
                                     <td>${list.getSubTotal()}</td>
                                     <td>${list.getDescuento()}</td>
                                     <td><input type="text" name="txtCodPedido" placeholder="${list.getNumeroPedido()}"></td>
                                     <td class="d-flex">
+                                        <a href="Controlador?menu=AgregarPedido&accion=MeterCantidad&detalle=${list}" class="btn btn-danger" style="margin-left: 10px;">Establecer Cantidad</a>
                                         <a href="Controlador?menu=AgregarPedido&accion=Eliminar&detalleAEliminar=${list}" class="btn btn-danger" style="margin-left: 10px;">Descartar</a>
                                     </td>
                                 </tr>
@@ -99,7 +115,7 @@
                     </div>
                     <div class=" d-flex ">
                         <div class="col-sm-6 ">
-                            <input type="text" name="txtTotal" value="Q." class="form-control">
+                            <input type="text" name="txtTotal" value="Q.${total}" class="form-control">
                         </div>
                     </div>
                 </div>

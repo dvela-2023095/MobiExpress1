@@ -40,13 +40,13 @@ public class CargoEmpleadoDAO {
     
     public List listar(){
         String sql = "select * from CargoEmpleado";
-        CargoEmpleado cargo = new CargoEmpleado();
         List<CargoEmpleado> listaCargoEmpleado = new ArrayList<>();
         try{
             con=cn.Conexion();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while(rs.next()){
+                CargoEmpleado cargo = new CargoEmpleado();
                 cargo.setCodigoCargoEmpleado(rs.getInt(1));
                 cargo.setNombreCargo(rs.getString(2));
                 cargo.setSalario(rs.getDouble(3));
@@ -61,7 +61,7 @@ public class CargoEmpleadoDAO {
     }
     
     public int agregar(CargoEmpleado cargo){
-        String sql = "insert into CargoEmpleado(nombreCargo, salario, descripcionCargo, jornada)values(?,?,?,?);";
+        String sql = "insert into CargoEmpleado(nombreCargo, salario, descripcionCargo, jornada)values(?,?,?,?)";
         try{
             con=cn.Conexion();
             ps=con.prepareStatement(sql);
@@ -99,7 +99,8 @@ public class CargoEmpleadoDAO {
     }
     
     public int actualizarCargo(CargoEmpleado cargo){
-        String sql="Update CargoEmpleado set nombreCargo = ?, salario = ?, descripcionCargo = ?, jornada = ?";
+        String sql="Update CargoEmpleado set nombreCargo = ?, salario = ?, descripcionCargo = ?, jornada = ? where codigoCargoEmpleado = ?";
+        
         try{
             con=cn.Conexion();
             ps=con.prepareStatement(sql);
@@ -107,6 +108,7 @@ public class CargoEmpleadoDAO {
             ps.setDouble(2, cargo.getSalario());
             ps.setString(3, cargo.getDescripcionCargo());
             ps.setString(4, cargo.getJornada());
+            ps.setInt(5, cargo.getCodigoCargoEmpleado());
             ps.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
