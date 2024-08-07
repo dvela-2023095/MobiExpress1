@@ -11,25 +11,35 @@ public class DetalleCompra {
     private int cantidad;
     private double costo;
     private String direccion;
-    private String observaciones;
+    private double subTotal;
     private Date fechaReception;
     private int codigoProveedor;
     private int codigoProducto;
     private int numeroCompra;
+    private String nombreProducto;
 
     public DetalleCompra() {
     }
 
-    public DetalleCompra(int codigoDetalleCompra, int cantidad, double costo, String direccion, String observaciones, Date fechaReception, int codigoProveedor, int codigoProducto, int numeroCompra) {
+    public DetalleCompra(int codigoDetalleCompra, int cantidad, double costo, String direccion, double subTotal, Date fechaReception, int codigoProveedor, int codigoProducto, int numeroCompra, String nombreProducto) {
         this.codigoDetalleCompra = codigoDetalleCompra;
         this.cantidad = cantidad;
         this.costo = costo;
         this.direccion = direccion;
-        this.observaciones = observaciones;
+        this.subTotal = subTotal;
         this.fechaReception = fechaReception;
         this.codigoProveedor = codigoProveedor;
         this.codigoProducto = codigoProducto;
         this.numeroCompra = numeroCompra;
+        this.nombreProducto = nombreProducto;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
     public int getCodigoDetalleCompra() {
@@ -64,12 +74,12 @@ public class DetalleCompra {
         this.direccion = direccion;
     }
 
-    public String getObservaciones() {
-        return observaciones;
+    public double getSubTotal() {
+        return subTotal;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public Date getFechaReception() {

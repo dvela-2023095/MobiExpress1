@@ -27,10 +27,10 @@
                   <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Entidad</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Entidad</a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Proveedores&accion=Listar"  target="myFrame">Proveedores</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Entidad</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Clientes&accion=Listar" target="myFrame">Clientes</a>
                 </li>
                 
               </ul>

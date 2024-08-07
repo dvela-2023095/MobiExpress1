@@ -9,7 +9,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -21,8 +24,20 @@ import modelo.CargoEmpleado;
 import modelo.CargoEmpleadoDAO;
 import modelo.Clientes;
 import modelo.ClientesDAO;
+import modelo.Compras;
+import modelo.ComprasDAO;
+import modelo.DetalleCompra;
+import modelo.DetalleCompraDAO;
+import modelo.DetallePedido;
+import modelo.DetallePedidoDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Pedido;
+import modelo.PedidoDAO;
+import modelo.Producto;
+import modelo.ProductoDAO;
+import modelo.Proveedores;
+import modelo.ProveedoresDAO;
 
 
 /**
@@ -37,11 +52,31 @@ public class Controlador extends HttpServlet {
     ClientesDAO clienteDao = new ClientesDAO();
     CargoEmpleado cargoEmpleado = new CargoEmpleado();
     CargoEmpleadoDAO cargoEmpDao = new CargoEmpleadoDAO();
+    Compras compras = new Compras();
+    ComprasDAO comprasDao = new ComprasDAO();
+    DetalleCompra detalleComp = new DetalleCompra();
+    DetalleCompraDAO detalleCompDao = new DetalleCompraDAO();
+    Proveedores proveedor = new Proveedores();
+    ProveedoresDAO proveedoresDao = new ProveedoresDAO();
+    Producto producto = new Producto();
+    ProductoDAO productoDao = new ProductoDAO();
+    Pedido pedido=new Pedido();
+    PedidoDAO pedidoDao = new PedidoDAO();
+    DetallePedido detallePedido = new DetallePedido();
+    DetallePedidoDAO detallePedidoDao = new DetallePedidoDAO();
+    Proveedores Proveedores = new Proveedores();
+    List<DetallePedido> listaCarrito = new ArrayList<>();
+    double precio,subTotal, montoTotal = 0.00;
+    int cantidad;
+    int codCompra;
     int codCliente;
     int codEmpleado;
     int codCargoEmpleado;
     String Imagen;
     String respuesta = "Holaa";
+    List<DetalleCompra> listaDeDetalles = new ArrayList<>();
+    List<Producto> listaDeProductos = new ArrayList<>();
+    List<DetallePedido> listaDetallePedido = new ArrayList<>();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,6 +90,8 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
+        String accion2 = request.getParameter("accion2");
+        
         if(menu.equals("Principal")){
             request.getRequestDispatcher("Principal.jsp").forward(request, response);
         }else if(menu.equals("PrincipalEmp")){
@@ -127,73 +164,254 @@ public class Controlador extends HttpServlet {
                 request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
                 break;
             case "BuscarCargo":
-                    empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
-                    empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
-                    empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
-                    empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
-                    empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
-                    empleado.setPasswor(request.getParameter("txtContraEmpleado"));
-                    codCargoEmpleado = Integer.parseInt(request.getParameter("txtCodigoCargo"));
-                    cargoEmpleado = cargoEmpDao.buscarCodigoCargoEmpleado(codCargoEmpleado);
-                    empleado.setCodigoCargoEmpleado(cargoEmpleado.getCodigoCargoEmpleado());
-                    request.setAttribute("empleado", empleado);
-                    request.setAttribute("cargoEmpleado", cargoEmpleado);
-                    request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
-                    break;
+                empleado.setDPIEmpleado(request.getParameter("txtDPIEmpleado"));
+                empleado.setNombresEmpleado(request.getParameter("txtNombresEmpleado"));
+                empleado.setApellidosEmpleado(request.getParameter("txtApellidosEmpleado"));
+                empleado.setTelefonoEmpleado(request.getParameter("txtTelefonoEmpleado"));
+                empleado.setUsuario(request.getParameter("txtUsuarioEmpleado"));
+                empleado.setPasswor(request.getParameter("txtContraEmpleado"));
+                codCargoEmpleado = Integer.parseInt(request.getParameter("txtCodigoCargo"));
+                cargoEmpleado = cargoEmpDao.buscarCodigoCargoEmpleado(codCargoEmpleado);
+                empleado.setCodigoCargoEmpleado(cargoEmpleado.getCodigoCargoEmpleado());
+                request.setAttribute("empleado", empleado);
+                request.setAttribute("cargoEmpleado", cargoEmpleado);
+                request.getRequestDispatcher("Controlador?menu=Empleados&accion=Listar").forward(request, response);
+                break;
                 
             }
             request.getRequestDispatcher("Empleados.jsp").forward(request, response);
         }else if (menu.equals("Clientes")){
-            switch(accion){
+            switch (accion) {
                 case "Listar":
-                    List listaCliente = clienteDao.listar();
-                    request.setAttribute("clientes", listaCliente);
-                break;
+                    List<Clientes> listaCliente = clienteDao.listar();
+                    request.setAttribute("listaCliente", listaCliente);
+                    break;
                 case "Agregar":
-                    String NIT = request.getParameter("txtNITCliente");
-                    String nombres = request.getParameter("txtNombresCliente");
-                    String apellidos = request.getParameter("txtApellidosCliente");
-                    String direccion = request.getParameter("txtDireccionCliente");
-                    String telefono = request.getParameter("txtTelefonoEmpleado");
-                    cliente.setNITCliente(NIT);
-                    cliente.setNombresCliente(nombres);
-                    cliente.setApellidosCliente(apellidos);
-                    cliente.setDireccionCliente(direccion);
-                    cliente.setTelefonoCliente(telefono);
-                    clienteDao.agregar(cliente);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
-                break;
+                    String nitCli = request.getParameter("txtNITCliente");
+                    String nomCli = request.getParameter("txtNombresCliente");
+                    String apeCli = request.getParameter("txtApellidosCliente");
+                    String direCli = request.getParameter("txtDireccionCliente");
+                    String telCli = request.getParameter("txtTelefonoCliente");
+                    cliente.setNITCliente(nitCli);
+                    cliente.setNombresCliente(nomCli);
+                    cliente.setApellidosCliente(apeCli);
+                    cliente.setDireccionCliente(direCli);
+                    cliente.setTelefonoCliente(telCli);
+                    if(cliente.getNITCliente().isEmpty()||cliente.getNombresCliente().isEmpty()||cliente.getApellidosCliente().isEmpty()||cliente.getDireccionCliente().isEmpty()||cliente.getTelefonoCliente().isEmpty()){
+                        respuesta = "No puede dejar espacios vacíos";
+                        request.setAttribute("respuesta",respuesta);
+                        request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    }else
+                        clienteDao.agregar(cliente);
+                        request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    break;
+
                 case "Editar":
                     codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
                     Clientes c = clienteDao.listarCodigoCliente(codCliente);
                     request.setAttribute("cliente", c);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                break;
+                    break;
+
                 case "Actualizar":
-                    String NITCli = request.getParameter("txtNITCliente");
-                    String nombresCli = request.getParameter("txtNombresCliente");
-                    String apellidosCli = request.getParameter("txtApellidosCliente");
-                    String direccionCli = request.getParameter("txtDireccionCliente");
-                    String telefonoCli = request.getParameter("txtTelefonoCliente");
-                    cliente.setNITCliente(NITCli);
-                    cliente.setNombresCliente(nombresCli);
-                    cliente.setApellidosCliente(apellidosCli);
-                    cliente.setDireccionCliente(direccionCli);
-                    cliente.setTelefonoCliente(telefonoCli);
+                    nitCli = request.getParameter("txtNITCliente");
+                    nomCli = request.getParameter("txtNombresCliente");
+                    apeCli = request.getParameter("txtApellidosCliente");
+                    direCli = request.getParameter("txtDireccionCliente");
+                    telCli = request.getParameter("txtTelefonoCliente");
+                    cliente.setNITCliente(nitCli);
+                    cliente.setNombresCliente(nomCli);
+                    cliente.setApellidosCliente(apeCli);
+                    cliente.setDireccionCliente(direCli);
+                    cliente.setTelefonoCliente(telCli);
                     cliente.setCodigoCliente(codCliente);
-                    clienteDao.actualizarCliente(cliente);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                break;
+                    if(cliente.getNITCliente().isEmpty()||cliente.getNombresCliente().isEmpty()||cliente.getApellidosCliente().isEmpty()||cliente.getDireccionCliente().isEmpty()||cliente.getTelefonoCliente().isEmpty()){
+                        respuesta = "No puede dejar espacios vacíos";
+                        request.setAttribute("respuesta",respuesta);
+                        request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    }else
+                        clienteDao.actualizar(cliente);
+                        request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    break;
+
                 case "Eliminar":
                     codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
-                    clienteDao.eliminarCliente(codCliente);
+                    clienteDao.eliminar(codCliente);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                break;
+                    break;
             }
+            request.getRequestDispatcher("Clientes.jsp").forward(request, response);
+            
+        }else if(menu.equals("Compras")){
+            switch(accion){
+                case "Listar":
+                    List <Compras> listaDeCompras = comprasDao.listar();
+                    request.setAttribute("listaDeCompras", listaDeCompras);
+                    break;
+                
+            }
+            switch(accion2){
+                case "Detalle":
+                    codCompra = Integer.parseInt(request.getParameter("codCompra"));
+                    List<DetalleCompra> listaDeDetalles = detalleCompDao.detalleDeCompra(codCompra);
+                    request.setAttribute("listaDeDetalles", listaDeDetalles);
+                    break;
+            }
+            request.getRequestDispatcher("Compras.jsp").forward(request, response);
+        }else if(menu.equals("AgregarCompra")){
+            switch(accion){
+                case"Agregar":
+                    String descripcion = request.getParameter("txtDescripcionCompra");
+                    String estado = request.getParameter("txtEstado");
+                    compras.setDescripcion(descripcion);
+                    compras.setFechaDeCompra(convertirFecha(request.getParameter("txtFechaCompra")));
+                    compras.setEstado(estado);
+                    compras.setMontoTotal(0.00);
+                    comprasDao.agregar(compras);
+                    break;
+                case "BuscarProveedor":
+                    proveedor=proveedoresDao.listarCodigoProveedor(Integer.parseInt(request.getParameter("txtCodigoProveedor")));
+                    request.setAttribute("proveedor", proveedor);
+                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
+                    break;
+                case "BuscarProducto":
+                    producto=productoDao.buscarProducto(Integer.parseInt(request.getParameter("txtCodigoProducto")));
+                    request.setAttribute("producto", producto);
+                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
+                    break;
+                case "BuscarCompra":
+                    compras=comprasDao.listarNumeroCompra(Integer.parseInt(request.getParameter("txtCodigoCompra")));
+                    request.setAttribute("compras", compras);
+                    request.getRequestDispatcher("Controlador?menu=AgregarCompra&accion=default").forward(request, response);
+                    break;
+                case "Agregar Detalle":
+                    /*precio=Double.parseDouble(request.getParameter("txtPrecio");
+                    cantidad=Integer.parseInt(request.getParameter("txtCantidad");
+                    subTotal= precio*cantidad;*/
+                    montoTotal=0.0;
+                    DetalleCompra detalle = new DetalleCompra();
+                    detalle.setCodigoProveedor(Integer.parseInt(request.getParameter("txtCodigoProveedor")));
+                    detalle.setCodigoProducto(Integer.parseInt(request.getParameter("txtCodigoProducto")));
+                    detalle.setNumeroCompra(Integer.parseInt(request.getParameter("txtCodigoCompra")));
+                    detalle.setCosto(Double.parseDouble(request.getParameter("txtPrecio")));
+                    detalle.setCantidad(Integer.parseInt(request.getParameter("txtCantidad")));
+                    detalle.setDireccion((request.getParameter("txtDireccion")));
+                    detalle.setFechaReception(convertirFecha(request.getParameter("txtFechaRecepcion")));
+                    detalle.setSubTotal(detalle.getCantidad()*detalle.getCosto());
+                    listaDeDetalles.add(detalle);
+                    for(int i=0; i<listaDeDetalles.size();i++){
+                        montoTotal = montoTotal + listaDeDetalles.get(i).getSubTotal();
+                    }
+                    request.setAttribute("listaDeDetalles", listaDeDetalles);
+                    request.setAttribute("montoTotal", montoTotal);
+                    break;
+            }
+            request.getRequestDispatcher("DetalleCompra.jsp").forward(request, response);
+        }else if(menu.equals("AgregarPedido")){
+            switch(accion){
+                case"VerInventario":
+                    listaCarrito.clear();
+                    DetallePedido det1 = new DetallePedido(7, 25.00, 3, 75.00, "10%", 1, 4, "mesa redonda");
+                    DetallePedido det2 = new DetallePedido(8, 30.00, 2, 60.00, "5%", 2, 4, "mesa Rectangular");
+                    listaCarrito.add(det1);
+                    listaCarrito.add(det2);
+                    Date fechaEntrega = convertirFecha(request.getParameter("dtFecha Entrega"));
+                    List<Pedido> listaDePedidos = new ArrayList<>();
+                    //consigue los pedidos en un rango de dias
+                    listaDePedidos = pedidoDao.buscarPedidos(fechaEntrega);
+                    //consigue los detalles de todos los pedidos
+                    List<DetallePedido> listaDetalles = new ArrayList<>();
+                    listaDetalles= detallePedidoDao.buscarDetalles(listaDePedidos);
+                    List<Producto> listaProductos = new ArrayList<>();
+                    //cantidad de stock de productos
+                    //listaProductos = productoDao.productosDeDetalle(listaDetalles);
+                    listaProductos = productoDao.listar();
+                    listaProductos = productoDao.calcularStockDisponible(listaProductos, listaDetalles);
+                    listaCarrito = detallePedidoDao.asignarStock(listaProductos, listaCarrito);
+                    request.setAttribute("listaDeDetalles", listaCarrito);
+                    request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=default").forward(request, response);
+                    break;
+            }
+            request.getRequestDispatcher("Carrito.jsp").forward(request, response);
+        }else if (menu.equals("Proveedores")) {
+            switch (accion) {
+                case "Listar":
+                    List listaProveedores = proveedoresDao.listar();
+                    request.setAttribute("Proveedores", listaProveedores);
+                    break;
+                case "Agregar":
+                    String nitProveedor = request.getParameter("txtNITProveedor");
+                    String nombreProveedor = request.getParameter("txtNombreProveedor");
+                    String apellidoProveedor = request.getParameter("txtApellidoProveedor");
+                    String razonSocial = request.getParameter("txtRazonSocial");
+                    String contactoPrincipal = request.getParameter("txtContactoPrincipal");
+                    String paginaWeb = request.getParameter("txtPaginaWeb");
+                    Proveedores.setNITProveedor(nitProveedor);
+                    Proveedores.setNombreProveedor(nombreProveedor);
+                    Proveedores.setApellidoProveedor(apellidoProveedor);
+                    Proveedores.setRazonSocial(razonSocial);
+                    Proveedores.setContactoPrincipal(contactoPrincipal);
+                    Proveedores.setPaginaWeb(paginaWeb);
+                    if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                        respuesta = "No puede dejar espacios vacíos";
+                        request.setAttribute("respuesta", respuesta);
+                        request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    }else{
+                        new ProveedoresDAO().agregar(Proveedores);
+                        request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    }
+                    break;
+                case "Editar":
+                    int codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+                    Proveedores  = new ProveedoresDAO().listarCodigoProveedor(codProveedor);
+                    request.setAttribute("proveedor", Proveedores);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Actualizar":
+                    String nitProv = request.getParameter("txtNITProveedor");
+                    String nombreProv = request.getParameter("txtNombreProveedor");
+                    String apellidoProv = request.getParameter("txtApellidoProveedor");
+                    String razonSocialProv = request.getParameter("txtRazonSocial");
+                    String contactoPrincipalProv = request.getParameter("txtContactoPrincipal");
+                    String paginaWebProv = request.getParameter("txtPaginaWeb");            
+                    Proveedores.setNITProveedor(nitProv);
+                    Proveedores.setNombreProveedor(nombreProv);
+                    Proveedores.setApellidoProveedor(apellidoProv);
+                    Proveedores.setRazonSocial(razonSocialProv);
+                    Proveedores.setContactoPrincipal(contactoPrincipalProv);
+                    Proveedores.setPaginaWeb(paginaWebProv);
+                    if (Proveedores.getNITProveedor().isEmpty() || Proveedores.getNombreProveedor().isEmpty() || Proveedores.getApellidoProveedor().isEmpty() || Proveedores.getRazonSocial().isEmpty() || Proveedores.getContactoPrincipal().isEmpty() || Proveedores.getPaginaWeb().isEmpty()) {
+                        respuesta = "No puede dejar espacios vacíos";
+                        request.setAttribute("respuesta", respuesta);
+                        request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    }else{
+                        new ProveedoresDAO().actualizar(Proveedores);
+                        request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    }
+                    break;
+                case "Eliminar":
+                    codProveedor = Integer.parseInt(request.getParameter("codigoProveedor"));
+                    new ProveedoresDAO().eliminar(codProveedor);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                }
+                    request.getRequestDispatcher("Proveedores.jsp").forward(request, response);
+        
         }
     }
-    
+    private java.sql.Date convertirFecha(String fechaString){
+        java.sql.Date fecha = null;
+        try {
+            // Convertir el String a java.util.Date
+            java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(fechaString);
+
+            // Convertir java.util.Date a java.sql.Date
+            fecha = new java.sql.Date(utilDate.getTime());
+        } catch (Exception e) {
+            e.printStackTrace(); // Manejo de excepciones
+        }
+        return fecha;
+    }
     private byte[] leerBytes(InputStream contenidoArchivo) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;

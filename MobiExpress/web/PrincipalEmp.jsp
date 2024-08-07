@@ -21,16 +21,16 @@
                   <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" href="Controlador?menu=Home" target="myFrame">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Agregar Predidos</a>
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarPedido&accion=default" target="myFrame">Agregar Predidos</a>
                 </li>
                 <li class="nav-item">
                   <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Pedidos</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Agregar Compra</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarCompra&accion=default" target="myFrame">Agregar Compra</a>
                 </li>
                 <li class="nav-item">
-                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Compras</a>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Compras&accion=Listar&accion2=default" target="myFrame">Compras</a>
                 </li>
                 <li class="nav-item">
                     <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="" target="myFrame">Productos</a>

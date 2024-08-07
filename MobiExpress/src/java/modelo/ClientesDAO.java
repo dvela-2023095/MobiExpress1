@@ -7,123 +7,108 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 public class ClientesDAO {
-    Conexion cn = new Conexion();
-    Connection con;
-    PreparedStatement ps;
-    ResultSet rs;
-    int resp;
- 
-    public Clientes validar (String usuario, String passwor){
-        Clientes cliente = new Clientes();
-        String sql = "select * from Clientes where usuario = ? and passwor = ?";
-        try{
+    private Connection con;
+    private PreparedStatement ps;
+    private ResultSet rs;
+    private Conexion cn = new Conexion();
+    private int resp;
+
+    
+    public List<Clientes> listar() {
+        String sql = "Select * from Clientes";
+        List<Clientes> listaClientes = new ArrayList<>();
+        try {
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
-            ps.setString(1, usuario);
-            ps.setString(2, passwor);
-            rs=ps.executeQuery();
-            while (rs.next()){
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Clientes cliente = new Clientes();
                 cliente.setCodigoCliente(rs.getInt("codigoCliente"));
                 cliente.setNITCliente(rs.getString("NITCliente"));
                 cliente.setNombresCliente(rs.getString("nombresCliente"));
                 cliente.setApellidosCliente(rs.getString("apellidosCliente"));
-                cliente.setDireccionCliente(rs.getString("direccionClinte"));
+                cliente.setDireccionCliente(rs.getString("direccionCliente"));
                 cliente.setTelefonoCliente(rs.getString("telefonoCliente"));
+                listaClientes.add(cliente);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return cliente;
-    }
-    
-    public List listar(){
-        String sql = "select * from Clientes";
-        Clientes cliente = new Clientes();
-        List<Clientes> listaCliente = new ArrayList<>();
-        try{
-            con = cn.Conexion();
-            ps = con.prepareCall(sql);
-            rs = ps.executeQuery();
-            while(rs.next()){
-             cliente.setCodigoCliente(rs.getInt(1));
-             cliente.setNITCliente(rs.getString(2));
-             cliente.setNombresCliente(rs.getString(3));
-             cliente.setApellidosCliente(rs.getString(4));
-             cliente.setDireccionCliente(rs.getString(5));
-             cliente.setTelefonoCliente(rs.getString(6));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return listaCliente;
-    }
-    
-    public int agregar(Clientes cliente){
-        String sql = "Insert into Clientes(NITCliente, nombresCliente, apellidosCliente, direccionCliente, telefonoCliente) values (?,?,?,?,?,?,?)";
-        try{
-            con = cn.Conexion();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, cliente.getNITCliente());
-            ps.setString(2, cliente.getNombresCliente());
-            ps.setString(3, cliente.getApellidosCliente());
-            ps.setString(4, cliente.getDireccionCliente());
-            ps.setString(5, cliente.getTelefonoCliente());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return resp;
-    }
-    
-    public Clientes listarCodigoCliente(int id){
-        String sql = "select * from Clientes where codigoCliente = ?";
-        Clientes cliente = new Clientes();
-        try{
-            con = cn.Conexion();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            while(rs.next()){
-                cliente.setCodigoCliente(rs.getInt(1));
-                cliente.setNITCliente(rs.getString(2));
-                cliente.setNombresCliente(rs.getString(3));
-                cliente.setApellidosCliente(rs.getString(4));
-                cliente.setDireccionCliente(rs.getString(5));
-                cliente.setTelefonoCliente(rs.getString(6));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return cliente;
-    }
-    
-    public int actualizarCliente(Clientes cliente){
-        String sql = "Update Cliente set NITCliente = ?, nombresCliente = ?, apellidosCliente = ?, direccionCliente = ?"
-                + "  telefonoCliente = ?";
-        try{
-            con = cn.Conexion();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, cliente.getNITCliente());
-            ps.setString(2, cliente.getNombresCliente());
-            ps.setString(3, cliente.getApellidosCliente());
-            ps.setString(4, cliente.getDireccionCliente());
-            ps.setString(5, cliente.getTelefonoCliente());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return resp;
-    }
-    
-    public void eliminarCliente(int id){
-        String sql = "delete from Clientes where codigoCliente = ?";
-        try{
-            con = cn.Conexion();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.execute();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        return listaClientes;
     }
 
+
+    public int agregar(Clientes cliente) {
+        String sql = "insert into Clientes (NITCliente, nombresCliente, apellidosCliente, direccionCliente, telefonoCliente) values (?,?,?,?,?)";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cliente.getNITCliente());
+            ps.setString(2, cliente.getNombresCliente());
+            ps.setString(3, cliente.getApellidosCliente());
+            ps.setString(4, cliente.getDireccionCliente());
+            ps.setString(5, cliente.getTelefonoCliente());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resp;
+    }
+
+
+    public Clientes listarCodigoCliente(int id) {
+        Clientes cliente = new Clientes();
+        String sql = "Select * from Clientes where codigoCliente = ?";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                cliente.setCodigoCliente(rs.getInt("codigoCliente"));
+                cliente.setNITCliente(rs.getString("NITCliente"));
+                cliente.setNombresCliente(rs.getString("nombresCliente"));
+                cliente.setApellidosCliente(rs.getString("apellidosCliente"));
+                cliente.setDireccionCliente(rs.getString("direccionCliente"));
+                cliente.setTelefonoCliente(rs.getString("telefonoCliente"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cliente;
+    }
+
+
+    public int actualizar(Clientes cliente) {
+        String sql = "Update Clientes set NITCliente = ?, nombresCliente = ?, apellidosCliente = ?, direccionCliente = ?, telefonoCliente = ? where codigoCliente = ?";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cliente.getNITCliente());
+            ps.setString(2, cliente.getNombresCliente());
+            ps.setString(3, cliente.getApellidosCliente());
+            ps.setString(4, cliente.getDireccionCliente());
+            ps.setString(5, cliente.getTelefonoCliente());
+            ps.setInt(6, cliente.getCodigoCliente());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resp;
+    }
+
+
+    public void eliminar(int id) {
+        String sql = "Delete from Clientes where codigoCliente = ?";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
