@@ -21,13 +21,14 @@ public class PedidoDAO {
     //LISTAR
    public List listar(){
        String sql = "select * from Pedidos";
-       Pedido ped = new Pedido();
+       
        List<Pedido> listaPedidos = new ArrayList<>();
        try{
            con = cn.Conexion();
            ps = con.prepareStatement(sql);
            rs = ps.executeQuery();
            while(rs.next()){
+               Pedido ped = new Pedido();
                ped.setNumeroPedido(rs.getInt(1));
                ped.setDireccion(rs.getString(2));
                ped.setMontoTotal(rs.getDouble(3));
@@ -35,6 +36,35 @@ public class PedidoDAO {
                ped.setFechaDeRetorno(rs.getDate(5));
                ped.setCodigoCliente(rs.getInt(6));
                ped.setCodigoEmpleado(rs.getInt(7));
+               ped.setCliente(rs.getString(8));
+               ped.setEmpleado(rs.getString(9));
+               listaPedidos.add(ped);
+           }
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+       
+       return listaPedidos;
+       
+   }
+   public List listarParaPedidos(){
+       String sql = "select P.*, C.nombresCliente,E.nombresEmpleado from Pedidos P,Clientes C,Empleados E where P.codigoCliente=C.codigoCliente and P.codigoEmpleado = E.codigoEmpleado;";
+        List<Pedido> listaPedidos = new ArrayList<>();
+       try{
+           con = cn.Conexion();
+           ps = con.prepareStatement(sql);
+           rs = ps.executeQuery();
+           while(rs.next()){
+               Pedido ped = new Pedido();
+               ped.setNumeroPedido(rs.getInt(1));
+               ped.setDireccion(rs.getString(2));
+               ped.setMontoTotal(rs.getDouble(3));
+               ped.setFechaDeEntrega(rs.getDate(4));
+               ped.setFechaDeRetorno(rs.getDate(5));
+               ped.setCodigoCliente(rs.getInt(6));
+               ped.setCodigoEmpleado(rs.getInt(7));
+               ped.setCliente(rs.getString(8));
+               ped.setEmpleado(rs.getString(9));
                listaPedidos.add(ped);
            }
        }catch(Exception e){
@@ -46,22 +76,22 @@ public class PedidoDAO {
    }
    //AGREGAR
     public int agregar(Pedido ped){
-            String sql = "insert into Pedidos(numeroPedido,direccion,montoTotal,fechaDeEntrega,fechaDeRetorno,codigoCliente,codigoEmpleado values(?,?,?,?,?,?,?))";
-            try{
-                con = cn.Conexion();
-                ps = con.prepareStatement(sql);
-                ps.setString(1, ped.getDireccion());
-                ps.setDouble(2, ped.getMontoTotal());
-                ps.setDate(3, new java.sql.Date(ped.getFechaDeEntrega().getTime()));
-                ps.setDate(4, new java.sql.Date(ped.getFechaDeRetorno().getTime()));
-                ps.setInt(5, ped.getCodigoCliente());
-                ps.setInt(6, ped.getCodigoEmpleado());
-                ps.executeUpdate();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        return resp;
+            String sql = "insert into Pedidos(direccion,montoTotal,fechaDeEntrega,fechaDeRetorno,codigoCliente,codigoEmpleado) values(?,?,?,?,?,?)";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, ped.getDireccion());
+            ps.setDouble(2, ped.getMontoTotal());
+            ps.setDate(3, new java.sql.Date(ped.getFechaDeEntrega().getTime()));
+            ps.setDate(4, new java.sql.Date(ped.getFechaDeRetorno().getTime()));
+            ps.setInt(5, ped.getCodigoCliente());
+            ps.setInt(6, ped.getCodigoEmpleado());
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
         }
+        return resp;
+    }
     
     //BUSCAR
     
@@ -143,6 +173,28 @@ public class PedidoDAO {
         }
         return listaDePedidos;
     }
+    public int encontrarPedidoRecienAgregado(Pedido pedido){
+        int codigo = 0;
+        String sql = "select numeroPedido from Pedidos where direccion=? and montoTotal=? and fechaDeEntrega=? and fechaDeRetorno=? and codigoCliente=? and codigoEmpleado=?;";
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, pedido.getDireccion());
+            ps.setDouble(2, pedido.getMontoTotal());
+            ps.setDate(3, new java.sql.Date(pedido.getFechaDeEntrega().getTime()));
+            ps.setDate(4, new java.sql.Date(pedido.getFechaDeRetorno().getTime()));
+            ps.setInt(5, pedido.getCodigoCliente());
+            ps.setInt(6, pedido.getCodigoEmpleado());
+            rs = ps.executeQuery();
+            while(rs.next()){
+                codigo = rs.getInt(1);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return codigo;
+    }
+    
 }
 
    

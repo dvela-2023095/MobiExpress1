@@ -12,10 +12,12 @@ public class Pedido {
     private Date fechaDeRetorno;
     private int codigoCliente;
     private int codigoEmpleado;
+    private String Cliente;
+    private String Empleado;
 
     public Pedido(){}
 
-    public Pedido(int numeroPedido, String direccion, double montoTotal, Date fechaDeEntrega, Date fechaDeRetorno, int codigoCliente, int codigoEmpleado) {
+    public Pedido(int numeroPedido, String direccion, double montoTotal, Date fechaDeEntrega, Date fechaDeRetorno, int codigoCliente, int codigoEmpleado, String Cliente, String Empleado) {
         this.numeroPedido = numeroPedido;
         this.direccion = direccion;
         this.montoTotal = montoTotal;
@@ -23,7 +25,11 @@ public class Pedido {
         this.fechaDeRetorno = fechaDeRetorno;
         this.codigoCliente = codigoCliente;
         this.codigoEmpleado = codigoEmpleado;
+        this.Cliente = Cliente;
+        this.Empleado = Empleado;
     }
+
+    
 
     public int getNumeroPedido() {
         return numeroPedido;
@@ -79,6 +85,22 @@ public class Pedido {
 
     public void setCodigoEmpleado(int codigoEmpleado) {
         this.codigoEmpleado = codigoEmpleado;
+    }
+
+    public String getCliente() {
+        return Cliente;
+    }
+
+    public void setCliente(String Cliente) {
+        this.Cliente = Cliente;
+    }
+
+    public String getEmpleado() {
+        return Empleado;
+    }
+
+    public void setEmpleado(String Empleado) {
+        this.Empleado = Empleado;
     }
     
     

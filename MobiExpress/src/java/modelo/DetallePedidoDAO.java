@@ -29,7 +29,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
             }
@@ -53,7 +53,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
                 listaDetallePedidos.add(dp);
@@ -66,17 +66,17 @@ public class DetallePedidoDAO {
     
     //Método Agregar
     public int agregar(DetallePedido dp){
-        String sql = " insert into DetallePedido(precioRenta, cantidad, subTotal, descuento, codigoProducto, numeroPedido) values (?,?,?,?.?,?)";
+        String sql = " insert into DetallePedido(precioRenta, cantidad, subTotal, descuento, codigoProducto, numeroPedido) values (?,?,?,?,?,?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
             ps.setDouble(1, dp.getPrecioRenta());
             ps.setInt(2, dp.getCantidad());
             ps.setDouble(3, dp.getSubTotal());
-            ps.setString(4, dp.getDescuento());
+            ps.setInt(4, dp.getDescuento());
             ps.setInt(5, dp.getCodigoProducto());
             ps.setInt(6, dp.getNumeroPedido());
-            resp = ps.executeUpdate();
+            ps.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class DetallePedidoDAO {
                 dp.setPrecioRenta(rs.getDouble(2));
                 dp.setCantidad(rs.getInt(3));
                 dp.setSubTotal(rs.getDouble(4));
-                dp.setDescuento(rs.getString(5));
+                dp.setDescuento(rs.getInt(5));
                 dp.setCodigoProducto(rs.getInt(6));
                 dp.setNumeroPedido(rs.getInt(7));
             }       
@@ -116,7 +116,7 @@ public class DetallePedidoDAO {
             ps.setDouble(1, dp.getPrecioRenta());
             ps.setInt(2, dp.getCantidad());
             ps.setDouble(3, dp.getSubTotal());
-            ps.setString(4, dp.getDescuento());
+            ps.setInt(4, dp.getDescuento());
             ps.setInt(5, dp.getCodigoProducto());
             ps.setInt(6, dp.getNumeroPedido());
             ps.setInt(7, dp.getCodigoDetallePedido());
@@ -164,6 +164,41 @@ public class DetallePedidoDAO {
             }
         }
        return listaDeDetalles;
+    }
+    public List buscarDetalles(int id){
+        String sql = "select DP.*,P.producto from DetallePedido DP,Producto P where numeroPedido="+id+" and DP.codigoProducto = P.codigoProducto";
+        List<DetallePedido> listaDetalles = new ArrayList<>();
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                DetallePedido dp = new DetallePedido();
+                dp.setCodigoDetallePedido(rs.getInt(1));
+                dp.setPrecioRenta(rs.getDouble(2));
+                dp.setCantidad(rs.getInt(3));
+                dp.setSubTotal(rs.getDouble(4));
+                dp.setDescuento(rs.getInt(5));
+                dp.setCodigoProducto(rs.getInt(6));
+                dp.setNumeroPedido(rs.getInt(7));
+                dp.setNombreProducto(rs.getString(8));
+                listaDetalles.add(dp);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listaDetalles;
+    }
+    
+    public void eliminar(int id){
+        String sql = "delete from DetallePedido where codigoDetallePedido="+id;
+        try{
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
 }

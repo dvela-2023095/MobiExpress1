@@ -11,32 +11,32 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <div class="d-flex col-sm-12">
             <div class="col-sm-5">
                 <form action="Controlador?menu=AgregarCompra" method="post">
-                    <div class="card ">
+                    <div class="card bg-primary">
                         <div class="form-group">
                         <label><strong>Detalles de la Compra</strong></label>
                         </div>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtCodigoProveedor" value="${proveedor.getCodigoProveedor()}" class="form-control" placeholder="Cod. Proveedor">
+                                <input type="text" name="txtCodigoProveedor" value="${proveedores.getCodigoProveedor()}" class="form-control" placeholder="Cod. Proveedor">
                                 <button type="submit" name="accion" value="BuscarProveedor" class="btn-outline-info">Buscar</button>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" name="txtNombreProveedor" value="${proveedor.getNombreProveedor()}" class="form-control" placeholder="Proveedor">
+                                <input type="text" name="txtNombreProveedor" value="${proveedores.getNombreProveedor()}" class="form-control" placeholder="Proveedor">
                             </div>
                         </div>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtCodigoProducto" value="${producto.getCodigoProducto()}" class="form-control" placeholder="Cod..Producto">
+                                <input type="text" name="txtCodigoProducto" value="${producto.getCodigoProducto()}" class="form-control" placeholder="Cod.Producto">
                                 <button type="submit" name="accion" value="BuscarProducto" class="btn-outline-info">Buscar</button>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" name="txtNombreProducto" value="${producto.getProducto()}" class="form-control" placeholder="Producto">
+                                <input type="text" name="txtNombreProducto" value="${producto.getDescripcion()}" class="form-control" placeholder="Producto">
                             </div>
                         </div>
                         <div class="form-group d-flex">
@@ -52,7 +52,7 @@
         
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtPrecio" value="" class="form-control" placeholder="Precio Unitario">
+                                <input type="text" name="txtPrecio"  value="${producto.getCostoRenta()}" class="form-control" placeholder="Precio Unitario">
                             </div>
                             <div class="col-sm-4">
                                 <input type="text" name="txtCantidad" placeholder="Cantidad" class="form-control">
@@ -60,19 +60,20 @@
                         </div>
                         <div class="form-group d-flex">
                             <div class="col-sm-6 d-flex">
-                                <input type="text" name="txtDireccion" value="" class="form-control" placeholder="Direccion de compra">
+                                <input type="text" name="txtDireccion" value="${detalleCompra.getDireccion()}" class="form-control" placeholder="Direccion de compra">
                             </div>
                             <div class="col-sm-6">
-                                <input type="date" name="txtFechaRecepcion" value="" class="form-control" placeholder="Fecha de Recepción">
+                                <input type="date" name="txtFechaRecepcion" value="${detalleCompra.getFechaRecepcion()}" class="form-control" placeholder="Fecha de Recepción">
                             </div>
                         </div> 
                         <div class="form-group">
-                            <input type="submit" value="Agregar Detalle" name="accion" class="btn btn-success">
+                            
+                            <input type="submit" name="accion" value="AgregarDetalles" class="btn btn-success">
                         </div>
                     </div>
                 </form>
                 <form action="Controlador?menu=AgregarCompra" method="POST">
-                    <div class="">
+                    <div class="bg-primary">
                         <div class="form-group">
                             <label><strong>Compra:</strong></label>
                             <input type="text" value="" name="txtDescripcionCompra" class="form-control" placeholder="Descripcion de la Compra" >
@@ -89,7 +90,7 @@
                         </div> 
                         <div class="form-group d-flex">
                             <div class="col-sm-5">
-                                <input type="submit" value="Agregar" name="accion" class="btn btn-info">
+                                <input type="submit" value="AgregarCompra" name="accion" class="btn btn-info">
                             </div>
                             <div class="col-sm-5">
                                 <input type="submit" value="Actualizar Compra" name="accion" class="btn btn-success">
@@ -105,6 +106,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <td><strong>COD. DETALLE</strong></td>
                                     <td><Strong>PROVEEDOR</Strong></td>
                                     <td><Strong>PRODUCTO</Strong></td>
                                     <td><Strong>COMPRA</Strong></td>
@@ -116,33 +118,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="list" items="${listaDeDetalles}">
-                                <tr>
-                                    <td>${list.getCodigoProveedor()}</td>
-                                    <td>${list.getCodigoProducto()}</td>
-                                    <td>${list.getNumeroCompra()}</td>
-                                    <td>${list.getCosto()}</td>
-                                    <td>${list.getCantidad()}</td>
-                                    <td>${list.getSubTotal()}</td>
-                                    <td>${list.getDireccion()}</td>
-                                    <td>${list.getFechaReception()}</td>
-                                    <td class="d-flex">
-                                        <a href="" class="btn btn-danger" style="margin-left: 10px;">Eliminar</a>
-                                    </td>
-                                </tr>
+                                <c:forEach var="list" items="${listaDeComp}">
+                                    <tr>
+                                        <td>${list.getItem()}</td>
+                                        <td>${list.getCodigoProveedor()}</td>
+                                        <td>${list.getCodigoProducto()}</td>
+                                        <td>${list.getNumeroCompra()}</td>
+                                        <td>${list.getCosto()}</td>
+                                        <td>${list.getCantidad()}</td>
+                                        <td>${list.getSubTotal()}</td>
+                                        <td>${list.getDireccion()}</td>
+                                        <td>${list.getFechaRecepcion()}</td>
+                                        <td class="d-flex">
+                                            <a href="Controlador?menu=AgregarCompra&accion=Eliminar&item=${list.getItem()}" class="btn btn-danger" style="margin-left: 10px;">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                    
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
+                     <form action="Controlador?menu=AgregarCompra" method="POST">
                     <div class=" d-flex ">
                         <div class="col-sm-6">
-                            <input type="submit" name="accion" value="Agregar Detalles" class="btn btn-success">
-                            <input type="submit" name="accion" value="Cancelar" class="btn btn-danger">
+                            <input type="submit" name="accion" value="Guardar Datos" class="btn btn-success">
+                            <input type="submit" value="Cancelar" name="accion" class="btn btn-danger">
                         </div>
                         <div class="col-sm-4 ml-auto">
-                            <input type="text" name="txtTotal" value="Q.${montoTotal}" class="form-control">
+                            <input type="text" name="txtTotal" value="Q.${totalDetalle}" class="form-control">
                         </div>
                     </div>
+                     </form>
                 </div>
             </div>
         </div>

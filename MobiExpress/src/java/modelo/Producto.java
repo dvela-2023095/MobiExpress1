@@ -1,39 +1,27 @@
-
 package modelo;
-/*
-create table Producto(
-	codigoProducto int not null auto_increment,
-    producto varchar(45) not null,
-    descripcion varchar(45) not null,
-    costoRenta double(10,2) not null,
-    existencia int not null,
-    tamanio varchar(10) not null,
-    codigoCategoriaProducto int not null,
-    primary key PK_codigoProducto (codigoProducto),
-    constraint FK_Producto_CategoriaProducto foreign key (codigoCategoriaProducto) 
-		references CategoriaProducto(codigoCategoriaProducto)
-);
-*/
+
 public class Producto {
     private int codigoProducto;
     private String producto;
-    private String descripción;
+    private String descripcion;
     private double costoRenta;
     private int existencia;
     private String tamanio;
     private int codigoCategoriaProducto;
+    private String imgProducto;
 
     public Producto() {
     }
 
-    public Producto(int codigoProducto, String producto, String descripción, double costoRenta, int existencia, String tamanio, int codigoCategoriaProducto) {
+    public Producto(int codigoProducto, String producto, String descripcion, double costoRenta, int existencia, String tamanio, int codigoCategoriaProducto, String imgProducto) {
         this.codigoProducto = codigoProducto;
         this.producto = producto;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
         this.costoRenta = costoRenta;
         this.existencia = existencia;
         this.tamanio = tamanio;
         this.codigoCategoriaProducto = codigoCategoriaProducto;
+        this.imgProducto = imgProducto;
     }
 
     public int getCodigoProducto() {
@@ -52,12 +40,12 @@ public class Producto {
         this.producto = producto;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public double getCostoRenta() {
@@ -91,6 +79,13 @@ public class Producto {
     public void setCodigoCategoriaProducto(int codigoCategoriaProducto) {
         this.codigoCategoriaProducto = codigoCategoriaProducto;
     }
-    
-    
+
+    public String getImgProducto() {
+        return imgProducto;
+    }
+
+    public void setImgProducto(String imgProducto) {
+        this.imgProducto = imgProducto;
+    }
+
 }
