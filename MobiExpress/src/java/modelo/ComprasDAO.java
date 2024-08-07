@@ -68,11 +68,11 @@ public class ComprasDAO {
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, compra.getNumeroCompra());
-            ps.setString(2, compra.getDescripcion());
-            ps.setDouble(3, compra.getMontoTotal());
-            ps.setDate(4,new java.sql.Date(compra.getFechaDeCompra().getTime()));
-            ps.setString(5, compra.getEstado());
+            ps.executeUpdate();
+            ps.setString(1, compra.getDescripcion());
+            ps.setDouble(2, compra.getMontoTotal());
+            ps.setDate(3,new java.sql.Date(compra.getFechaDeCompra().getTime()));
+            ps.setString(4, compra.getEstado());
             
         }catch(Exception e){
             e.printStackTrace();
