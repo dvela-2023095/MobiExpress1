@@ -1,6 +1,10 @@
+<%-- 
+    Document   : DetallePedido
+    Created on : 6/08/2024, 02:24:09 PM
+    Author     : informatica
+--%>
 
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -83,17 +87,19 @@
                             <tbody>
                             <c:forEach var="list" items="${listaDeDetalles}">
                                 <tr>
-                                    <td>${list.getNombreProducto()}</td>
-                                    <td>${list.getPrecioRenta()}</td>
-                                    <td><input type="text" name="txtCantidad" placeholder="Disponible :${list.getCantidad()}"></td>
-                                    <td>${list.getSubTotal()}</td>
-                                    <td>${list.getDescuento()}</td>
-                                    <td><input type="text" name="txtCodPedido" placeholder="${list.getNumeroPedido()}"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="text" name="txtCantidad" placeholder=""></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="text" name="txtCodPedido" placeholder=""></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="d-flex">
-                                        <a href="Controlador?menu=AgregarPedido&accion=Eliminar&detalleAEliminar=${list}" class="btn btn-danger" style="margin-left: 10px;">Descartar</a>
+                                        <a href="" class="btn btn-danger" style="margin-left: 10px;">Descartar</a>
                                     </td>
                                 </tr>
-                            </c:forEach>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>

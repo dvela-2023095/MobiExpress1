@@ -32,7 +32,12 @@
                 <li class="nav-item">
                     <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Clientes&accion=Listar" target="myFrame">Clientes</a>
                 </li>
-                
+                <li>
+                    <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=Producto&accion=Listar" target="myFrame">Producto</a>
+                </li> 
+                <li class="nav-item">
+                  <a style="margin-left:  10px; border: none;" class="btn btn-outline-dark" class="nav-link" href="Controlador?menu=AgregarPedido&accion=Listar" target="myFrame">Carrito</a>
+                </li>
               </ul>
             </div>
             <div class="dropdown" style="padding-right: 20px; float: left;">

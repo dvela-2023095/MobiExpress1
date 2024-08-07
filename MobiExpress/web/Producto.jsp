@@ -20,33 +20,37 @@
                     <form action="Controlador?menu=Producto" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label><strong>Producto:</strong></label>
-                            <input type="text" value="${producto.producto}" name="txtProducto" class="form-control">
+                            <input type="text" value="${producto.getProducto()}" name="txtProducto" class="form-control">
                         </div>
                         <div class="form-group">
                             <label><strong>Descripcion:</strong></label>
-                            <input type="text" value="${producto.descripcion}" name="txtDescripcion" class="form-control">
+                            <input type="text" value="${producto.getDescripcion()}" name="txtDescripcion" class="form-control">
                         </div>
                         <div class="form-group">
                             <label><strong>Costo Renta:</strong></label>
-                            <input type="text" value="${producto.costoRenta}" name="txtCostoRenta" class="form-control">
+                            <input type="text" value="${producto.getCostoRenta()}" name="txtCostoRenta" class="form-control">
                         </div>
                         <div class="form-group">
                             <label><strong>Existencia:</strong></label>
-                            <input type="text" value="${producto.existencia}" name="txtExistencia" class="form-control">
+                            <input type="text" value="${producto.getExistencia()}" name="txtExistencia" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label><strong>Tamanioo:</strong></label>
-                            <input type="text" value="${producto.tamanio}" name="txtTamanio" class="form-control">
+                            <label><strong>Tamanio:</strong></label>
+                            <input type="text" value="${producto.getTamanio()}" name="txtTamanio" class="form-control">
                         </div>
                         <label><strong>Cod. Categoria Producto:</strong></label>
                         <div class="form-group d-flex">
                             <div class="d-flex">
-                                <input type="text" name="txtCodigoCategoria" value="${producto.codigoCategoriaProducto}" class="form-control" placeholder="Codigo">
+                                <input type="text" name="txtCodigoCategoria" value="${producto.getCodigoCategoriaProducto()}" class="form-control" placeholder="Codigo">
                                 <button type="submit" name="accion" value="BuscarCategoria" class="btn-outline-info">Buscar</button>
                             </div>
                             <div>
                                 <input type="text" name="txtCategoria" value="${categoriaProducto.getCategoria()}" class="form-control" placeholder="Categoria">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Foto Producto:</strong></label>
+                            <input type="file" id="imagen" accept="image/png,image/jpg" name="flImagenProductos" class="form-control">
                         </div>
                         <div class="form-group">
                             <label name="respuesta" class="text-danger">${respuesta}</label>
@@ -62,6 +66,7 @@
                     <thead>
                         <tr>
                             <th>CODIGO</th>
+                            <th>FOTO PRODUCTO</th>
                             <th>PRODUCTO</th>
                             <th>DESCRIPCION</th>
                             <th>COSTO RENTA</th>
@@ -73,16 +78,18 @@
                     <tbody>
                         <c:forEach var="producto" items="${listaProducto}">
                             <tr>
-                                <td>${producto.codigoProducto}</td>
-                                <td>${producto.producto}</td>
-                                <td>${producto.descripcion}</td>
-                                <td>${producto.costoRenta}</td>
-                                <td>${producto.existencia}</td>
-                                <td>${producto.tamanio}</td>
-                                <td>${producto.codigoCategoriaProducto}</td>
+                                <td>${producto.getCodigoProducto()}</td>
+                                <td><img class="rounded" src="data:image/png;base64,${producto.getImgProducto()}" alt="60" width="100%" height="100"></td>
+                                <td>${producto.getProducto()}</td>
+                                <td>${producto.getDescripcion()}</td>
+                                <td>${producto.getCostoRenta()}</td>
+                                <td>${producto.getExistencia()}</td>
+                                <td>${producto.getTamanio()}</td>
+                                <td>${producto.getCodigoCategoriaProducto()}</td>
                                 <td>
-                                    <a class="btn btn-warning" href="Controlador?menu=Producto&accion=Editar&codigoProducto=${producto.codigoProducto}">Editar</a>
-                                    <a class="btn btn-danger" href="Controlador?menu=Producto&accion=Eliminar&codigoProducto=${producto.codigoProducto}">Eliminar</a>
+                                    <a class="btn btn-warning" href="Controlador?menu=Producto&accion=Editar&codigoProducto=${producto.getCodigoProducto()}">Editar</a>
+                                    <a class="btn btn-danger" href="Controlador?menu=Producto&accion=Eliminar&codigoProducto=${producto.getCodigoProducto()}">Eliminar</a>
+                                    <a class="btn btn-info" href="Controlador?menu=Producto&accion=AgregarACarrito&nombreProducto=${producto.getProducto()}&costoRenta=${producto.getCostoRenta()}&codigoProducto=${producto.getCodigoProducto()}">Carrito</a>
                                 </td>
                             </tr>
                         </c:forEach>

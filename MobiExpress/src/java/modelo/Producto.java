@@ -8,11 +8,12 @@ public class Producto {
     private int existencia;
     private String tamanio;
     private int codigoCategoriaProducto;
+    private String imgProducto;
 
     public Producto() {
     }
 
-    public Producto(int codigoProducto, String producto, String descripcion, double costoRenta, int existencia, String tamanio, int codigoCategoriaProducto) {
+    public Producto(int codigoProducto, String producto, String descripcion, double costoRenta, int existencia, String tamanio, int codigoCategoriaProducto, String imgProducto) {
         this.codigoProducto = codigoProducto;
         this.producto = producto;
         this.descripcion = descripcion;
@@ -20,6 +21,7 @@ public class Producto {
         this.existencia = existencia;
         this.tamanio = tamanio;
         this.codigoCategoriaProducto = codigoCategoriaProducto;
+        this.imgProducto = imgProducto;
     }
 
     public int getCodigoProducto() {
@@ -77,6 +79,13 @@ public class Producto {
     public void setCodigoCategoriaProducto(int codigoCategoriaProducto) {
         this.codigoCategoriaProducto = codigoCategoriaProducto;
     }
-    
-    
+
+    public String getImgProducto() {
+        return imgProducto;
+    }
+
+    public void setImgProducto(String imgProducto) {
+        this.imgProducto = imgProducto;
+    }
+
 }
