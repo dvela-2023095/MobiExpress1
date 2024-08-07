@@ -166,7 +166,7 @@ public class DetallePedidoDAO {
        return listaDeDetalles;
     }
     public List buscarDetalles(int id){
-        String sql = "select DP.*,P.producto from DetallePedido DP,Producto P where numeroPedido="+id;
+        String sql = "select DP.*,P.producto from DetallePedido DP,Producto P where numeroPedido="+id+" and DP.codigoProducto = P.codigoProducto";
         List<DetallePedido> listaDetalles = new ArrayList<>();
         try{
             con = cn.Conexion();

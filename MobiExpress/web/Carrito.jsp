@@ -105,8 +105,7 @@
                                     <td>${list.getDescuento()}</td>
                                     <td><input type="text" name="txtCodPedido" placeholder="${list.getNumeroPedido()}"></td>
                                     <td class="d-flex">
-                                        <a href="Controlador?menu=AgregarPedido&accion=MeterCantidad&detalle=${list}" class="btn btn-danger" style="margin-left: 10px;">Establecer Cantidad</a>
-                                        <a href="Controlador?menu=AgregarPedido&accion=Eliminar&detalleAEliminar=${list}" class="btn btn-danger" style="margin-left: 10px;">Descartar</a>
+                                        <a href="Controlador?menu=AgregarPedido&accion=Eliminar&detalleAEliminar=${list.getCodigoProducto()}" class="btn btn-danger" style="margin-left: 10px;">Descartar</a>
                                     </td>
                                 </tr>
                             </c:forEach>

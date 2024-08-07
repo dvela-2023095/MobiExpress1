@@ -36,7 +36,7 @@
                                 <td>${pedido.getCliente()}</td>
                                 <td>${pedido.getEmpleado()}</td>
                                 <td>
-                                    <a class="btn btn-warning" href="Controlador?menu=Pedidos&accion=Listar">Editar</a>
+                                    
                                     <a class="btn btn-danger" 
                                        href="Controlador?menu=Pedidos&accion=EliminarPedido&numeroPedido=${pedido.getNumeroPedido()}&accion2=default">Eliminar</a>
                                     <a class="btn btn-info" 

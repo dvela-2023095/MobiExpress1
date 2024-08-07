@@ -73,7 +73,7 @@
                         <a class="dropdown-item btn btn-outline-dark" href="Controlador?menu=AgregarPedido&accion=Listar" target="myFrame" >
                             Agregar un Pedido
                         </a>
-                        <a class="dropdown-item" href="" target="myFrame" >
+                        <a class="dropdown-item" href="Controlador?menu=Pedidos&accion=Listar&accion2=default" target="myFrame" >
                             Ver Pedidos
                         </a>
                     </div>

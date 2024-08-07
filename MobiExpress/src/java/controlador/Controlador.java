@@ -494,8 +494,12 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("total", montoTotal);
                     break;
                 case"Eliminar":
-                    DetallePedido det = (DetallePedido)request.getAttribute("detalleAEliminar");
-                    listaCarrito.remove(det);
+                    int detalle = Integer.parseInt(request.getParameter("detalleAEliminar"));
+                    for(int i=0;i<listaCarrito.size();i++){
+                        if(detalle==listaCarrito.get(i).getCodigoProducto()){
+                            listaCarrito.remove(i);
+                        }
+                    }
                     request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
                     break;
                 case"Establecer":
@@ -511,6 +515,7 @@ public class Controlador extends HttpServlet {
                     pedido.setDireccion(request.getParameter("txtDireccion"));
                     montoTotal = 0.0;
                     codProducto = Integer.parseInt(request.getParameter("txtCodProducto"));
+                    DetallePedido det = new DetallePedido();
                     for(int i=0;i<listaCarrito.size();i++){
                         if(codProducto ==listaCarrito.get(i).getCodigoProducto()){
                             subTotal=0;
@@ -592,6 +597,11 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("empleado", empleado.getNombresEmpleado());
                     request.setAttribute("pedido", pedido);
                     request.getRequestDispatcher("Controlador?menu=AgregarPedido&accion=Listar").forward(request, response);
+                    break;
+                case"Cancelar Pedido":
+                    listaCarrito.clear();
+                    pedido = new Pedido();
+                    montoTotal = 0.00;
                     break;
             }
             request.getRequestDispatcher("Carrito.jsp").forward(request, response);
@@ -962,7 +972,7 @@ public class Controlador extends HttpServlet {
                  case "EliminarPedido":
                     codPedido = Integer.parseInt(request.getParameter("numeroPedido"));
                     pedidoDao.eliminarPedido(codPedido);
-                    request.getRequestDispatcher("Controlador?menu=Compras&accion=Listar&accion2=default").forward(request, response);
+                    request.getRequestDispatcher("Controlador?menu=Pedidos&accion=Listar&accion2=default").forward(request, response);
                 break;
             }
             switch(accion2){
