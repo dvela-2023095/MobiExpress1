@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Clientes
-    Created on : 25/07/2024, 12:56:32 PM
-    Author     : DELL
---%>
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

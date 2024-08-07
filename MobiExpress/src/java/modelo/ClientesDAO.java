@@ -1,3 +1,4 @@
+
 package modelo;
 
 import config.Conexion;
@@ -98,6 +99,7 @@ public class ClientesDAO {
         return resp;
     }
 
+
     public void eliminar(int id) {
         String sql = "Delete from Clientes where codigoCliente = ?";
         try {
@@ -109,5 +111,4 @@ public class ClientesDAO {
             e.printStackTrace();
         }
     }
-
 }

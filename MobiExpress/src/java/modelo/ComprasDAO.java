@@ -64,16 +64,15 @@ public class ComprasDAO {
     }
     
     public int agregar(Compras compra){
-        String sql = "insert into Compras (numeroCompra, descripcion, montoTotal, fechaDeCompra, estado) values (?, ?, ?, ?, ?)";
+        String sql = "insert into Compras (descripcion, montoTotal, fechaDeCompra, estado) values (?, ?, ?, ?)";
         try{
             con = cn.Conexion();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, compra.getNumeroCompra());
-            ps.setString(2, compra.getDescripcion());
-            ps.setDouble(3, compra.getMontoTotal());
-            ps.setDate(4,new java.sql.Date(compra.getFechaDeCompra().getTime()));
-            ps.setString(5, compra.getEstado());
-            
+            ps.setString(1, compra.getDescripcion());
+            ps.setDouble(2, compra.getMontoTotal());
+            ps.setDate(3,new java.sql.Date(compra.getFechaDeCompra().getTime()));
+            ps.setString(4, compra.getEstado());
+            ps.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
         }

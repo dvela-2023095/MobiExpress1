@@ -127,6 +127,45 @@ public class DetallePedidoDAO {
         return resp;
     }
     
+    public List buscarDetalles(List<Pedido> listaDePedidos){
+        List<DetallePedido> listaDetalles = new ArrayList<>();
+        for(int i=0;i<listaDePedidos.size();i++){
+            String sql = "select*from DetallePedido where numeroPedido=?";
+            try{
+                con = cn.Conexion();
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, listaDePedidos.get(i).getNumeroPedido());
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    DetallePedido detalle = new DetallePedido();
+                    detalle.setCantidad(rs.getInt(3));
+                    detalle.setCodigoProducto(rs.getInt(6));
+                    listaDetalles.add(detalle);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+        return listaDetalles;
+    }
+    
+    public List asignarStock(List<Producto> listaDeProductos,List<DetallePedido>listaDeDetalles){
+        for(int i=0;i<listaDeDetalles.size();i++){
+            for(int j=0;j<listaDeProductos.size();j++){
+                if(listaDeDetalles.get(i).getCodigoProducto()==listaDeProductos.get(j).getCodigoProducto()){
+                    DetallePedido det = new DetallePedido();
+                    det=listaDeDetalles.get(i);
+                    det.setCantidad(listaDeProductos.get(j).getExistencia());
+                    listaDeDetalles.set(i, det);
+                }else{
+                    
+                }
+            }
+        }
+       return listaDeDetalles;
+    }
+    
 }
 
 
