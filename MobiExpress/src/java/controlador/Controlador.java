@@ -158,53 +158,69 @@ public class Controlador extends HttpServlet {
             }
             request.getRequestDispatcher("Empleados.jsp").forward(request, response);
         }else if (menu.equals("Clientes")){
-            switch(accion){
-                case "Listar":
-                    List listaCliente = clienteDao.listar();
-                    request.setAttribute("clientes", listaCliente);
+            switch (accion) {
+            case "Listar":
+                List<Clientes> listaCliente = clienteDao.listar();
+                request.setAttribute("listaCliente", listaCliente);
+                request.getRequestDispatcher("Clientes.jsp").forward(request, response);
                 break;
-                case "Agregar":
-                    String NIT = request.getParameter("txtNITCliente");
-                    String nombres = request.getParameter("txtNombresCliente");
-                    String apellidos = request.getParameter("txtApellidosCliente");
-                    String direccion = request.getParameter("txtDireccionCliente");
-                    String telefono = request.getParameter("txtTelefonoEmpleado");
-                    cliente.setNITCliente(NIT);
-                    cliente.setNombresCliente(nombres);
-                    cliente.setApellidosCliente(apellidos);
-                    cliente.setDireccionCliente(direccion);
-                    cliente.setTelefonoCliente(telefono);
+
+            case "Agregar":
+                String nitCliente = request.getParameter("txtNITCliente");
+                String nombreCliente = request.getParameter("txtNombresCliente");
+                String apellidoCliente = request.getParameter("txtApellidosCliente");
+                String direccionCliente = request.getParameter("txtDireccionCliente");
+                String telefonoCliente = request.getParameter("txtTelefonoCliente");
+                cliente.setNITCliente(nitCliente);
+                cliente.setNombresCliente(nombreCliente);
+                cliente.setApellidosCliente(apellidoCliente);
+                cliente.setDireccionCliente(direccionCliente);
+                cliente.setTelefonoCliente(telefonoCliente);
+                if(cliente.getNITCliente().isEmpty()||cliente.getNombresCliente().isEmpty()||cliente.getApellidosCliente().isEmpty()||cliente.getDireccionCliente().isEmpty()||cliente.getTelefonoCliente().isEmpty()){
+                    respuesta = "No puede dejar espacios vacíos";
+                    request.setAttribute("respuesta",respuesta);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    clienteDao.agregar(cliente);
+                }else
                     clienteDao.agregar(cliente);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
                 break;
-                case "Editar":
-                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
-                    Clientes c = clienteDao.listarCodigoCliente(codCliente);
-                    request.setAttribute("cliente", c);
+
+            case "Editar":
+                codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                Clientes c = clienteDao.listarCodigoCliente(codCliente);
+                request.setAttribute("cliente", c);
+                request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                break;
+
+            case "Actualizar":
+                String nitCli = request.getParameter("txtNITCliente");
+                String nomCli = request.getParameter("txtNombresCliente");
+                String apeCli = request.getParameter("txtApellidosCliente");
+                String direCli = request.getParameter("txtDireccionCliente");
+                String telCli = request.getParameter("txtTelefonoCliente");
+                cliente.setNITCliente(nitCli);
+                cliente.setNombresCliente(nomCli);
+                cliente.setApellidosCliente(apeCli);
+                cliente.setDireccionCliente(direCli);
+                cliente.setTelefonoCliente(telCli);
+                cliente.setCodigoCliente(codCliente);
+                if(cliente.getNITCliente().isEmpty()||cliente.getNombresCliente().isEmpty()||cliente.getApellidosCliente().isEmpty()||cliente.getDireccionCliente().isEmpty()||cliente.getTelefonoCliente().isEmpty()){
+                    respuesta = "No puede dejar espacios vacíos";
+                    request.setAttribute("respuesta",respuesta);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                }else
+                    clienteDao.actualizar(cliente);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
                 break;
-                case "Actualizar":
-                    String NITCli = request.getParameter("txtNITCliente");
-                    String nombresCli = request.getParameter("txtNombresCliente");
-                    String apellidosCli = request.getParameter("txtApellidosCliente");
-                    String direccionCli = request.getParameter("txtDireccionCliente");
-                    String telefonoCli = request.getParameter("txtTelefonoCliente");
-                    cliente.setNITCliente(NITCli);
-                    cliente.setNombresCliente(nombresCli);
-                    cliente.setApellidosCliente(apellidosCli);
-                    cliente.setDireccionCliente(direccionCli);
-                    cliente.setTelefonoCliente(telefonoCli);
-                    cliente.setCodigoCliente(codCliente);
-                    clienteDao.actualizarCliente(cliente);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                break;
-                case "Eliminar":
-                    codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
-                    clienteDao.eliminarCliente(codCliente);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+
+            case "Eliminar":
+                codCliente = Integer.parseInt(request.getParameter("codigoCliente"));
+                clienteDao.eliminar(codCliente);
+                request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
                 break;
             }
+            request.getRequestDispatcher("Clientes.jsp").forward(request, response);
         }else if (menu.equals("Proveedores")) {
     switch (accion) {
         case "Listar":
